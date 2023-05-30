@@ -1,7 +1,7 @@
 import * as enquirer from 'enquirer';
 import * as fs from 'fs';
-import { adjustNodeEnv } from '../common/helpers/env.helper';
 import { ENV_PATH, ENV_TEMPLATE_PATH } from '../common/constants/paths';
+import { adjustNodeEnv } from '../common/helpers/env';
 adjustNodeEnv();
 
 async function promptForValues(template: string) {

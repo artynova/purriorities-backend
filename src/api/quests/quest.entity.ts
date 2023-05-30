@@ -1,3 +1,4 @@
+import { Lateness, Priority } from 'src/common/types/enums';
 import {
     Check,
     Column,
@@ -9,9 +10,7 @@ import {
     OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Lateness } from '../../common/enums/lateness.enum';
-import { Priority } from '../../common/enums/priority.enum';
-import { getEditingLateness } from '../../common/helpers/penalties.helper';
+import { getEditingLateness } from '../../common/helpers/penalties';
 import { Category } from '../categories/category.entity';
 import { Stage } from '../stages/stage.entity';
 import { QuestSkill } from './quest-skill.entity';

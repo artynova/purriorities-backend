@@ -1,5 +1,5 @@
+import { Rarity } from 'src/common/types/enums';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { Rarity } from '../../common/enums/rarity.enum';
 
 @Entity('cats')
 export class Cat {

@@ -2,7 +2,7 @@ import { config } from 'dotenv';
 import { ENV_PATH } from './common/constants/paths';
 config({ path: ENV_PATH });
 
-import { adjustNodeEnv, loadAppVersion } from './common/helpers/env.helper';
+import { adjustNodeEnv, loadAppVersion } from './common/helpers/env';
 adjustNodeEnv();
 loadAppVersion();
 

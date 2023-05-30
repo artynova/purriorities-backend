@@ -3,5 +3,13 @@
   "trailingComma": "all",
   "tabWidth": 4,
   "endOfLine": "auto",
-  "printWidth": 120
+  "printWidth": 120,
+  "overrides": [
+    {
+      "files": "*.yaml",
+      "options": {
+        "tabWidth": 2
+      }
+    }
+  ]
 }
