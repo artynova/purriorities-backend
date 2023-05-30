@@ -1,8 +1,8 @@
-import { adjustNodeEnv } from './helpers/env.helper';
-adjustNodeEnv();
-import * as fs from 'fs';
 import * as enquirer from 'enquirer';
-import { ENV_PATH, ENV_TEMPLATE_PATH } from './constants/paths';
+import * as fs from 'fs';
+import { adjustNodeEnv } from '../common/helpers/env.helper';
+import { ENV_PATH, ENV_TEMPLATE_PATH } from '../common/constants/paths';
+adjustNodeEnv();
 
 async function promptForValues(template: string) {
     const prompts = [];
@@ -26,17 +26,13 @@ function generateEnv(variables: object) {
         envContents += `${key}=${variables[key]}\n`;
     }
     fs.writeFileSync(ENV_PATH, envContents);
-    console.log(
-        `Successfully generated a ${process.env.NODE_ENV} env file at ${ENV_PATH}`,
-    );
+    console.log(`Successfully generated a ${process.env.NODE_ENV} env file at ${ENV_PATH}`);
 }
 
 export async function initEnv() {
     try {
         if (fs.existsSync(ENV_PATH)) {
-            console.log(
-                `${process.env.NODE_ENV} env file exists, skip generation`,
-            );
+            console.log(`${process.env.NODE_ENV} env file exists, skip generation`);
             return;
         }
         console.log(`Generating a ${process.env.NODE_ENV} env file`);

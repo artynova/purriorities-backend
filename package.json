@@ -18,8 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "genenv": "npx tsc --outDir dist src/helpers/env.helper.ts src/constants/paths.ts src/genenv.ts && node dist/genenv",
-    "genenv:prod": "cross-env NODE_ENV=production node dist/genenv"
+    "genenv": "npx tsc --outDir dist src/common/helpers/env.helper.ts src/common/constants/paths.ts src/scripts/genenv.ts && node dist/scripts/genenv",
+    "genenv:prod": "cross-env NODE_ENV=production node dist/scripts/genenv"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
