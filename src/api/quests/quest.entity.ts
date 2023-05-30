@@ -1,4 +1,14 @@
-import { Check, Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Check,
+    Column,
+    DeleteDateColumn,
+    Entity,
+    JoinColumn,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Category } from '../categories/category.entity';
 import { Stage } from '../stages/stage.entity';
 import { QuestSkill } from './quest-skill.entity';
@@ -30,4 +40,7 @@ export class Quest {
 
     @OneToMany(() => Stage, (stage) => stage.quest)
     stages: Stage[];
+
+    @DeleteDateColumn()
+    finishDate: Date;
 }

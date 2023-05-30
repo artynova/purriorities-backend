@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Quest } from '../quests/quest.entity';
 import { Task } from '../tasks/task.entity';
 
@@ -20,4 +20,7 @@ export class Stage {
 
     @OneToMany(() => Task, (task) => task.stage)
     tasks: Task[];
+
+    @DeleteDateColumn()
+    finishDate: Date;
 }

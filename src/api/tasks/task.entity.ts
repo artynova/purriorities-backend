@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Stage } from '../stages/stage.entity';
 
 @Entity('tasks')
@@ -16,4 +16,7 @@ export class Task {
 
     @CreateDateColumn()
     createDate: Date;
+
+    @DeleteDateColumn()
+    finishDate: Date;
 }
