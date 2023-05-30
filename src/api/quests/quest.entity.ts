@@ -9,6 +9,8 @@ import {
     OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Lateness } from '../../common/enums/lateness.enum';
+import { getEditingLateness } from '../../common/helpers/penalties.helper';
 import { Category } from '../categories/category.entity';
 import { Stage } from '../stages/stage.entity';
 import { QuestSkill } from './quest-skill.entity';
@@ -33,6 +35,9 @@ export class Quest {
     priority: number;
 
     @Column({ nullable: true })
+    deadlineSetDate: Date;
+
+    @Column({ nullable: true })
     deadline: Date;
 
     @Column({ nullable: true })
@@ -43,4 +48,9 @@ export class Quest {
 
     @DeleteDateColumn()
     finishDate: Date;
+
+    get editingLateness(): Lateness {
+        if (!this.deadline) return Lateness.EARLY;
+        return getEditingLateness(this.deadlineSetDate, this.deadline, new Date());
+    }
 }
