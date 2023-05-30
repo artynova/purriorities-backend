@@ -10,6 +10,7 @@ import {
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Lateness } from '../../common/enums/lateness.enum';
+import { Priority } from '../../common/enums/priority.enum';
 import { getEditingLateness } from '../../common/helpers/penalties.helper';
 import { Category } from '../categories/category.entity';
 import { Stage } from '../stages/stage.entity';
@@ -31,8 +32,8 @@ export class Quest {
     @ManyToMany(() => QuestSkill, (questSkill) => questSkill.quest)
     questSkills: QuestSkill[];
 
-    @Column({ type: 'tinyint' })
-    priority: number;
+    @Column({ type: 'enum', enum: Priority })
+    priority: Priority;
 
     @Column({ nullable: true })
     deadlineSetDate: Date;
