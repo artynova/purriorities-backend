@@ -2,8 +2,7 @@ import * as fs from 'fs';
 import { PACKAGE_JSON_PATH } from '../constants/paths';
 
 export function adjustNodeEnv() {
-    if (process.env.NODE_ENV !== 'production')
-        process.env.NODE_ENV = 'development';
+    if (process.env.NODE_ENV !== 'production') process.env.NODE_ENV = 'development';
 }
 
 export function loadAppVersion() {

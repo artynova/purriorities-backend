@@ -1,15 +1,16 @@
-import { ENV_PATH } from './constants/paths';
 import { config } from 'dotenv';
+import { ENV_PATH } from './common/constants/paths';
 config({ path: ENV_PATH });
 
-import { adjustNodeEnv, loadAppVersion } from './helpers/env.helper';
+import { adjustNodeEnv, loadAppVersion } from './common/helpers/env.helper';
 adjustNodeEnv();
 loadAppVersion();
 
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { PORT } from './constants/app-settings';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import 'reflect-metadata';
+import { AppModule } from './app.module';
+import { PORT } from './common/constants/app-settings';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -17,9 +18,7 @@ async function bootstrap() {
     if (process.env.NODE_ENV === 'development') {
         const config = new DocumentBuilder()
             .setTitle('Purriorities API')
-            .setDescription(
-                'The API for the Purriorities gamified task manager.',
-            )
+            .setDescription('The API for the Purriorities gamified task manager.')
             .setVersion(process.env.APP_VERSION)
             .build();
         const document = SwaggerModule.createDocument(app, config);
