@@ -34,7 +34,7 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# Sensitive
-env/*
-!env/.env.template
-security
+# Configs
+config/*
+!config/common.yaml
+!config/environment-example.yaml

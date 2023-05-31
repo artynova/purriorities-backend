@@ -1,0 +1,14 @@
+---
+logic:
+  questHistoryLimit: 90 # for how many days soft-deleted quests are retained
+  punishments:
+    # in trust percents; order: for early change, for late change, for change when already overdue
+    changeDeadline:
+      - 0
+      - 1
+      - 2
+
+openapi:
+  title: Purriorities API
+  description: The API for the Purriorities gamified task manager.
+  version: 0.0.1

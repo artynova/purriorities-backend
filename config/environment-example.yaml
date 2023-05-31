@@ -1,0 +1,13 @@
+# Rename to environment and fill this with your own values
+# Can also be used to override configs in common.yaml, because configs from environment-specific file take precedence
+---
+http:
+  port: 80
+  serveStaticPath: purriorities-frontend/build/web
+
+database:
+  host: localhost
+  port: 3306
+  username: example
+  password: example
+  database: example

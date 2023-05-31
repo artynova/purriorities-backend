@@ -2,19 +2,32 @@ import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppService } from './app.service';
-import { DATA_SOURCE_OPTIONS } from './common/constants/data-source-options';
-import { SERVE_STATIC_PATH } from './common/constants/paths';
+import { CoreConfigService } from './common/processed-config/core-config.service';
+import { DatabaseConfigService } from './common/processed-config/database-config.service';
+import { HttpConfigService } from './common/processed-config/http-config.service';
+import { OpenApiConfigService } from './common/processed-config/openapi-config.service';
+import { ProcessedConfigModule } from './common/processed-config/processed-config.module';
 import { CleanupModule } from './maintenance/cleanup/cleanup.module';
 
 @Module({
     imports: [
-        TypeOrmModule.forRoot(DATA_SOURCE_OPTIONS),
-        ServeStaticModule.forRoot({ rootPath: SERVE_STATIC_PATH }),
+        ProcessedConfigModule,
+        TypeOrmModule.forRootAsync({
+            inject: [DatabaseConfigService],
+            useFactory: (configService: DatabaseConfigService) => configService.options,
+        }),
+        ServeStaticModule.forRootAsync({
+            inject: [HttpConfigService],
+            useFactory: (configService: HttpConfigService) => [
+                {
+                    rootPath: configService.serveStaticPath,
+                },
+            ],
+        }),
         ScheduleModule.forRoot(),
         CleanupModule,
     ],
     controllers: [],
-    providers: [AppService],
+    providers: [CoreConfigService, DatabaseConfigService, HttpConfigService, OpenApiConfigService],
 })
 export class AppModule {}

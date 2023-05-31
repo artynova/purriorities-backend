@@ -1,30 +1,19 @@
-import { config } from 'dotenv';
-import { ENV_PATH } from './common/constants/paths';
-config({ path: ENV_PATH });
-
-import { adjustNodeEnv, loadAppVersion } from './common/helpers/env';
-adjustNodeEnv();
-loadAppVersion();
-
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import 'reflect-metadata';
+import { SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { PORT } from './common/constants/app-settings';
+import { CoreConfigService } from './common/processed-config/core-config.service';
+import { HttpConfigService } from './common/processed-config/http-config.service';
+import { OpenApiConfigService } from './common/processed-config/openapi-config.service';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
-    if (process.env.NODE_ENV === 'development') {
-        const config = new DocumentBuilder()
-            .setTitle('Purriorities API')
-            .setDescription('The API for the Purriorities gamified task manager.')
-            .setVersion(process.env.APP_VERSION)
-            .build();
-        const document = SwaggerModule.createDocument(app, config);
+    if (app.get(CoreConfigService).env === 'development') {
+        const builder = app.get(OpenApiConfigService).documentBuilder.build();
+        const document = SwaggerModule.createDocument(app, builder);
         SwaggerModule.setup('api', app, document);
     }
 
-    await app.listen(PORT);
+    await app.listen(app.get(HttpConfigService).port);
 }
 bootstrap();

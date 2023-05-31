@@ -10,7 +10,7 @@ import {
     OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import { getEditingLateness } from '../../common/helpers/penalties';
+import { getEditingLateness } from '../../common/helpers/punishments';
 import { Category } from '../categories/category.entity';
 import { Stage } from '../stages/stage.entity';
 import { QuestSkill } from './quest-skill.entity';
