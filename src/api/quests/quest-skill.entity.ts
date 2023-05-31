@@ -10,9 +10,15 @@ export class QuestSkill {
     @Column()
     index: number; // index starting from 0
 
-    @ManyToOne(() => Quest, (quest) => quest.questSkills)
+    @ManyToOne(() => Quest, (quest) => quest.questSkills, {
+        onDelete: 'CASCADE',
+        nullable: false,
+    })
     quest: Quest;
 
-    @ManyToOne(() => Skill)
+    @ManyToOne(() => Skill, {
+        onDelete: 'RESTRICT',
+        nullable: false,
+    })
     skill: Skill;
 }
