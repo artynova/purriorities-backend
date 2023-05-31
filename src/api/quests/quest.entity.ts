@@ -4,7 +4,6 @@ import {
     Column,
     DeleteDateColumn,
     Entity,
-    JoinColumn,
     ManyToMany,
     ManyToOne,
     OneToMany,
@@ -24,8 +23,10 @@ export class Quest {
     @Column()
     name: string;
 
-    @ManyToOne(() => Category, (category) => category.quests)
-    @JoinColumn()
+    @ManyToOne(() => Category, (category) => category.quests, {
+        onDelete: 'CASCADE',
+        nullable: false,
+    })
     category: Category;
 
     @ManyToMany(() => QuestSkill, (questSkill) => questSkill.quest)

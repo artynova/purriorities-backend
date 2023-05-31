@@ -15,6 +15,7 @@ export class Stage {
 
     @ManyToOne(() => Quest, (quest) => quest.stages, {
         onDelete: 'CASCADE',
+        nullable: false,
     })
     quest: Quest;
 

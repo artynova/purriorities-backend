@@ -6,7 +6,10 @@ export class Skill {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @ManyToOne(() => User, (user) => user.skills)
+    @ManyToOne(() => User, (user) => user.skills, {
+        onDelete: 'CASCADE',
+        nullable: false,
+    })
     user: User;
 
     @Column()

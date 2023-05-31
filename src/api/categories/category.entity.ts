@@ -10,7 +10,10 @@ export class Category {
     @Column()
     name: string;
 
-    @ManyToOne(() => User, (user) => user.categories)
+    @ManyToOne(() => User, (user) => user.categories, {
+        onDelete: 'CASCADE',
+        nullable: false,
+    })
     @JoinColumn()
     user: User;
 

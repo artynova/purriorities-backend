@@ -45,7 +45,7 @@ export class User {
     trust: number;
 
     @Column({ default: () => 'CURRENT_TIMESTAMP' })
-    lastPunishmentDate: Date;
+    lastPunishmentSyncDate: Date;
 
     @OneToMany(() => Category, (category) => category.user)
     categories: Category[];

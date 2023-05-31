@@ -10,10 +10,12 @@ export class CatOwnership {
     @PrimaryColumn()
     catNameId: string;
 
-    @ManyToOne(() => User, (user) => user.catOwnerships)
+    @ManyToOne(() => User, (user) => user.catOwnerships, {
+        onDelete: 'CASCADE',
+    })
     user: User;
 
-    @ManyToOne(() => Cat)
+    @ManyToOne(() => Cat, { onDelete: 'RESTRICT' })
     cat: Cat;
 
     @Column({ default: 1 })

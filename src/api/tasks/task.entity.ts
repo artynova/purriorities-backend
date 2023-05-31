@@ -11,6 +11,7 @@ export class Task {
 
     @ManyToOne(() => Stage, (stage) => stage.tasks, {
         onDelete: 'CASCADE',
+        nullable: false,
     })
     stage: Stage;
 
