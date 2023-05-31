@@ -10,6 +10,9 @@ export class Category {
     @Column()
     name: string;
 
+    @Column({ default: false })
+    inbox: boolean;
+
     @ManyToOne(() => User, (user) => user.categories, {
         onDelete: 'CASCADE',
         nullable: false,
