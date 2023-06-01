@@ -21,4 +21,8 @@ export class OpenApiConfigService {
     get description() {
         return this.configService.get<string>('openapi.description');
     }
+
+    get excludedSchemas() {
+        return this.configService.get<string[]>('openapi.excludedSchemas');
+    }
 }

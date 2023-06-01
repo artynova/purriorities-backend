@@ -6,11 +6,15 @@ import { HttpConfigService } from './common/processed-config/http-config.service
 import { OpenApiConfigService } from './common/processed-config/openapi-config.service';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule, { cors: {} });
 
     if (app.get(CoreConfigService).env === 'development') {
-        const builder = app.get(OpenApiConfigService).documentBuilder.build();
+        const openApiConfig = app.get(OpenApiConfigService);
+        const builder = openApiConfig.documentBuilder.build();
         const document = SwaggerModule.createDocument(app, builder);
+        openApiConfig.excludedSchemas.forEach((schema) => {
+            delete document.components.schemas[schema];
+        });
         SwaggerModule.setup('api', app, document);
     }
 

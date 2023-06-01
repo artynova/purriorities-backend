@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Quest } from '../quests/quest.entity';
-import { User } from '../users/user.entity';
+import { User } from '../users/entities/user.entity';
 
 @Entity('categories')
 export class Category {

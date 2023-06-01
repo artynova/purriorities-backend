@@ -12,3 +12,13 @@ openapi:
   title: Purriorities API
   description: The API for the Purriorities gamified task manager.
   version: 0.0.1
+  excludedSchemas:
+    - User
+    - Category
+    - Quest
+    - Stage
+    - Task
+    - Skill
+    - QuestSkill
+    - Cat
+    - CatOwnership

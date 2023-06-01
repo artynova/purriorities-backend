@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
-import { Cat } from '../cats/cat.entity';
+import { Cat } from '../../cats/cat.entity';
 import { User } from './user.entity';
 
 @Entity('cat_ownerships')
@@ -10,11 +10,17 @@ export class CatOwnership {
     @PrimaryColumn()
     catNameId: string;
 
+    /**
+     * @autoMapIgnore
+     */
     @ManyToOne(() => User, (user) => user.catOwnerships, {
         onDelete: 'CASCADE',
     })
     user: User;
 
+    /**
+     * @autoMapIgnore
+     */
     @ManyToOne(() => Cat, { onDelete: 'RESTRICT' })
     cat: Cat;
 

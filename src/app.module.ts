@@ -1,7 +1,10 @@
+import { classes } from '@automapper/classes';
+import { AutomapperModule } from '@automapper/nestjs';
 import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './api/users/users.module';
 import { CoreConfigService } from './common/processed-config/core-config.service';
 import { DatabaseConfigService } from './common/processed-config/database-config.service';
 import { HttpConfigService } from './common/processed-config/http-config.service';
@@ -12,6 +15,9 @@ import { CleanupModule } from './maintenance/cleanup/cleanup.module';
 @Module({
     imports: [
         ProcessedConfigModule,
+        AutomapperModule.forRoot({
+            strategyInitializer: classes(),
+        }),
         TypeOrmModule.forRootAsync({
             inject: [DatabaseConfigService],
             useFactory: (configService: DatabaseConfigService) => configService.options,
@@ -26,8 +32,8 @@ import { CleanupModule } from './maintenance/cleanup/cleanup.module';
         }),
         ScheduleModule.forRoot(),
         CleanupModule,
+        UsersModule,
     ],
-    controllers: [],
     providers: [CoreConfigService, DatabaseConfigService, HttpConfigService, OpenApiConfigService],
 })
 export class AppModule {}
