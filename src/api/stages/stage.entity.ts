@@ -22,6 +22,6 @@ export class Stage {
     @OneToMany(() => Task, (task) => task.stage)
     tasks: Task[];
 
-    @DeleteDateColumn()
-    finishDate: Date;
+    @DeleteDateColumn({default: null})
+    finishDate?: Date;
 }

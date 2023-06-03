@@ -1,17 +1,16 @@
-import { AutoMap } from '@automapper/classes';
-import { IsEmail, IsLocale, IsNotEmpty, IsTimeZone } from 'class-validator';
+import { IsEmail, IsInt, IsLocale, IsNotEmpty, IsPositive, IsTimeZone, Max, Min } from 'class-validator';
 import { Column, CreateDateColumn, Entity, OneToMany } from 'typeorm';
-import { Resource } from '../../../common/resource-base/resource.entity-base';
 import { Category } from '../../categories/category.entity';
 import { Skill } from '../../skills/skill.entity';
 import { CatOwnership } from './cat-ownership.entity';
+import { Resource } from '../../../common/resource-base/resource.entity-base';
 
 @Entity('users')
 export class User extends Resource {
     /**
      * @example StepanBandera19
      */
-    @AutoMap()
+    //@IsAlphanumeric(null, { message: 'Nickname should consist of latin letters and/or numbers' })
     @IsNotEmpty({ message: 'Nickname is missing' })
     @Column({ unique: true })
     nickname: string;
@@ -38,7 +37,8 @@ export class User extends Resource {
     @Column()
     timezone: string;
 
-    @AutoMap()
+    @IsInt()
+    @IsPositive()
     @Column({ default: 1 })
     level: number;
 
@@ -46,11 +46,14 @@ export class User extends Resource {
      * Exp gained towards next level.
      * @example 150
      */
-    @AutoMap()
+    @IsInt()
+    @Min(0)
     @Column({ default: 0 })
     levelExp: number;
 
-    @AutoMap()
+    /**
+     * Amount of exp needed to progress to next level.
+     */
     get levelCap() {
         return this.level + this.levelExp;
     }
@@ -59,15 +62,19 @@ export class User extends Resource {
     @OneToMany(() => Skill, (skill) => skill.user)
     skills: Skill[];
 
-    @AutoMap()
+    @IsInt()
+    @Min(0)
     @Column({ default: 0 })
     feed: number;
 
-    @AutoMap()
+    @IsInt()
+    @Min(0)
     @Column({ default: 0 })
     catnip: number;
 
-    @AutoMap()
+    @IsInt()
+    @Min(0)
+    @Max(100)
     @Column({ default: 0 })
     trust: number;
 

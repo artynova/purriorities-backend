@@ -20,4 +20,5 @@ async function bootstrap() {
 
     await app.listen(app.get(HttpConfigService).port);
 }
+
 bootstrap();

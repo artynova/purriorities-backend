@@ -47,8 +47,8 @@ export class Quest {
     @OneToMany(() => Stage, (stage) => stage.quest)
     stages: Stage[];
 
-    @DeleteDateColumn()
-    finishDate: Date;
+    @DeleteDateColumn({default: null})
+    finishDate?: Date;
 
     get editingLateness(): Lateness {
         if (!this.deadline) return Lateness.EARLY;
