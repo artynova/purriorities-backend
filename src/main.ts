@@ -6,7 +6,7 @@ import { HttpConfigService } from './common/processed-config/http-config.service
 import { OpenApiConfigService } from './common/processed-config/openapi-config.service';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule, { cors: {} });
+    const app = await NestFactory.create(AppModule, { cors: {}, logger: ['log', 'debug', 'error', 'verbose', 'warn'] });
 
     if (app.get(CoreConfigService).env === 'development') {
         const openApiConfig = app.get(OpenApiConfigService);
