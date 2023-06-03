@@ -10,17 +10,11 @@ export class CatOwnership {
     @PrimaryColumn()
     catNameId: string;
 
-    /**
-     * @autoMapIgnore
-     */
     @ManyToOne(() => User, (user) => user.catOwnerships, {
         onDelete: 'CASCADE',
     })
     user: User;
 
-    /**
-     * @autoMapIgnore
-     */
     @ManyToOne(() => Cat, { onDelete: 'RESTRICT' })
     cat: Cat;
 
