@@ -1,4 +1,4 @@
-# Rename to environment and fill this with your own values
+# Create a copy, rename to your deployment environment and fill with your own values
 # Can also be used to override configs in common.yaml, because configs from environment-specific file take precedence
 ---
 http:

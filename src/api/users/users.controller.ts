@@ -1,11 +1,11 @@
 import { Body, Controller, Delete, Get, Patch } from '@nestjs/common';
 import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
-import { UserCreateDto } from './dtos/user-create.dto';
-import { UserReadOneDto } from './dtos/user-read-one.dto';
-import { UserUpdateDto } from './dtos/user-update.dto';
+import { CreateUserDto } from './dtos/create-user.dto';
+import { ReadUserDto } from './dtos/read-user.dto';
+import { UpdateUserDto } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
 
-@ApiExtraModels(UserCreateDto) // TODO remove this when CreateUserDto is used properly in auth and displayed automatically, this is a crutch to forcibly display CreateUserDto in the api until then
+@ApiExtraModels(CreateUserDto) // TODO remove this when CreateUserDto is used properly in auth and displayed automatically, this is a crutch to forcibly display CreateUserDto in the api until then
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
@@ -15,7 +15,7 @@ export class UsersController {
      * Returns the current user.
      */
     @Get('me')
-    async findOne(): Promise<UserReadOneDto> {
+    async findOne(): Promise<ReadUserDto> {
         console.log('read');
         return this.service.readOne(''); // placeholder id
     }
@@ -24,7 +24,7 @@ export class UsersController {
      * Updates the supplied fields for current user.
      */
     @Patch('me')
-    async update(@Body() updateUserDto: UserUpdateDto): Promise<UserReadOneDto> {
+    async update(@Body() updateUserDto: UpdateUserDto): Promise<ReadUserDto> {
         console.log('update');
         return this.service.update('', updateUserDto); // placeholder id
     }
@@ -33,7 +33,7 @@ export class UsersController {
      * Deletes the current user.
      */
     @Delete('me')
-    async remove(): Promise<UserReadOneDto> {
+    async remove(): Promise<ReadUserDto> {
         console.log('delete');
         return this.service.delete(''); // placeholder id
     }

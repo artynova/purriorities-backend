@@ -1,11 +1,11 @@
-import { Mapper, createMap, forMember, mapFrom } from '@automapper/core';
+import { Mapper, createMap } from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 import { Paginated } from 'nestjs-paginate';
-import { UserCreateDto } from './dtos/user-create.dto';
-import { UserReadManyDto } from './dtos/user-read-many.dto';
-import { UserReadOneDto } from './dtos/user-read-one.dto';
-import { UserUpdateDto } from './dtos/user-update.dto';
+import { CreateUserDto } from './dtos/create-user.dto';
+import { ReadManyUsersDto } from './dtos/read-many-users';
+import { ReadUserDto } from './dtos/read-user.dto';
+import { UpdateUserDto } from './dtos/update-user.dto';
 import { User } from './entities/user.entity';
 
 @Injectable()
@@ -16,18 +16,10 @@ export class UsersMapper extends AutomapperProfile {
 
     override get profile() {
         return (mapper) => {
-            createMap(
-                mapper,
-                User,
-                UserReadOneDto,
-                forMember(
-                    (userReadOneDto) => userReadOneDto.email,
-                    mapFrom((user) => user.email),
-                ),
-            );
-            createMap(mapper, Paginated<User>, UserReadManyDto);
-            createMap(mapper, UserCreateDto, User);
-            createMap(mapper, UserUpdateDto, User);
+            createMap(mapper, User, ReadUserDto);
+            createMap(mapper, Paginated<User>, ReadManyUsersDto);
+            createMap(mapper, CreateUserDto, User);
+            createMap(mapper, UpdateUserDto, User);
         };
     }
 }
