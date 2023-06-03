@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Stage } from '../stages/stage.entity';
+import {IsInt, IsPositive} from "class-validator";
 
 @Entity('tasks')
 export class Task {
@@ -8,6 +9,10 @@ export class Task {
 
     @Column()
     name: string;
+
+    @IsInt()
+    @IsPositive()
+    minutes: number;
 
     @ManyToOne(() => Stage, (stage) => stage.tasks, {
         onDelete: 'CASCADE',
@@ -18,6 +23,6 @@ export class Task {
     @CreateDateColumn()
     createDate: Date;
 
-    @DeleteDateColumn()
-    finishDate: Date;
+    @DeleteDateColumn({default: null})
+    finishDate?: Date;
 }

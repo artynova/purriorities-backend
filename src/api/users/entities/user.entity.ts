@@ -1,4 +1,13 @@
-import { IsEmail, IsLocale, IsNotEmpty, IsTimeZone } from 'class-validator';
+import {
+    IsEmail,
+    IsInt,
+    IsLocale,
+    IsNotEmpty,
+    IsPositive,
+    IsTimeZone,
+    Max,
+    Min
+} from 'class-validator';
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Category } from '../../categories/category.entity';
 import { Skill } from '../../skills/skill.entity';
@@ -12,6 +21,7 @@ export class User {
     /**
      * @example StepanBandera19
      */
+    //@IsAlphanumeric(null, { message: 'Nickname should consist of latin letters and/or numbers' })
     @IsNotEmpty({ message: 'Nickname is missing' })
     @Column({ unique: true })
     nickname: string;
@@ -34,6 +44,8 @@ export class User {
     @Column()
     timezone: string;
 
+    @IsInt()
+    @IsPositive()
     @Column({ default: 1 })
     level: number;
 
@@ -41,9 +53,14 @@ export class User {
      * Exp gained towards next level.
      * @example 150
      */
+    @IsInt()
+    @Min(0)
     @Column({ default: 0 })
     levelExp: number;
 
+    /**
+     * Amount of exp needed to progress to next level.
+     */
     get levelCap() {
         return this.level + this.levelExp;
     }
@@ -51,12 +68,19 @@ export class User {
     @OneToMany(() => Skill, (skill) => skill.user)
     skills: Skill[];
 
+    @IsInt()
+    @Min(0)
     @Column({ default: 0 })
     feed: number;
 
+    @IsInt()
+    @Min(0)
     @Column({ default: 0 })
     catnip: number;
 
+    @IsInt()
+    @Min(0)
+    @Max(100)
     @Column({ default: 0 })
     trust: number;
 

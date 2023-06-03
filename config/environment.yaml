@@ -7,7 +7,7 @@ http:
 
 database:
   host: localhost
-  port: 3306
-  username: example
-  password: example
-  database: example
+  port: 33080
+  username: root
+  password: root
+  database: purriorities
