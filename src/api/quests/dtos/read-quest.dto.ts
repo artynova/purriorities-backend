@@ -26,6 +26,9 @@ import {AutoMap} from "@automapper/classes";
 
 export class ReadQuestDto {
     @AutoMap()
+    id: string;
+
+    @AutoMap()
     name: string;
 
     @AutoMap()

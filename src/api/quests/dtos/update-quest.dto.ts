@@ -1,15 +1,5 @@
 import {Type} from 'class-transformer';
-import {
-    IsArray,
-    IsDate,
-    IsEnum,
-    IsInt,
-    IsNotEmpty,
-    IsOptional,
-    IsPositive,
-    IsUUID, Min,
-    ValidateNested
-} from 'class-validator';
+import {IsArray, IsDate, IsEnum, IsInt, IsNotEmpty, IsOptional, IsUUID, Min, ValidateNested} from 'class-validator';
 import {AutoMap} from "@automapper/classes";
 import {Priority} from "../../../common/types/enums";
 import {CreateStageDto} from "../../stages/dtos/create-stage.dto";
