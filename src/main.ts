@@ -8,7 +8,6 @@ import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import { Session } from './api/auth/entities/session.entity';
 import { AppModule } from './app.module';
-import { IsAuthenticatedGuard } from './common/guards/is-authenticated.guard';
 import { AuthConfigService } from './common/processed-config/auth-config.service';
 import { CoreConfigService } from './common/processed-config/core-config.service';
 import { DatabaseConfigService } from './common/processed-config/database-config.service';
@@ -20,7 +19,7 @@ async function bootstrap() {
 
     setupOpenApi(app);
 
-    setupSessions(app);
+    await setupSessions(app);
 
     await app.listen(app.get(HttpConfigService).port);
 }
@@ -37,11 +36,11 @@ function setupOpenApi(app: INestApplication) {
     }
 }
 
-function setupSessions(app: INestApplication) {
+async function setupSessions(app: INestApplication) {
     const authConfig = app.get(AuthConfigService);
     const databaseConfig = app.get(DatabaseConfigService);
-    const dataSource = new DataSource({ ...databaseConfig.options, entities: [Session] });
-    dataSource.initialize();
+    const dataSource = new DataSource(databaseConfig.options);
+    await dataSource.initialize();
     const typeormStore = new TypeormStore({
         cleanupLimit: authConfig.sessionCleanupLimit,
         ttl: authConfig.sessionTtl,
@@ -62,8 +61,6 @@ function setupSessions(app: INestApplication) {
 
     app.use(passport.initialize());
     app.use(passport.session());
-
-    app.useGlobalGuards(new IsAuthenticatedGuard());
 }
 
 bootstrap();
