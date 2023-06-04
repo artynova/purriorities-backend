@@ -11,7 +11,7 @@ export class Stage extends Resource {
     @Column()
     index: number;
 
-    @Column({ length: 36 })
+    @Column()
     questId: string;
 
     @ManyToOne(() => Quest, (quest) => quest.stages, {

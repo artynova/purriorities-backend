@@ -5,7 +5,7 @@ import { User } from './user.entity';
 
 @Entity('cat_ownerships')
 export class CatOwnership {
-    @PrimaryColumn({ length: 36 })
+    @PrimaryColumn()
     userId: string;
 
     @ManyToOne(() => User, (user) => user.catOwnerships, {
@@ -29,6 +29,6 @@ export class CatOwnership {
     @CreateDateColumn()
     acquireDate: Date;
 
-    @Column({default: false})
+    @Column({ default: false })
     isAway: boolean;
 }

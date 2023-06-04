@@ -1,17 +1,17 @@
 import { Lateness, Priority } from 'src/common/types/enums';
 import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { getEditingLateness } from '../../common/helpers/punishments';
+import { Resource } from '../../common/resource-base/resource.entity-base';
 import { Category } from '../categories/category.entity';
 import { Stage } from '../stages/stage.entity';
 import { QuestSkill } from './quest-skill.entity';
-import { Resource } from '../../common/resource-base/resource.entity-base';
 
 @Entity('quests')
 export class Quest extends Resource {
     @Column()
     name: string;
 
-    @Column({ type: 'varchar', length: 36 })
+    @Column()
     categoryId: string;
 
     @ManyToOne(() => Category, (category) => category.quests, {

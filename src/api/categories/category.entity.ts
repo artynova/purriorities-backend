@@ -11,7 +11,7 @@ export class Category extends Resource {
     @Column({ default: false })
     inbox: boolean;
 
-    @Column({ length: 36 })
+    @Column()
     userId: string;
 
     @ManyToOne(() => User, (user) => user.categories, {

@@ -10,7 +10,7 @@ export class QuestSkill {
     @Column()
     index: number; // index starting from 0
 
-    @Column({ type: 'varchar', length: 36 })
+    @Column()
     questId: string;
 
     @ManyToOne(() => Quest, (quest) => quest.questSkills, {
@@ -20,7 +20,7 @@ export class QuestSkill {
     @JoinColumn({ name: 'questId' })
     quest: Quest;
 
-    @Column({ type: 'varchar', length: 36 })
+    @Column()
     skillId: string;
 
     @ManyToOne(() => Skill, {

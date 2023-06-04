@@ -3,7 +3,7 @@ import { DatabaseSettings } from '../types/database';
 
 export function dataSourceOptions(settings: DatabaseSettings, environment: string): DataSourceOptions {
     return {
-        type: 'mysql',
+        type: 'postgres',
         host: settings.host,
         port: settings.port,
         username: settings.username,
