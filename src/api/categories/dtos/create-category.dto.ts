@@ -1,8 +1,13 @@
-import { PickType } from '@nestjs/swagger';
-import { IsArray } from 'class-validator';
-import { Category } from '../category.entity';
+import {IsNotEmpty} from 'class-validator';
+import {AutoMap} from "@automapper/classes";
 
-export class CreateCategoryDto extends PickType(Category, ['name']) {
-    @IsArray()
-    questIds: string[];
+// export class CreateCategoryDto extends PickType(Category, ['name']) {
+//     @IsArray()
+//     questIds: string[];
+// }
+
+export class CreateCategoryDto {
+    @AutoMap()
+    @IsNotEmpty()
+    name: string;
 }

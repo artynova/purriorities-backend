@@ -1,19 +1,36 @@
-import {PickType} from "@nestjs/swagger";
-import {Stage} from "../stage.entity";
-import {IsArray, IsUUID, ValidateNested} from "class-validator";
 import {ReadTaskDto} from "../../tasks/dtos/read-task.dto";
-import {Type} from "class-transformer";
+import {AutoMap} from "@automapper/classes";
 
-export class ReadStageDto extends PickType(Stage, [
-    'id',
-    'name',
-    'index',
-]) {
-    @IsUUID()
+// export class ReadStageDto extends PickType(Stage, [
+//     'id',
+//     'name',
+//     'index',
+// ]) {
+//     @IsUUID()
+//     questId: string;
+//
+//     @IsArray()
+//     @ValidateNested({each: true})
+//     @Type(() => ReadTaskDto)
+//     tasks: ReadTaskDto[]
+// }
+
+export class ReadStageDto {
+    @AutoMap()
+    id: string;
+
+    @AutoMap()
+    name: string;
+
+    @AutoMap()
+    index: number;
+
+    @AutoMap()
     questId: string;
 
-    @IsArray()
-    @ValidateNested({each: true})
-    @Type(() => ReadTaskDto)
-    tasks: ReadTaskDto[]
+    @AutoMap()
+    tasks: ReadTaskDto[];
+
+    @AutoMap()
+    isFinished: boolean;
 }
