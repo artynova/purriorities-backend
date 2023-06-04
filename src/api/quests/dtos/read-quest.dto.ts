@@ -32,13 +32,13 @@ export class ReadQuestDto {
     priority: Priority;
 
     @AutoMap()
-    deadlineSetDate: Date;
+    deadline?: Date;
 
     @AutoMap()
-    deadline: Date;
+    limit?: Date;
 
     @AutoMap()
-    limit: Date;
+    interval?: number;
 
     @AutoMap()
     category: ReadCategoryDto;
