@@ -56,7 +56,10 @@ export class ResourceService<
     }
 
     protected async findOneOrFail(id: string): Promise<Entity> {
-        const out = await this.repository.findOneBy({ id } as FindOptionsWhere<Entity>); // a little help for typescript to figure out that, since id is present in Resource, id is also present in Entity
+        const out = await this.repository.findOne({
+            where: { id } as FindOptionsWhere<Entity>,
+            relations: this.paginateConfig.relations,
+        }); // as FindOptionsWhere<Entity>); // a little help for typescript to figure out that, since id is present in Resource, id is also present in Entity
         if (out === null) throw new NotFoundException('Required resource was not found in the database');
         return out;
     }
