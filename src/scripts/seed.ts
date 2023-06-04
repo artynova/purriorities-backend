@@ -10,6 +10,7 @@ const ASSETS_PATH = resolve('assets');
 const CATS_PATH = resolve(ASSETS_PATH, 'cats');
 
 async function seed() {
+    console.log('Start seeding database');
     const dataSource = await getDataSource();
     const catRepository = dataSource.getRepository(Cat);
     const files = readdirSync(resolve(CATS_PATH), 'utf8');
@@ -21,7 +22,7 @@ async function seed() {
         }
     }
     await dataSource.destroy();
-    console.log('end');
+    console.log('Finish seeding database');
 }
 
 async function getDataSource(): Promise<DataSource> {
