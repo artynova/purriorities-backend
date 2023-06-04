@@ -1,4 +1,4 @@
-import { Mapper, createMap, forMember, mapFrom, undefinedSubstitution } from '@automapper/core';
+import { Mapper, createMap, forMember, mapFrom } from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
@@ -35,8 +35,11 @@ export class UsersMapper extends AutomapperProfile {
                 User,
                 forMember(
                     (user) => user.passwordHash,
-                    mapFrom((createUserDto) => bcrypt.hashSync(createUserDto.password, this.authConfig.saltRounds)),
-                    undefinedSubstitution(undefined),
+                    mapFrom((createUserDto) =>
+                        createUserDto.password
+                            ? bcrypt.hashSync(createUserDto.password, this.authConfig.saltRounds)
+                            : undefined,
+                    ),
                 ),
             );
         };

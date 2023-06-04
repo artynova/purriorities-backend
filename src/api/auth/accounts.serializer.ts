@@ -14,9 +14,9 @@ export class AccountsSerializer extends PassportSerializer {
         done(null, user.email);
     }
 
-    async deserializeUser(username: string, done: (err: Error, account: AccountDto) => Promise<void>) {
+    async deserializeUser(email: string, done: (err: Error, account: AccountDto) => Promise<void>) {
         try {
-            const user = await this.authService.readAccount(username);
+            const user = await this.authService.readAccount(email);
             done(null, user);
         } catch (err) {
             return done(err, null);

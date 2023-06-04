@@ -26,8 +26,4 @@ export class UsersService extends ResourceService<User, CreateUserDto, ReadUserD
             UpdateUserDto,
         );
     }
-
-    async findHashFor(id: string): Promise<string> {
-        return (await this.findOneOrFail(id)).passwordHash;
-    }
 }

@@ -1,40 +1,59 @@
-import { Body, Controller, Delete, Get, Patch } from '@nestjs/common';
-import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { Request } from 'express';
+import { NoGlobalAuth } from '../../common/decorators/no-global-auth.decorator';
+import { IsNotAuthenticatedGuard } from '../../common/guards/is-not-authenticated.guard';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { ReadUserDto } from './dtos/read-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
 
-@ApiExtraModels(CreateUserDto) // TODO remove this when CreateUserDto is used properly in auth and displayed automatically, this is a crutch to forcibly display CreateUserDto in the api until then
 @ApiTags('Users')
 @Controller('api/users')
 export class UsersController {
     constructor(private readonly service: UsersService) {}
 
     /**
+     * Registers a new user.
+     */
+    @ApiCreatedResponse()
+    @NoGlobalAuth()
+    @UseGuards(IsNotAuthenticatedGuard)
+    @Post('signup')
+    async signup(@Body() createUserDto: CreateUserDto): Promise<void> {
+        await this.service.create(createUserDto);
+    }
+
+    /**
      * Returns the current user.
      */
+    @ApiCookieAuth('session')
+    @ApiOkResponse()
+    @ApiUnauthorizedResponse()
     @Get('me')
-    async findOne(): Promise<ReadUserDto> {
-        console.log('read');
-        return this.service.readOne(''); // placeholder id
+    async readMe(@Req() request: Request): Promise<ReadUserDto> {
+        return this.service.readOne(request.user['id']);
     }
 
     /**
      * Updates the supplied fields for current user.
      */
+    @ApiCookieAuth('session')
+    @ApiOkResponse()
+    @ApiUnauthorizedResponse()
     @Patch('me')
-    async update(@Body() updateUserDto: UpdateUserDto): Promise<ReadUserDto> {
-        console.log('update');
-        return this.service.update('', updateUserDto); // placeholder id
+    async updateMe(@Req() request: Request, @Body() updateUserDto: UpdateUserDto): Promise<ReadUserDto> {
+        return this.service.update(request.user['id'], updateUserDto);
     }
 
     /**
      * Deletes the current user.
      */
+    @ApiCookieAuth('session')
+    @ApiOkResponse()
+    @ApiUnauthorizedResponse()
     @Delete('me')
-    async remove(): Promise<ReadUserDto> {
-        console.log('delete');
-        return this.service.delete(''); // placeholder id
+    async deleteMe(@Req() request: Request): Promise<ReadUserDto> {
+        return this.service.delete(request.user['id']);
     }
 }

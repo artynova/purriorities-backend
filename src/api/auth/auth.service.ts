@@ -28,7 +28,6 @@ export class AuthService {
     async readAccount(email: string) {
         const user = await this.userRepository.findOneBy({ email });
         if (!user) {
-            console.log('read');
             throw new UnauthorizedException(`Account for ${email} does not exist`);
         }
         return this.mapper.map(user, User, AccountDto);

@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, InternalServerErrorException, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiCookieAuth, ApiForbiddenResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { Request } from 'express';
 import { NoGlobalAuth } from '../../common/decorators/no-global-auth.decorator';
+import { IsNotAuthenticatedGuard } from '../../common/guards/is-not-authenticated.guard';
 import { LocalAuthGuard } from '../../common/guards/local-auth.guard';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
@@ -11,14 +12,16 @@ import { LoginDto } from './dtos/login.dto';
 export class AuthController {
     constructor(private readonly service: AuthService) {}
 
+    @ApiCreatedResponse()
     @ApiUnauthorizedResponse()
     @NoGlobalAuth()
-    @UseGuards(LocalAuthGuard)
+    @UseGuards(IsNotAuthenticatedGuard, LocalAuthGuard)
     @Post('login')
     async login(@Body() body: LoginDto) {}
 
     @ApiCookieAuth('session')
-    @ApiForbiddenResponse()
+    @ApiOkResponse()
+    @ApiUnauthorizedResponse()
     @Delete('logout')
     async logout(@Req() request: Request) {
         const error = await new Promise((resolve) =>
