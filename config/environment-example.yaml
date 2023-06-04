@@ -11,3 +11,9 @@ database:
   username: root
   password: root
   database: purriorities
+
+auth:
+  saltRounds: 10
+  cookieSecret: pretend this is a very good secret)
+  sessionTtl: 86400 # seconds
+  sessionCleanupLimit: 2
