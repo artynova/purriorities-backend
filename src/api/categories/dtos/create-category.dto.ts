@@ -1,14 +1,8 @@
-import {PickType} from "@nestjs/swagger";
-import {Category} from "../category.entity";
-import {IsArray, IsUUID} from "class-validator";
+import { PickType } from '@nestjs/swagger';
+import { IsArray } from 'class-validator';
+import { Category } from '../category.entity';
 
-export class CreateCategoryDto extends PickType(Category, [
-    'name',
-]) {
-    @IsUUID()
-    userId: string;
-
+export class CreateCategoryDto extends PickType(Category, ['name']) {
     @IsArray()
-    @IsUUID(undefined, {each: true})
-    questIds: string[]
+    questIds: string[];
 }

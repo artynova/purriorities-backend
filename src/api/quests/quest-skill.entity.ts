@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Skill } from '../skills/skill.entity';
 import { Quest } from './quest.entity';
 
@@ -10,15 +10,23 @@ export class QuestSkill {
     @Column()
     index: number; // index starting from 0
 
+    @Column({ type: 'varchar', length: 36 })
+    questId: string;
+
     @ManyToOne(() => Quest, (quest) => quest.questSkills, {
         onDelete: 'CASCADE',
         nullable: false,
     })
+    @JoinColumn({ name: 'questId' })
     quest: Quest;
+
+    @Column({ type: 'varchar', length: 36 })
+    skillId: string;
 
     @ManyToOne(() => Skill, {
         onDelete: 'RESTRICT',
         nullable: false,
     })
+    @JoinColumn({ name: 'skillId' })
     skill: Skill;
 }

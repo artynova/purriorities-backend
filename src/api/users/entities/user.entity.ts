@@ -47,13 +47,6 @@ export class User extends Resource {
     @Column({ default: 0 })
     levelExp: number;
 
-    /**
-     * Amount of exp needed to progress to next level.
-     */
-    get levelCap() {
-        return this.level + this.levelExp;
-    }
-
     @OneToMany(() => Skill, (skill) => skill.user)
     skills: Skill[];
 
@@ -74,7 +67,7 @@ export class User extends Resource {
     trust: number;
 
     @Column({ default: () => 'CURRENT_TIMESTAMP' })
-    lastPunishmentSyncDate: Date;
+    lastPunishmentCheckDate: Date;
 
     @OneToMany(() => Category, (category) => category.user)
     categories: Category[];

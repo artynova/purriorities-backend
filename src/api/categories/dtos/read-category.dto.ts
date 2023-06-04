@@ -1,18 +1,12 @@
-import {OmitType} from "@nestjs/swagger";
-import {Category} from "../category.entity";
-import {IsArray, IsUUID, ValidateNested} from "class-validator";
-import {ReadQuestDto} from "../../quests/dtos/read-quest.dto";
-import {Type} from "class-transformer";
+import { OmitType } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import { IsArray, ValidateNested } from 'class-validator';
+import { ReadQuestDto } from '../../quests/dtos/read-quest.dto';
+import { Category } from '../category.entity';
 
-export class ReadCategoryDto extends OmitType(Category, [
-    'user',
-    'quests'
-]) {
-    @IsUUID()
-    userId: string;
-
+export class ReadCategoryDto extends OmitType(Category, ['user', 'quests']) {
     @IsArray()
-    @ValidateNested({each: true})
+    @ValidateNested({ each: true })
     @Type(() => ReadQuestDto)
     quests: ReadQuestDto[];
 }
