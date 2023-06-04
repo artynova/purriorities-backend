@@ -1,5 +1,15 @@
 import {Type} from 'class-transformer';
-import {IsArray, IsDate, IsEnum, IsNotEmpty, IsOptional, IsUUID, ValidateNested} from 'class-validator';
+import {
+    IsArray,
+    IsDate,
+    IsEnum,
+    IsInt,
+    IsNotEmpty,
+    IsOptional,
+    IsPositive,
+    IsUUID, Min,
+    ValidateNested
+} from 'class-validator';
 import {AutoMap} from "@automapper/classes";
 import {Priority} from "../../../common/types/enums";
 import {CreateStageDto} from "../../stages/dtos/create-stage.dto";
@@ -43,6 +53,11 @@ export class UpdateQuestDto {
     @IsDate()
     @IsOptional()
     limit?: Date;
+
+    @AutoMap()
+    @IsInt()
+    @Min(0)
+    interval?: number;
 
     @AutoMap()
     @IsUUID()
