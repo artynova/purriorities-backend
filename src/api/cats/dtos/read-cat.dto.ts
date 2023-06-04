@@ -6,5 +6,11 @@ export class ReadCatDto {
     nameId: string;
 
     @AutoMap()
+    name: string;
+
+    @AutoMap()
+    description: string;
+
+    @AutoMap()
     rarity: Rarity;
 }
