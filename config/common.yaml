@@ -7,6 +7,49 @@ logic:
       - 0
       - 1
       - 2
+  formulas:
+    userLeveling:
+      main:
+        levelFactor: 9.71572
+        growthRate: 2.1
+        roundingIncrement: 50
+      skill:
+        levelFactor: 5.75804
+        growthRate: 2.1
+        roundingIncrement: 50
+    # by rarity from 0 (common) to 2 (legendary)
+    catBonuses:
+      0:
+        base: 5
+        limit: 10
+        growthRate: 2
+        roundingIncrement: 0.01
+      1:
+        base: 10
+        limit: 20
+        growthRate: 2
+        roundingIncrement: 0.01
+      2:
+        base: 20
+        limit: 40
+        growthRate: 2
+        roundingIncrement: 0.01
+    catReturnPrices:
+      0:
+        base: 50
+        limit: 200
+        growthRate: 1.5
+        roundingIncrement: 0.01
+      1:
+        base: 100
+        limit: 400
+        growthRate: 1.5
+        roundingIncrement: 0.01
+      2:
+        base: 200
+        limit: 800
+        growthRate: 1.5
+        roundingIncrement: 0.01
 
 openapi:
   title: Purriorities API
