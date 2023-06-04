@@ -47,12 +47,12 @@ export class UpdateQuestDto {
     @AutoMap()
     @IsUUID()
     @IsOptional()
-    categoryId?: string;
+    category?: string;
 
     @AutoMap()
     @IsUUID(undefined, { each: true })
     @IsOptional()
-    skillIds?: string[];
+    skills?: string[];
 
     @AutoMap()
     @IsArray()

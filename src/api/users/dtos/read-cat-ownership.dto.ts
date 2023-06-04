@@ -11,5 +11,5 @@ export class ReadCatOwnershipDto {
     xpBoost: number;
 
     @AutoMap()
-    isAway: boolean;
+    price?: number;
 }

@@ -43,7 +43,7 @@ export class CreateQuestDto {
 
     @AutoMap()
     @IsUUID()
-    categoryId: string;
+    category: string;
 
     @AutoMap()
     @IsUUID(undefined, { each: true })
