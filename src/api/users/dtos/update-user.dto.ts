@@ -1,12 +1,9 @@
-import {AutoMap} from "@automapper/classes";
-import {IsEmail, IsLocale, IsNotEmpty, IsOptional, IsTimeZone, MinLength} from "class-validator";
+import { AutoMap } from '@automapper/classes';
+import { IsEmail, IsLocale, IsNotEmpty, IsOptional, IsTimeZone, MinLength } from 'class-validator';
 
 //export class UpdateUserDto extends PartialType(CreateUserDto) {}
 
 export class UpdateUserDto {
-    @AutoMap()
-    id: string;
-
     @AutoMap()
     @IsNotEmpty()
     @IsOptional()
