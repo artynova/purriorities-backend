@@ -1,12 +1,13 @@
 import { Body, Controller, Delete, InternalServerErrorException, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiCookieAuth, ApiForbiddenResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiForbiddenResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { Request } from 'express';
 import { Public } from '../../common/decorators/public.decorator';
 import { LocalAuthGuard } from '../../common/guards/local-auth.guard';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
 
-@Controller('auth')
+@ApiTags('Authorization')
+@Controller('api/auth')
 export class AuthController {
     constructor(private readonly service: AuthService) {}
 
