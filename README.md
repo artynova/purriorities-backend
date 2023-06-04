@@ -27,6 +27,17 @@ npm install
 
 4. Rename the `environment-example.yaml` file in `config` directory based on your target environment (`development.yaml`, `production.yaml` etc.) and fill in your own values.
 
+5. Run the seeding script to load cats into your database.
+
+```bash
+# for "development" environment
+npm run seed
+
+# for "production" environment
+npm run seed:prod
+
+```
+
 ## Running the app
 
 ```bash

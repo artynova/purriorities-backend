@@ -8,10 +8,11 @@ import { AuthMapper } from './auth.mapper';
 import { AuthService } from './auth.service';
 import { Session } from './entities/session.entity';
 import { LocalStrategy } from './local.strategy';
+import { SessionsService } from './sessions.service';
 
 @Module({
     imports: [TypeOrmModule.forFeature([User, Session]), PassportModule.register({ session: true })],
-    providers: [AuthService, AuthMapper, LocalStrategy, AccountsSerializer],
+    providers: [AuthService, SessionsService, AuthMapper, LocalStrategy, AccountsSerializer],
     controllers: [AuthController],
 })
 export class AuthModule {}
