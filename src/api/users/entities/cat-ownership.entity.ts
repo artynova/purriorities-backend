@@ -28,4 +28,7 @@ export class CatOwnership {
 
     @CreateDateColumn()
     acquireDate: Date;
+
+    @Column({default: false})
+    isAway: boolean;
 }

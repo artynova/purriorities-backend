@@ -28,13 +28,16 @@ export class Quest extends Resource {
     priority: Priority;
 
     @Column({ nullable: true })
-    deadlineSetDate: Date;
+    deadlineSetDate?: Date;
 
     @Column({ nullable: true })
-    deadline: Date;
+    deadline?: Date;
 
     @Column({ nullable: true })
-    limit: Date;
+    limit?: Date;
+
+    @Column({ nullable: true, type: 'int' })
+    interval?: number;
 
     @OneToMany(() => Stage, (stage) => stage.quest)
     stages: Stage[];
