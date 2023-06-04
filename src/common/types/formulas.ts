@@ -1,5 +1,5 @@
 export type ExpFormula = (level: number) => number;
-export type BonusFormula = (level: number) => number;
+export type BoostFormula = (level: number) => number;
 export type PriceFormula = (level: number) => number;
 
 export type ExpFormulaSettings = {
@@ -8,11 +8,11 @@ export type ExpFormulaSettings = {
     roundingIncrement: number;
 };
 
-export type BonusFormulaSettings = {
+export type BoostFormulaSettings = {
     base: number;
     limit: number;
     growthRate: number;
     roundingIncrement: number;
 };
 
-export type PriceFormulaSettings = BonusFormulaSettings;
+export type PriceFormulaSettings = BoostFormulaSettings;

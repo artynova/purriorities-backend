@@ -3,8 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { boundedProgression, exponentialProgression } from '../helpers/progression';
 import { Lateness, Rarity } from '../types/enums';
 import {
-    BonusFormula,
-    BonusFormulaSettings,
+    BoostFormula,
+    BoostFormulaSettings,
     ExpFormula,
     ExpFormulaSettings,
     PriceFormula,
@@ -29,8 +29,8 @@ export class LogicConfigService {
         return exponentialProgression(settings.levelFactor, settings.growthRate, settings.roundingIncrement);
     }
 
-    catBonusFormula(rarity: Rarity): BonusFormula {
-        const settings = this.configService.get<BonusFormulaSettings[]>('logic.catBonuses')[rarity];
+    catExpBoostFormula(rarity: Rarity): BoostFormula {
+        const settings = this.configService.get<BoostFormulaSettings[]>('logic.catBonuses')[rarity];
         return boundedProgression(settings.base, settings.limit, settings.growthRate, settings.roundingIncrement);
     }
 
