@@ -18,11 +18,6 @@ export class CreateStageDto {
     name: string;
 
     @AutoMap()
-    @IsInt()
-    @Min(0)
-    index: number;
-
-    @AutoMap()
     @IsArray()
     @ValidateNested({each: true})
     @Type(() => CreateTaskDto)

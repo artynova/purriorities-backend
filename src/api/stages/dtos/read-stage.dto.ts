@@ -23,9 +23,6 @@ export class ReadStageDto {
     name: string;
 
     @AutoMap()
-    index: number;
-
-    @AutoMap()
     questId: string;
 
     @AutoMap()

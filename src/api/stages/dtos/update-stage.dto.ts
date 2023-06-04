@@ -23,12 +23,6 @@ export class UpdateStageDto {
     name?: string;
 
     @AutoMap()
-    @IsInt()
-    @Min(0)
-    @IsOptional()
-    index?: number;
-
-    @AutoMap()
     @IsArray()
     @ValidateNested({each: true})
     @Type(() => UpdateTaskDto)
