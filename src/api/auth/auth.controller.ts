@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, InternalServerErrorException, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiCookieAuth, ApiForbiddenResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { Request } from 'express';
-import { Public } from '../../common/decorators/public.decorator';
+import { NoGlobalAuth } from '../../common/decorators/no-global-auth.decorator';
 import { LocalAuthGuard } from '../../common/guards/local-auth.guard';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
@@ -12,7 +12,7 @@ export class AuthController {
     constructor(private readonly service: AuthService) {}
 
     @ApiUnauthorizedResponse()
-    @Public()
+    @NoGlobalAuth()
     @UseGuards(LocalAuthGuard)
     @Post('login')
     async login(@Body() body: LoginDto) {}

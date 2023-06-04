@@ -11,7 +11,6 @@ export class AccountsSerializer extends PassportSerializer {
     }
 
     async serializeUser(user: User, done: (err: Error, email: string) => Promise<void>) {
-        console.log(user);
         done(null, user.email);
     }
 
