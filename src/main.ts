@@ -4,7 +4,6 @@ import { SwaggerModule } from '@nestjs/swagger';
 import { TypeormStore } from 'connect-typeorm';
 import * as session from 'express-session';
 import * as passport from 'passport';
-import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import { Session } from './api/auth/entities/session.entity';
 import { AppModule } from './app.module';
@@ -15,7 +14,10 @@ import { HttpConfigService } from './common/processed-config/http-config.service
 import { OpenApiConfigService } from './common/processed-config/openapi-config.service';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule, { cors: {}, logger: ['log', 'debug', 'error', 'verbose', 'warn'] });
+    const app = await NestFactory.create(AppModule, {
+        logger: ['log', 'debug', 'error', 'verbose', 'warn'],
+    });
+    app.enableCors();
 
     setupOpenApi(app);
 

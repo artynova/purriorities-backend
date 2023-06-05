@@ -35,6 +35,9 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 # Configs
-config/*
+config
 !config/common.yaml
 !config/environment-example.yaml
+
+# Frontend clone
+purriorities-frontend
