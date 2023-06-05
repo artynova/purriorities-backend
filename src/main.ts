@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
 import { TypeormStore } from 'connect-typeorm';
@@ -20,6 +20,14 @@ async function bootstrap() {
     setupOpenApi(app);
 
     await setupSessions(app);
+
+    app.useGlobalPipes(
+        new ValidationPipe({
+            transform: true,
+            whitelist: true,
+            forbidNonWhitelisted: true,
+        }),
+    );
 
     await app.listen(app.get(HttpConfigService).port);
 }
