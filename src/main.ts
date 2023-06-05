@@ -17,7 +17,7 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule, {
         logger: ['log', 'debug', 'error', 'verbose', 'warn'],
     });
-    app.enableCors();
+    app.enableCors(app.get(CoreConfigService).env === 'development' ? { origin: true, credentials: true } : undefined);
 
     setupOpenApi(app);
 
@@ -31,7 +31,7 @@ async function bootstrap() {
         }),
     );
 
-    await app.listen(app.get(HttpConfigService).port);
+    await app.listen(app.get(HttpConfigService).port, app.get(HttpConfigService).host);
 }
 
 function setupOpenApi(app: INestApplication) {

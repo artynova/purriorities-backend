@@ -7,7 +7,6 @@ import { Repository } from 'typeorm';
 import { randomFromArray } from '../../common/helpers/random';
 import { LogicConfigService } from '../../common/processed-config/logic-config.service';
 import { Rarity } from '../../common/types/enums';
-import { AccountDto } from '../auth/dtos/account.dto';
 import { User } from '../users/entities/user.entity';
 import { ReadCatOwnershipDto } from './dtos/read-cat-ownership.dto';
 import { ReadCatDto } from './dtos/read-cat.dto';
@@ -48,8 +47,8 @@ export class CatsService {
         return this.mapper.map(await this.findOneOrFail(id), Cat, ReadCatDto);
     }
 
-    async gachaCommon(account: AccountDto): Promise<ReadCatOwnershipDto> {
-        const user = await this.userRepository.findOneBy({ id: account.id });
+    async gachaCommon(id: string): Promise<ReadCatOwnershipDto> {
+        const user = await this.userRepository.findOneBy({ id });
         if (user.feed < this.logicConfig.commonCaseSettings.price)
             throw new BadRequestException('Not enough feed to buy a common case');
         user.feed -= this.logicConfig.commonCaseSettings.price;
@@ -59,8 +58,8 @@ export class CatsService {
         return this.rollCatWithRarity(user, rarity);
     }
 
-    async gachaLegendary(account: AccountDto): Promise<ReadCatOwnershipDto> {
-        const user = await this.userRepository.findOneBy({ id: account.id });
+    async gachaLegendary(id: string): Promise<ReadCatOwnershipDto> {
+        const user = await this.userRepository.findOneBy({ id });
         if (user.catnip < this.logicConfig.legendaryCaseSettings.price)
             throw new BadRequestException('Not enough catnip to buy a legendary case');
         user.catnip -= this.logicConfig.legendaryCaseSettings.price;

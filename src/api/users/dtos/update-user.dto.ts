@@ -5,26 +5,27 @@ import { IsEmail, IsLocale, IsNotEmpty, IsOptional, IsTimeZone, MinLength } from
 
 export class UpdateUserDto {
     @AutoMap()
-    @IsNotEmpty()
     @IsOptional()
+    @IsNotEmpty()
     nickname?: string;
 
     @AutoMap()
-    @IsEmail()
     @IsOptional()
+    @IsEmail()
     email?: string;
 
     @AutoMap()
-    @IsLocale()
     @IsOptional()
+    @IsLocale()
     locale?: string;
 
     @AutoMap()
-    @IsTimeZone()
     @IsOptional()
+    @IsTimeZone()
     timezone?: string;
 
     @AutoMap()
+    @IsOptional()
     @MinLength(8)
     password?: string;
 }
