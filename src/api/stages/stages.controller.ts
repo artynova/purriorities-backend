@@ -3,7 +3,7 @@ import {Controller} from "@nestjs/common";
 import {StagesService} from "./stages.service";
 
 @ApiTags('Stages')
-@Controller('stages')
+@Controller('api/stages')
 export class StagesController {
     constructor(private readonly service: StagesService) {}
 

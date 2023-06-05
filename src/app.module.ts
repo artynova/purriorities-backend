@@ -16,6 +16,12 @@ import { HttpConfigService } from './common/processed-config/http-config.service
 import { OpenApiConfigService } from './common/processed-config/openapi-config.service';
 import { ProcessedConfigModule } from './common/processed-config/processed-config.module';
 import { CleanupModule } from './maintenance/cleanup/cleanup.module';
+import {TasksModule} from "./api/tasks/tasks.module";
+import {StagesModule} from "./api/stages/stages.module";
+import {SkillsModule} from "./api/skills/skills.module";
+import {QuestsModule} from "./api/quests/quests.module";
+import {CatsModule} from "./api/cats/cats.module";
+import {CategoriesModule} from "./api/categories/categories.module";
 
 @Module({
     imports: [
@@ -39,6 +45,12 @@ import { CleanupModule } from './maintenance/cleanup/cleanup.module';
         CleanupModule,
         UsersModule,
         AuthModule,
+        TasksModule,
+        StagesModule,
+        SkillsModule,
+        QuestsModule,
+        CatsModule,
+        CategoriesModule,
     ],
     providers: [
         AuthConfigService,
