@@ -1,5 +1,5 @@
-import {Rarity} from "../../../common/types/enums";
-import {AutoMap} from "@automapper/classes";
+import { AutoMap } from '@automapper/classes';
+import { Rarity } from '../../../common/types/enums';
 
 export class ReadCatDto {
     @AutoMap()

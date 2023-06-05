@@ -1,12 +1,12 @@
-import {Injectable, NotFoundException} from "@nestjs/common";
-import {InjectRepository} from "@nestjs/typeorm";
-import {FindOptionsWhere, Repository} from "typeorm";
-import {InjectMapper} from "@automapper/nestjs";
-import {Mapper} from "@automapper/core";
-import {FilterOperator, FilterSuffix, paginate, PaginateConfig, Paginated, PaginateQuery} from "nestjs-paginate";
-import {Cat} from "./cat.entity";
-import {ReadCatDto} from "./dtos/read-cat.dto";
-import {ReadManyCatsDto} from "./dtos/read-many-cats.dto";
+import { Mapper } from '@automapper/core';
+import { InjectMapper } from '@automapper/nestjs';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FilterOperator, FilterSuffix, PaginateConfig, PaginateQuery, Paginated, paginate } from 'nestjs-paginate';
+import { Repository } from 'typeorm';
+import { ReadCatDto } from './dtos/read-cat.dto';
+import { ReadManyCatsDto } from './dtos/read-many-cats.dto';
+import { Cat } from './entities/cat.entity';
 
 const catsPaginationConfig: PaginateConfig<Cat> = {
     sortableColumns: [],
@@ -17,13 +17,13 @@ const catsPaginationConfig: PaginateConfig<Cat> = {
         name: [FilterOperator.EQ, FilterSuffix.NOT],
         age: true,
     },
-}
+};
 
 @Injectable()
 export class CatsService {
     constructor(
         @InjectRepository(Cat) protected repository: Repository<Cat>,
-        @InjectMapper() protected mapper: Mapper
+        @InjectMapper() protected mapper: Mapper,
     ) {}
 
     async readAll(query: PaginateQuery): Promise<ReadManyCatsDto> {
@@ -40,8 +40,7 @@ export class CatsService {
 
     protected async findOneOrFail(id: string): Promise<Cat> {
         const out = await this.repository.findOne({
-            where: { id } as FindOptionsWhere<Cat>,
-            relations: catsPaginationConfig.relations,
+            where: { nameId: id },
         }); // as FindOptionsWhere<Entity>); // a little help for typescript to figure out that, since id is present in Resource, id is also present in Entity
         if (out === null) throw new NotFoundException('Required resource was not found in the database');
         return out;

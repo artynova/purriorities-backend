@@ -1,10 +1,10 @@
-import {Injectable} from "@nestjs/common";
-import {AutomapperProfile, InjectMapper} from "@automapper/nestjs";
-import {createMap, Mapper} from "@automapper/core";
-import {Paginated} from "nestjs-paginate";
-import {Cat} from "./cat.entity";
-import {ReadCatDto} from "./dtos/read-cat.dto";
-import {ReadManyCatsDto} from "./dtos/read-many-cats.dto";
+import { Mapper, createMap } from '@automapper/core';
+import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
+import { Injectable } from '@nestjs/common';
+import { Paginated } from 'nestjs-paginate';
+import { ReadCatDto } from './dtos/read-cat.dto';
+import { ReadManyCatsDto } from './dtos/read-many-cats.dto';
+import { Cat } from './entities/cat.entity';
 
 @Injectable()
 export class CatsMapper extends AutomapperProfile {

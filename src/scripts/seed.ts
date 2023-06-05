@@ -2,7 +2,7 @@ import { readFileSync, readdirSync, statSync } from 'fs';
 import { load } from 'js-yaml';
 import { resolve } from 'path';
 import { DataSource } from 'typeorm';
-import { Cat } from '../api/cats/cat.entity';
+import { Cat } from '../api/cats/entities/cat.entity';
 import { dataSourceOptions } from '../common/helpers/database';
 import { loadObject } from '../common/helpers/yaml';
 import { DatabaseSettings } from '../common/types/database';

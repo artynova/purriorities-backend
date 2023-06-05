@@ -72,6 +72,14 @@ export class UsersMapper extends AutomapperProfile {
                         this.logicConfig.catExpBoostFormula(catOwnership.cat.rarity)(catOwnership.level),
                     ), // TODO always join the cat into the ownership
                 ),
+                forMember(
+                    (readCatOwnershipDto) => readCatOwnershipDto.xpBoost,
+                    mapFrom((catOwnership) =>
+                        catOwnership.isAway
+                            ? this.logicConfig.catReturnPriceFormula(catOwnership.cat.rarity)(catOwnership.level)
+                            : undefined,
+                    ), // TODO always join the cat into the ownership
+                ),
             );
         };
     }
