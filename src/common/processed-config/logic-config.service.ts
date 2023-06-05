@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { boundedProgression, exponentialProgression } from '../helpers/progression';
+import { boundedProgression, exponentialProgression } from '../helpers/formulas';
+import { weightedRandom } from '../helpers/random';
 import { Lateness, Rarity } from '../types/enums';
 import {
     BoostFormula,
@@ -10,6 +11,7 @@ import {
     PriceFormula,
     PriceFormulaSettings,
 } from '../types/formulas';
+import { CaseSettings } from '../types/random';
 
 @Injectable()
 export class LogicConfigService {
@@ -30,16 +32,41 @@ export class LogicConfigService {
     }
 
     catExpBoostFormula(rarity: Rarity): BoostFormula {
-        const settings = this.configService.get<BoostFormulaSettings[]>('logic.catBonuses')[rarity];
+        const settings = this.configService.get<BoostFormulaSettings[]>('logic.formulas.catBoosts')[rarity];
         return boundedProgression(settings.base, settings.limit, settings.growthRate, settings.roundingIncrement);
     }
 
     catReturnPriceFormula(rarity: Rarity): PriceFormula {
-        const settings = this.configService.get<PriceFormulaSettings[]>('logic.catReturnPrices')[rarity];
+        const settings = this.configService.get<PriceFormulaSettings[]>('logic.formulas.catReturnPrices')[rarity];
         return boundedProgression(settings.base, settings.limit, settings.growthRate, settings.roundingIncrement);
     }
 
     get questHistoryLimit() {
         return this.configService.get<number>('logic.historyLimit');
+    }
+
+    get commonCaseSettings(): CaseSettings {
+        return this.configService.get<CaseSettings>('logic.cases.common');
+    }
+
+    get legendaryCaseSettings(): CaseSettings {
+        return this.configService.get<CaseSettings>('logic.cases.legendary');
+    }
+
+    commonCaseRandomRarity() {
+        return this.caseRandomRarity(this.commonCaseSettings);
+    }
+
+    legendaryCaseRandomRarity() {
+        return this.caseRandomRarity(this.legendaryCaseSettings);
+    }
+
+    private caseRandomRarity(caseSettings: CaseSettings) {
+        const commonPercentage = 100 - caseSettings.rarePercentage - caseSettings.legendaryPercentage;
+        return weightedRandom([
+            { option: Rarity.COMMON, weight: commonPercentage },
+            { option: Rarity.RARE, weight: caseSettings.rarePercentage },
+            { option: Rarity.LEGENDARY, weight: caseSettings.legendaryPercentage },
+        ]);
     }
 }

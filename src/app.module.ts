@@ -1,11 +1,12 @@
 import { classes } from '@automapper/classes';
 import { AutomapperModule } from '@automapper/nestjs';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './api/auth/auth.module';
+import { CatsModule } from './api/cats/cats.module';
 import { UsersModule } from './api/users/users.module';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { IsAuthenticatedGuard } from './common/guards/is-authenticated.guard';
@@ -20,8 +21,8 @@ import {TasksModule} from "./api/tasks/tasks.module";
 import {StagesModule} from "./api/stages/stages.module";
 import {SkillsModule} from "./api/skills/skills.module";
 import {QuestsModule} from "./api/quests/quests.module";
-import {CatsModule} from "./api/cats/cats.module";
 import {CategoriesModule} from "./api/categories/categories.module";
+import { RequestLoggerMiddleware } from './middleware/request-logger.middleware';
 
 @Module({
     imports: [
@@ -68,4 +69,8 @@ import {CategoriesModule} from "./api/categories/categories.module";
         },
     ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(RequestLoggerMiddleware).forRoutes('*');
+    }
+}
