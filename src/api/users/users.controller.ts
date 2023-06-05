@@ -35,6 +35,14 @@ export class UsersController {
         return this.service.readOne(request.user['id']);
     }
 
+    @ApiCookieAuth('session')
+    @ApiOkResponse()
+    @ApiUnauthorizedResponse()
+    @Get('me/sync')
+    async sync(@Req() request: Request) {
+        return this.service.sync(request.user['id']);
+    }
+
     /**
      * Updates the supplied fields for current user.
      */

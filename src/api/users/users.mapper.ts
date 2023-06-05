@@ -9,6 +9,7 @@ import { LogicConfigService } from '../../common/processed-config/logic-config.s
 import { CreateUserDto } from './dtos/create-user.dto';
 import { ReadManyUsersDto } from './dtos/read-many-users';
 import { ReadUserDto } from './dtos/read-user.dto';
+import { SyncUserDto } from './dtos/sync-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { User } from './entities/user.entity';
 
@@ -59,6 +60,8 @@ export class UsersMapper extends AutomapperProfile {
                     ),
                 ),
             );
+
+            createMap(mapper, User, SyncUserDto);
         };
     }
 }
