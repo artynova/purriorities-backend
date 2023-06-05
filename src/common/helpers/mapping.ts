@@ -4,7 +4,7 @@ import { Paginated } from 'nestjs-paginate';
 import { ReadManyMeta } from '../resource-base/read-many-meta.dto';
 import { ReadManyDtoBase } from '../resource-base/read-many.dto-base';
 
-export function paginatedToReadManyMap<Entity, ReadOneDto, ReadManyDto extends ReadManyDtoBase<ReadOneDto>>(
+export function createPaginatedToReadManyMap<Entity, ReadOneDto, ReadManyDto extends ReadManyDtoBase<ReadOneDto>>(
     mapper: Mapper,
     entityType: Type<Entity>,
     readOneDtoType: Type<ReadOneDto>,
@@ -18,7 +18,7 @@ export function paginatedToReadManyMap<Entity, ReadOneDto, ReadManyDto extends R
         // data payload
         forMember(
             (readManyDto) => readManyDto.data,
-            mapWith(entityType, readOneDtoType, (source) => source.data),
+            mapWith(readOneDtoType, entityType, (source) => source.data),
         ),
         // pagination information
         forMember(
