@@ -18,7 +18,7 @@ export class StagesService extends ResourceService<Stage, CreateStageDto, ReadSt
         super(
             repository,
             {
-                sortableColumns: [],
+                sortableColumns: ['index'],
                 defaultSortBy: [['index', 'ASC']],
                 select: ['id', 'name', 'questId', 'tasks', 'finishDate'],
                 filterableColumns: {

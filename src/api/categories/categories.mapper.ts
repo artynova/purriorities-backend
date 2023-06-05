@@ -7,6 +7,7 @@ import {ReadCategoryDto} from "./dtos/read-category.dto";
 import {ReadManyCategoriesDto} from "./dtos/read-many-categories.dto";
 import {UpdateCategoryDto} from "./dtos/update-category.dto";
 import {CreateCategoryDto} from "./dtos/create-category.dto";
+import {CreateCategoryFullDto} from "./dtos/create-category-full.dto";
 
 @Injectable()
 export class CategoriesMapper extends AutomapperProfile {
@@ -20,6 +21,7 @@ export class CategoriesMapper extends AutomapperProfile {
             createMap(mapper, Paginated<Category>, ReadManyCategoriesDto);
             createMap(mapper, CreateCategoryDto, Category);
             createMap(mapper, UpdateCategoryDto, Category);
+            createMap(mapper, CreateCategoryFullDto, Category);
         };
     }
 }

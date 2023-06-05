@@ -17,7 +17,7 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
         super(
             repository,
             {
-                sortableColumns: [],
+                sortableColumns: ['deadline'],
                 defaultSortBy: [['deadline', 'ASC']],
                 select: ['id', 'name', 'priority', 'deadline', 'limit', 'interval', 'category', 'questSkills', 'stages', 'finishDate'],
                 filterableColumns: {

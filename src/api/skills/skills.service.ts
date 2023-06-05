@@ -17,7 +17,7 @@ export class SkillsService extends ResourceService<Skill, CreateSkillDto, ReadSk
         super(
             repository,
             {
-                sortableColumns: [],
+                sortableColumns: ['id'],
                 defaultSortBy: [['id', 'DESC']],
                 select: ['id', 'name', 'level', 'levelExp'],
                 filterableColumns: {

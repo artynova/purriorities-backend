@@ -17,7 +17,7 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
         super(
             repository,
             {
-                sortableColumns: [],
+                sortableColumns: ['id'],
                 defaultSortBy: [['id', 'DESC']],
                 select: ['id', 'name', 'minutes', 'stageId', 'finishDate'],
                 filterableColumns: {

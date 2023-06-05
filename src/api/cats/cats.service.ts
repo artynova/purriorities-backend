@@ -15,7 +15,7 @@ import { CatOwnership } from './entities/cat-ownership.entity';
 import { Cat } from './entities/cat.entity';
 
 const catsPaginationConfig: PaginateConfig<Cat> = {
-    sortableColumns: [],
+    sortableColumns: ['nameId'],
     defaultSortBy: [['nameId', 'DESC']],
     searchableColumns: [],
     select: [],

@@ -1,11 +1,12 @@
 import {ApiTags} from "@nestjs/swagger";
-import {Body, Controller, Delete, Get, Param, Patch, Post} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Patch, Post, Req} from "@nestjs/common";
 import {CategoriesService} from "./categories.service";
 import {Paginate, PaginateQuery} from "nestjs-paginate";
 import {ReadManyCategoriesDto} from "./dtos/read-many-categories.dto";
 import {CreateCategoryDto} from "./dtos/create-category.dto";
 import {ReadCategoryDto} from "./dtos/read-category.dto";
 import {UpdateCategoryDto} from "./dtos/update-category.dto";
+import {Request} from "express";
 
 @ApiTags('Categories')
 @Controller('api/categories')
@@ -18,8 +19,8 @@ export class CategoriesController {
     }
 
     @Post('')
-    async create(@Body() createCategoryDto: CreateCategoryDto): Promise<void> {
-        await this.service.create(createCategoryDto);
+    async create(@Req() request: Request, @Body() createCategoryDto: CreateCategoryDto): Promise<void> {
+        await this.service.create({...createCategoryDto, userId: request.user['id']});
     }
 
     @Get(':id')
