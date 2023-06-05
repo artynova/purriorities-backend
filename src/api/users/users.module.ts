@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from '../auth/auth.module';
 import { CategoriesMapper } from '../categories/categories.mapper';
 import { Category } from '../categories/category.entity';
 import { CatsMapper } from '../cats/cats.mapper';
@@ -19,7 +20,10 @@ import { UsersMapper } from './users.mapper';
 import { UsersService } from './users.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([User, Skill, QuestSkill, Category, Quest, Stage, Task, CatOwnership, Cat])],
+    imports: [
+        TypeOrmModule.forFeature([User, Skill, QuestSkill, Category, Quest, Stage, Task, CatOwnership, Cat]),
+        AuthModule,
+    ],
     controllers: [UsersController],
     providers: [UsersService, UsersMapper, SkillsMapper, CategoriesMapper, QuestsMapper, StagesMapper, CatsMapper],
 })

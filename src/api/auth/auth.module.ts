@@ -14,5 +14,6 @@ import { SessionsService } from './sessions.service';
     imports: [TypeOrmModule.forFeature([User, Session]), PassportModule.register({ session: true })],
     providers: [AuthService, SessionsService, AuthMapper, LocalStrategy, AccountsSerializer],
     controllers: [AuthController],
+    exports: [SessionsService],
 })
 export class AuthModule {}

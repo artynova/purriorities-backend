@@ -3,6 +3,7 @@ import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiTags, ApiUnauthori
 import { Request } from 'express';
 import { NoGlobalAuth } from '../../common/decorators/no-global-auth.decorator';
 import { IsNotAuthenticatedGuard } from '../../common/guards/is-not-authenticated.guard';
+import { SessionsService } from '../auth/sessions.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { ReadUserDto } from './dtos/read-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -11,7 +12,7 @@ import { UsersService } from './users.service';
 @ApiTags('Users')
 @Controller('api/users')
 export class UsersController {
-    constructor(private readonly service: UsersService) {}
+    constructor(private readonly service: UsersService, private readonly sessionsService: SessionsService) {}
 
     /**
      * Registers a new user.
@@ -51,7 +52,9 @@ export class UsersController {
     @ApiUnauthorizedResponse()
     @Patch('me')
     async updateMe(@Req() request: Request, @Body() updateUserDto: UpdateUserDto): Promise<ReadUserDto> {
-        return this.service.update(request.user['id'], updateUserDto);
+        const res = await this.service.update(request.user['id'], updateUserDto);
+        if (res.email !== request.user['email']) await this.sessionsService.fullLogout(request.user['email']); // email change => logout for all sessions
+        return res;
     }
 
     /**

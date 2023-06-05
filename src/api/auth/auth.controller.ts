@@ -6,11 +6,12 @@ import { IsNotAuthenticatedGuard } from '../../common/guards/is-not-authenticate
 import { LocalAuthGuard } from '../../common/guards/local-auth.guard';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
+import { SessionsService } from './sessions.service';
 
 @ApiTags('Authorization')
 @Controller('api/auth')
 export class AuthController {
-    constructor(private readonly service: AuthService) {}
+    constructor(private readonly service: AuthService, private readonly sessionsService: SessionsService) {}
 
     @ApiCreatedResponse()
     @ApiUnauthorizedResponse()
@@ -28,5 +29,13 @@ export class AuthController {
             request.logOut({ keepSessionInfo: false }, (error) => resolve(error)),
         );
         if (error) throw new InternalServerErrorException('Something went wrong, cannot log out');
+    }
+
+    @ApiCookieAuth('session')
+    @ApiOkResponse()
+    @ApiUnauthorizedResponse()
+    @Delete('logout-full')
+    async fullLogout(@Req() request: Request) {
+        await this.sessionsService.fullLogout(request.user['email']);
     }
 }
