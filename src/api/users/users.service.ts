@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { resolve } from 'path';
 import { Repository } from 'typeorm';
-import { loadObject } from '../../common/helpers/json';
+import { loadObject } from '../../common/helpers/yaml';
 import { ResourceService } from '../../common/resource-base/resource.service-base';
 import { Category } from '../categories/category.entity';
 import { Quest } from '../quests/quest.entity';
@@ -14,7 +14,7 @@ import { ReadUserDto } from './dtos/read-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { User } from './entities/user.entity';
 
-const NONE_CATEGORY_PATH = resolve('assets', 'defaults', 'noneCategory.json');
+const NONE_CATEGORY_PATH = resolve('assets', 'defaults', 'noneCategory.yaml');
 
 @Injectable()
 export class UsersService extends ResourceService<User, CreateUserDto, ReadUserDto, ReadManyUsersDto, UpdateUserDto> {
