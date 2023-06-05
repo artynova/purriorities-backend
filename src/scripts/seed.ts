@@ -4,10 +4,10 @@ import { resolve } from 'path';
 import { DataSource } from 'typeorm';
 import { Cat } from '../api/cats/cat.entity';
 import { dataSourceOptions } from '../common/helpers/database';
+import { loadObject } from '../common/helpers/json';
 import { DatabaseSettings } from '../common/types/database';
 
-const ASSETS_PATH = resolve('assets');
-const CATS_PATH = resolve(ASSETS_PATH, 'cats');
+const CATS_PATH = resolve('assets', 'cats');
 
 async function seed() {
     console.log('Start seeding database');
@@ -17,7 +17,7 @@ async function seed() {
     for (const file of files) {
         const filePath = resolve(CATS_PATH, file);
         if (statSync(filePath).isFile() && file.endsWith('.json')) {
-            const cat: Cat = JSON.parse(readFileSync(filePath, 'utf8'));
+            const cat = loadObject<Cat>(filePath);
             await catRepository.save(cat);
         }
     }
