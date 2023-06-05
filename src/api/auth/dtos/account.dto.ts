@@ -1,11 +1,10 @@
 import { AutoMap } from '@automapper/classes';
 
-// readonly class with basic user account data
+// readonly class with minimal required identification data, the unchanging user id
 export class AccountDto {
     @AutoMap()
     id: string;
+
     @AutoMap()
     email: string;
-    @AutoMap()
-    nickname: string;
 }
