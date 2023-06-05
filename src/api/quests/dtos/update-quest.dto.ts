@@ -1,8 +1,8 @@
-import {Type} from 'class-transformer';
-import {IsArray, IsDate, IsEnum, IsInt, IsNotEmpty, IsOptional, IsUUID, Min, ValidateNested} from 'class-validator';
-import {AutoMap} from "@automapper/classes";
-import {Priority} from "../../../common/types/enums";
-import {CreateStageDto} from "../../stages/dtos/create-stage.dto";
+import { AutoMap } from '@automapper/classes';
+import { Type } from 'class-transformer';
+import { IsArray, IsDate, IsEnum, IsInt, IsNotEmpty, IsOptional, IsUUID, Min, ValidateNested } from 'class-validator';
+import { Priority } from '../../../common/types/enums';
+import { CreateStageDto } from '../../stages/dtos/create-stage.dto';
 
 // export class UpdateQuestDto extends IntersectionType(
 //     OmitType(PartialType(CreateQuestDto), ['stages']),
@@ -33,11 +33,6 @@ export class UpdateQuestDto {
     @IsDate()
     @IsOptional()
     deadline?: Date;
-
-    @AutoMap()
-    @IsDate()
-    @IsOptional()
-    deadlineSetDate?: Date;
 
     @AutoMap()
     @IsDate()

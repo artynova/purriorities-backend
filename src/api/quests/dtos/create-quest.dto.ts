@@ -1,8 +1,8 @@
-import {Type} from 'class-transformer';
-import {IsArray, IsDate, IsEnum, IsInt, IsNotEmpty, IsOptional, IsUUID, Min, ValidateNested} from 'class-validator';
-import {CreateStageDto} from '../../stages/dtos/create-stage.dto';
-import {AutoMap} from "@automapper/classes";
-import {Priority} from "../../../common/types/enums";
+import { AutoMap } from '@automapper/classes';
+import { Type } from 'class-transformer';
+import { IsArray, IsDate, IsEnum, IsInt, IsNotEmpty, IsOptional, IsUUID, Min, ValidateNested } from 'class-validator';
+import { Priority } from '../../../common/types/enums';
+import { CreateStageDto } from '../../stages/dtos/create-stage.dto';
 
 // export class CreateQuestDto extends PickType(Quest, ['name', 'priority', 'deadline', 'deadlineSetDate', 'limit']) {
 //     @IsUUID()
@@ -30,11 +30,6 @@ export class CreateQuestDto {
     @IsDate()
     @IsOptional()
     deadline?: Date;
-
-    @AutoMap()
-    @IsDate()
-    @IsOptional()
-    deadlineSetDate?: Date;
 
     @AutoMap()
     @IsDate()
