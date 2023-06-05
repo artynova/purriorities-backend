@@ -1,6 +1,6 @@
 import { classes } from '@automapper/classes';
 import { AutomapperModule } from '@automapper/nestjs';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -17,6 +17,7 @@ import { HttpConfigService } from './common/processed-config/http-config.service
 import { OpenApiConfigService } from './common/processed-config/openapi-config.service';
 import { ProcessedConfigModule } from './common/processed-config/processed-config.module';
 import { CleanupModule } from './maintenance/cleanup/cleanup.module';
+import { RequestLoggerMiddleware } from './middleware/request-logger.middleware';
 
 @Module({
     imports: [
@@ -58,4 +59,8 @@ import { CleanupModule } from './maintenance/cleanup/cleanup.module';
         },
     ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(RequestLoggerMiddleware).forRoutes('*');
+    }
+}
