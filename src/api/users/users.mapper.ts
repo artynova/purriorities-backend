@@ -3,15 +3,13 @@ import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { Paginated } from 'nestjs-paginate';
-import { getLevelCap } from '../../common/helpers/progression';
+import { getLevelCap } from '../../common/helpers/formulas';
 import { AuthConfigService } from '../../common/processed-config/auth-config.service';
 import { LogicConfigService } from '../../common/processed-config/logic-config.service';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { ReadCatOwnershipDto } from './dtos/read-cat-ownership.dto';
 import { ReadManyUsersDto } from './dtos/read-many-users';
 import { ReadUserDto } from './dtos/read-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { CatOwnership } from './entities/cat-ownership.entity';
 import { User } from './entities/user.entity';
 
 @Injectable()
@@ -59,26 +57,6 @@ export class UsersMapper extends AutomapperProfile {
                             ? bcrypt.hashSync(createUserDto.password, this.authConfig.saltRounds)
                             : undefined,
                     ),
-                ),
-            );
-
-            createMap(
-                mapper,
-                CatOwnership,
-                ReadCatOwnershipDto,
-                forMember(
-                    (readCatOwnershipDto) => readCatOwnershipDto.xpBoost,
-                    mapFrom((catOwnership) =>
-                        this.logicConfig.catExpBoostFormula(catOwnership.cat.rarity)(catOwnership.level),
-                    ), // TODO always join the cat into the ownership
-                ),
-                forMember(
-                    (readCatOwnershipDto) => readCatOwnershipDto.xpBoost,
-                    mapFrom((catOwnership) =>
-                        catOwnership.isAway
-                            ? this.logicConfig.catReturnPriceFormula(catOwnership.cat.rarity)(catOwnership.level)
-                            : undefined,
-                    ), // TODO always join the cat into the ownership
                 ),
             );
         };

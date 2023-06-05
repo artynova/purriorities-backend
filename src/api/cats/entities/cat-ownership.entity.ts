@@ -1,8 +1,8 @@
 import { AutoMap } from '@automapper/classes';
 import { IsInt, IsPositive } from 'class-validator';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
-import { Cat } from '../../cats/entities/cat.entity';
-import { User } from './user.entity';
+import { User } from '../../users/entities/user.entity';
+import { Cat } from './cat.entity';
 
 @Entity('cat_ownerships')
 export class CatOwnership {

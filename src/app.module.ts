@@ -6,6 +6,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './api/auth/auth.module';
+import { CatsModule } from './api/cats/cats.module';
 import { UsersModule } from './api/users/users.module';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { IsAuthenticatedGuard } from './common/guards/is-authenticated.guard';
@@ -39,6 +40,7 @@ import { CleanupModule } from './maintenance/cleanup/cleanup.module';
         CleanupModule,
         UsersModule,
         AuthModule,
+        CatsModule,
     ],
     providers: [
         AuthConfigService,
