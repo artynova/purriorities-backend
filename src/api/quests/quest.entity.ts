@@ -1,5 +1,5 @@
 import { Lateness, Priority } from 'src/common/types/enums';
-import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { getEditingLateness } from '../../common/helpers/punishments';
 import { Resource } from '../../common/resource-base/resource.entity-base';
 import { Category } from '../categories/category.entity';
@@ -21,7 +21,7 @@ export class Quest extends Resource {
     @JoinColumn({ name: 'categoryId' })
     category: Category;
 
-    @ManyToMany(() => QuestSkill, (questSkill) => questSkill.quest)
+    @OneToMany(() => QuestSkill, (questSkill) => questSkill.quest)
     questSkills: QuestSkill[];
 
     @Column({ type: 'enum', enum: Priority })

@@ -11,6 +11,7 @@ import { Quest } from '../quests/quest.entity';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { ReadManyUsersDto } from './dtos/read-many-users';
 import { ReadUserDto } from './dtos/read-user.dto';
+import { SyncUserDto } from './dtos/sync-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { User } from './entities/user.entity';
 
@@ -41,7 +42,6 @@ export class UsersService extends ResourceService<User, CreateUserDto, ReadUserD
         );
         this.noneCategoryBase = loadObject<Category>(NONE_CATEGORY_PATH);
         this.noneCategoryBase.inbox = true;
-        // this.introQuestBase = loadObject<Quest>(INTRO_QUEST_PATH);
     }
 
     override async create(createDto: CreateUserDto): Promise<ReadUserDto> {
@@ -52,15 +52,21 @@ export class UsersService extends ResourceService<User, CreateUserDto, ReadUserD
             ...this.noneCategoryBase,
             userId: savedUser.id,
         });
-        const savedNoneCategory = await this.categoryRepository.save(noneCategory);
-
-        // TODO implement this based on other crud services
-        // const introQuest = this.questRepository.create({
-        //     ...this.introQuestBase,
-        //     category: savedNoneCategory,
-        // });
-        // await this.questRepository.save(introQuest);
+        await this.categoryRepository.save(noneCategory);
 
         return this.mapper.map(savedUser, User, ReadUserDto);
+    }
+
+    async sync(id: string): Promise<SyncUserDto> {
+        const user = await this.repository.findOne({
+            where: { id },
+            relations: {
+                categories: { quests: { stages: { tasks: true }, questSkills: true } },
+                skills: true,
+                catOwnerships: { cat: true },
+            },
+        });
+
+        return this.mapper.map(user, User, SyncUserDto);
     }
 }
