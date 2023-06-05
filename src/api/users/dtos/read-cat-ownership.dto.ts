@@ -1,4 +1,4 @@
-import {AutoMap} from "@automapper/classes";
+import { AutoMap } from '@automapper/classes';
 
 export class ReadCatOwnershipDto {
     @AutoMap()
@@ -7,9 +7,7 @@ export class ReadCatOwnershipDto {
     @AutoMap()
     level: number;
 
-    @AutoMap()
     xpBoost: number;
 
-    @AutoMap()
     price?: number;
 }

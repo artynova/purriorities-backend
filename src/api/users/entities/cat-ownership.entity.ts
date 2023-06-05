@@ -1,8 +1,8 @@
+import { AutoMap } from '@automapper/classes';
 import { IsInt, IsPositive } from 'class-validator';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Cat } from '../../cats/cat.entity';
 import { User } from './user.entity';
-import { AutoMap } from '@automapper/classes';
 
 @Entity('cat_ownerships')
 export class CatOwnership {
@@ -15,6 +15,7 @@ export class CatOwnership {
     @JoinColumn({ name: 'userId' })
     user: User;
 
+    @AutoMap()
     @PrimaryColumn({ length: 16 })
     catNameId: string;
 
@@ -22,11 +23,13 @@ export class CatOwnership {
     @JoinColumn({ name: 'catNameId' })
     cat: Cat;
 
+    @AutoMap()
     @IsInt()
     @IsPositive()
     @Column({ default: 1 })
     level: number;
 
+    @AutoMap()
     @CreateDateColumn()
     acquireDate: Date;
 

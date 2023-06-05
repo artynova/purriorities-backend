@@ -15,7 +15,7 @@
 //     levelCap: number;
 // }
 
-import {AutoMap} from "@automapper/classes";
+import { AutoMap } from '@automapper/classes';
 
 export class ReadUserDto {
     @AutoMap()
@@ -40,7 +40,6 @@ export class ReadUserDto {
      * Amount of exp needed to progress to next level.
      * @example 200
      */
-    @AutoMap()
     levelCap: number;
 
     @AutoMap()
