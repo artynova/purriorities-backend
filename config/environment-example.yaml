@@ -2,6 +2,7 @@
 # Can also be used to override configs in common.yaml, because configs from environment-specific file take precedence
 ---
 http:
+  host: localhost
   port: 80
   serveStaticPath: purriorities-frontend/build/web
 

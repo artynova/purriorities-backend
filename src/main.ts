@@ -31,7 +31,7 @@ async function bootstrap() {
         }),
     );
 
-    await app.listen(app.get(HttpConfigService).port);
+    await app.listen(app.get(HttpConfigService).port, app.get(HttpConfigService).host);
 }
 
 function setupOpenApi(app: INestApplication) {
