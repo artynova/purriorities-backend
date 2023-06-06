@@ -1,11 +1,12 @@
 import { Body, Controller, Delete, Get, Patch, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiCreatedResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { Request } from 'express';
 import { NoGlobalAuth } from '../../common/decorators/no-global-auth.decorator';
 import { IsNotAuthenticatedGuard } from '../../common/guards/is-not-authenticated.guard';
 import { SessionsService } from '../auth/sessions.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { ReadUserDto } from './dtos/read-user.dto';
+import { SyncUserDto } from './dtos/sync-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
 
@@ -29,7 +30,6 @@ export class UsersController {
      * Returns the current user.
      */
     @ApiCookieAuth('session')
-    @ApiOkResponse()
     @ApiUnauthorizedResponse()
     @Get('me')
     async readMe(@Req() request: Request): Promise<ReadUserDto> {
@@ -37,10 +37,9 @@ export class UsersController {
     }
 
     @ApiCookieAuth('session')
-    @ApiOkResponse()
     @ApiUnauthorizedResponse()
     @Get('me/sync')
-    async sync(@Req() request: Request) {
+    async sync(@Req() request: Request): Promise<SyncUserDto> {
         return this.service.sync(request.user['id']);
     }
 
@@ -48,7 +47,6 @@ export class UsersController {
      * Updates the supplied fields for current user.
      */
     @ApiCookieAuth('session')
-    @ApiOkResponse()
     @ApiUnauthorizedResponse()
     @Patch('me')
     async updateMe(@Req() request: Request, @Body() updateUserDto: UpdateUserDto): Promise<ReadUserDto> {
@@ -61,7 +59,6 @@ export class UsersController {
      * Deletes the current user.
      */
     @ApiCookieAuth('session')
-    @ApiOkResponse()
     @ApiUnauthorizedResponse()
     @Delete('me')
     async deleteMe(@Req() request: Request): Promise<ReadUserDto> {
