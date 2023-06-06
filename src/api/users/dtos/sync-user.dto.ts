@@ -6,7 +6,7 @@ import { ReadUserDto } from './read-user.dto';
 
 export class SyncUserDto extends ReadUserDto {
     @AutoMap(() => [ReadSkillDto])
-    skills: ReadCategoryDto[];
+    skills: ReadSkillDto[];
 
     @AutoMap(() => [ReadCategoryDto])
     categories: ReadCategoryDto[];

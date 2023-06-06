@@ -15,8 +15,8 @@ export class SkillsController {
     }
 
     @Get('')
-    async readMany(@Paginate() query: PaginateQuery): Promise<ReadManySkillsDto> {
-        return this.service.readAll(query);
+    async readMany(@Req() request: Request, @Paginate() query: PaginateQuery): Promise<ReadManySkillsDto> {
+        return this.service.readAllForUser(request.user['id'], query);
     }
 
     @Post('')
