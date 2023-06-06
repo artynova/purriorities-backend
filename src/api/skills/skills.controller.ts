@@ -20,8 +20,8 @@ export class SkillsController {
     }
 
     @Post('')
-    async create(@Req() request: Request, @Body() createSkillDto: CreateSkillDto): Promise<void> {
-        await this.service.create({...createSkillDto, userId: request.user['id']});
+    async create(@Req() request: Request, @Body() createSkillDto: CreateSkillDto): Promise<ReadSkillDto> {
+        return await this.service.create({...createSkillDto, userId: request.user['id']});
     }
 
     @Get(':id')

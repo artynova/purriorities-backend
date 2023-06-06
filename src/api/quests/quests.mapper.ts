@@ -9,7 +9,6 @@ import {UpdateQuestDto} from "./dtos/update-quest.dto";
 import {createPaginatedToReadManyMap} from "../../common/helpers/mapping";
 import {QuestSkill} from "./entities/quest-skill.entity";
 import {ReadSkillDto} from "../skills/dtos/read-skill.dto";
-import {ReadManySkillsDto} from "../skills/dtos/read-many-skills.dto";
 
 @Injectable()
 export class QuestsMapper extends AutomapperProfile {

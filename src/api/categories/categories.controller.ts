@@ -19,8 +19,8 @@ export class CategoriesController {
     }
 
     @Post('')
-    async create(@Req() request: Request, @Body() createCategoryDto: CreateCategoryDto): Promise<void> {
-        await this.service.create({...createCategoryDto, userId: request.user['id']});
+    async create(@Req() request: Request, @Body() createCategoryDto: CreateCategoryDto): Promise<ReadCategoryDto> {
+        return await this.service.create({...createCategoryDto, userId: request.user['id']});
     }
 
     @Get(':id')
