@@ -22,7 +22,7 @@ export class Skill extends Resource {
     name: string;
 
     @AutoMap()
-    @Column({ default: 0 })
+    @Column({ default: 1 })
     level: number;
 
     @AutoMap()

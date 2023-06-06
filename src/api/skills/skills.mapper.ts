@@ -7,7 +7,6 @@ import {ReadManySkillsDto} from "./dtos/read-many-skills.dto";
 import {CreateSkillDto} from "./dtos/create-skill.dto";
 import {UpdateSkillDto} from "./dtos/update-skill.dto";
 import {createPaginatedToReadManyMap} from "../../common/helpers/mapping";
-import {QuestSkill} from "../quests/entities/quest-skill.entity";
 import {LogicConfigService} from "../../common/processed-config/logic-config.service";
 import {getLevelCap} from "../../common/helpers/formulas";
 
@@ -26,14 +25,13 @@ export class SkillsMapper extends AutomapperProfile {
                 forMember(
                     (readSkillDto) => readSkillDto.levelCap,
                     mapFrom(skill =>
-                        getLevelCap(skill.level + 1, this.logicConfig.skillExpFormula),
+                        getLevelCap(skill.level, this.logicConfig.skillExpFormula),
                     ), // TODO check
                 ),
             );
             createPaginatedToReadManyMap(mapper, Skill, ReadSkillDto, ReadManySkillsDto);
             createMap(mapper, CreateSkillDto, Skill);
             createMap(mapper, UpdateSkillDto, Skill);
-            createMap(mapper, QuestSkill, Skill);
         };
     }
 }

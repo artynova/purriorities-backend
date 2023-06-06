@@ -10,8 +10,6 @@ import {CreateSkillDto} from "./dtos/create-skill.dto";
 import {ReadSkillDto} from "./dtos/read-skill.dto";
 import {ReadManySkillsDto} from "./dtos/read-many-skills.dto";
 import {UpdateSkillDto} from "./dtos/update-skill.dto";
-import {ReadManyQuestsDto} from "../quests/dtos/read-many-quests.dto";
-import {Quest} from "../quests/entities/quest.entity";
 
 @Injectable()
 export class SkillsService extends ResourceService<Skill, CreateSkillDto, ReadSkillDto, ReadManySkillsDto, UpdateSkillDto> {
