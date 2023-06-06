@@ -16,4 +16,8 @@ export class HttpConfigService {
     get serveStaticPath() {
         return this.configService.get<string>('http.serveStaticPath');
     }
+
+    get catPicturesPath() {
+        return this.configService.get<string>('http.catPicturesPath');
+    }
 }

@@ -5,6 +5,7 @@ http:
   host: localhost
   port: 80
   serveStaticPath: purriorities-frontend/build/web
+  catPicturesPath: assets/cats
 
 database:
   host: localhost
