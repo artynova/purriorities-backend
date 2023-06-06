@@ -15,7 +15,8 @@
 //     levelCap: number;
 // }
 
-import { AutoMap } from '@automapper/classes';
+import {AutoMap} from '@automapper/classes';
+import {ReadCatOwnershipDto} from "../../cats/dtos/read-cat-ownership.dto";
 
 export class ReadUserDto {
     @AutoMap()
@@ -50,4 +51,7 @@ export class ReadUserDto {
 
     @AutoMap()
     catnip: number;
+
+    @AutoMap(() => [ReadCatOwnershipDto])
+    catOwnerships: ReadCatOwnershipDto[];
 }
