@@ -7,7 +7,7 @@ import {CategoriesMapper} from "./categories.mapper";
 import {UsersMapper} from "../users/users.mapper";
 import {QuestsMapper} from "../quests/quests.mapper";
 import {User} from "../users/entities/user.entity";
-import {Quest} from "../quests/quest.entity";
+import {Quest} from "../quests/entities/quest.entity";
 
 @Module({
     imports: [TypeOrmModule.forFeature([Category, User, Quest])],

@@ -8,6 +8,7 @@ import { ReadCatDto } from './dtos/read-cat.dto';
 import { ReadManyCatsDto } from './dtos/read-many-cats.dto';
 import { CatOwnership } from './entities/cat-ownership.entity';
 import { Cat } from './entities/cat.entity';
+import {createPaginatedToReadManyMap} from "../../common/helpers/mapping";
 
 @Injectable()
 export class CatsMapper extends AutomapperProfile {
@@ -19,7 +20,7 @@ export class CatsMapper extends AutomapperProfile {
         return (mapper) => {
             createMap(mapper, Cat, ReadCatDto);
 
-            createMap(mapper, Paginated<Cat>, ReadManyCatsDto);
+            createPaginatedToReadManyMap(mapper, Cat, ReadCatDto, ReadManyCatsDto);
 
             createMap(
                 mapper,

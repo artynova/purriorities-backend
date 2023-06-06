@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Quest } from '../../api/quests/quest.entity';
+import { Quest } from '../../api/quests/entities/quest.entity';
 import { LogicConfigService } from '../../common/processed-config/logic-config.service';
 
 @Injectable()

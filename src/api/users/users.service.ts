@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 import { loadObject } from '../../common/helpers/yaml';
 import { ResourceService } from '../../common/resource-base/resource.service-base';
 import { Category } from '../categories/category.entity';
-import { Quest } from '../quests/quest.entity';
+import { Quest } from '../quests/entities/quest.entity';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { ReadManyUsersDto } from './dtos/read-many-users';
 import { ReadUserDto } from './dtos/read-user.dto';

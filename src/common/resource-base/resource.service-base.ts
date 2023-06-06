@@ -31,8 +31,6 @@ export class ResourceService<
     }
 
     async readAll(query: PaginateQuery): Promise<ReadManyDto> {
-        console.log(await paginate(query, this.repository, this.paginateConfig));
-
         return this.mapper.map(
             await paginate(query, this.repository, this.paginateConfig),
             Paginated<Entity>,
