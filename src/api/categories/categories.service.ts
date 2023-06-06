@@ -5,14 +5,13 @@ import {Repository} from "typeorm";
 import {InjectMapper} from "@automapper/nestjs";
 import {Mapper} from "@automapper/core";
 import {Category} from "./category.entity";
-import {CreateCategoryDto} from "./dtos/create-category.dto";
 import {ReadCategoryDto} from "./dtos/read-category.dto";
 import {ReadManyCategoriesDto} from "./dtos/read-many-categories.dto";
 import {UpdateCategoryDto} from "./dtos/update-category.dto";
-import {CreateCategoryFullDto} from "./dtos/create-category-full.dto";
+import {CreateCategoryDto} from "./dtos/create-category.dto";
 
 @Injectable()
-export class CategoriesService extends ResourceService<Category, CreateCategoryFullDto, ReadCategoryDto, ReadManyCategoriesDto, UpdateCategoryDto> {
+export class CategoriesService extends ResourceService<Category, CreateCategoryDto, ReadCategoryDto, ReadManyCategoriesDto, UpdateCategoryDto> {
     constructor(@InjectRepository(Category) repository: Repository<Category>, @InjectMapper() mapper: Mapper) {
         super(
             repository,
@@ -23,7 +22,7 @@ export class CategoriesService extends ResourceService<Category, CreateCategoryF
             },
             mapper,
             Category,
-            CreateCategoryFullDto,
+            CreateCategoryDto,
             ReadCategoryDto,
             ReadManyCategoriesDto,
             UpdateCategoryDto,

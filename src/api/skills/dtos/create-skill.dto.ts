@@ -1,5 +1,6 @@
-import {IsNotEmpty, IsUUID} from "class-validator";
+import {IsNotEmpty} from "class-validator";
 import {AutoMap} from "@automapper/classes";
+import {ApiHideProperty} from "@nestjs/swagger";
 
 // export class CreateSkillDto extends PickType(Skill, [
 //     'name'
@@ -9,6 +10,10 @@ import {AutoMap} from "@automapper/classes";
 // }
 
 export class CreateSkillDto {
+    @AutoMap()
+    @ApiHideProperty()
+    userId: string;
+
     @AutoMap()
     @IsNotEmpty()
     name: string;
