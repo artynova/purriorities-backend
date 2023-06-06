@@ -1,4 +1,4 @@
-import {IsArray, IsInt, Min, ValidateNested} from "class-validator";
+import {IsArray, IsInt, IsNotEmpty, IsString, Min, ValidateNested} from "class-validator";
 import {CreateTaskDto} from "../../tasks/dtos/create-task.dto";
 import {Type} from "class-transformer";
 import {AutoMap} from "@automapper/classes";
@@ -15,6 +15,7 @@ import {AutoMap} from "@automapper/classes";
 
 export class CreateStageDto {
     @AutoMap()
+    @IsNotEmpty()
     name: string;
 
     @AutoMap()

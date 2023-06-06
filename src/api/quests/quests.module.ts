@@ -6,10 +6,19 @@ import { QuestsMapper } from './quests.mapper';
 import { QuestsService } from './quests.service';
 import {StagesMapper} from "../stages/stages.mapper";
 import {SkillsMapper} from "../skills/skills.mapper";
+import {QuestSkill} from "./entities/quest-skill.entity";
+import {Category} from "../categories/category.entity";
+import {Stage} from "../stages/stage.entity";
+import {CategoriesMapper} from "../categories/categories.mapper";
+import {TasksModule} from "../tasks/tasks.module";
+import {StagesModule} from "../stages/stages.module";
+import {StagesService} from "../stages/stages.service";
+import {TasksService} from "../tasks/tasks.service";
+import {Task} from "../tasks/task.entity";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Quest])],
+    imports: [TasksModule, StagesModule, TypeOrmModule.forFeature([Quest, Stage, Task, QuestSkill, Category])],
     controllers: [QuestsController],
-    providers: [QuestsService, QuestsMapper, StagesMapper, SkillsMapper],
+    providers: [QuestsService, StagesService, TasksService, QuestsMapper, StagesMapper, SkillsMapper, CategoriesMapper, ],
 })
 export class QuestsModule {}

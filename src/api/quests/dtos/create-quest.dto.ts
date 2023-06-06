@@ -1,6 +1,17 @@
 import { AutoMap } from '@automapper/classes';
 import { Type } from 'class-transformer';
-import { IsArray, IsDate, IsEnum, IsInt, IsNotEmpty, IsOptional, IsUUID, Min, ValidateNested } from 'class-validator';
+import {
+    IsArray,
+    IsDate,
+    IsDateString,
+    IsEnum,
+    IsInt,
+    IsNotEmpty,
+    IsOptional,
+    IsUUID,
+    Min,
+    ValidateNested
+} from 'class-validator';
 import { Priority } from '../../../common/types/enums';
 import { CreateStageDto } from '../../stages/dtos/create-stage.dto';
 
@@ -27,23 +38,24 @@ export class CreateQuestDto {
     priority: Priority;
 
     @AutoMap()
-    @IsDate()
+    @IsDateString()
     @IsOptional()
-    deadline?: Date;
+    deadline?: string;
 
     @AutoMap()
-    @IsDate()
+    @IsDateString()
     @IsOptional()
-    limit?: Date;
+    limit?: string;
 
     @AutoMap()
     @IsInt()
     @Min(0)
+    @IsOptional()
     interval?: number;
 
     @AutoMap()
     @IsUUID()
-    category: string;
+    categoryId: string;
 
     @AutoMap()
     @IsUUID(undefined, { each: true })

@@ -1,20 +1,24 @@
 import {ApiTags} from "@nestjs/swagger";
-import {Body, Controller, Delete, Get, Param, Patch, Post} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Patch, Post, Req} from "@nestjs/common";
 import {QuestsService} from "./quests.service";
 import {ReadQuestDto} from "./dtos/read-quest.dto";
 import {CreateQuestDto} from "./dtos/create-quest.dto";
 import {Paginate, PaginateQuery} from "nestjs-paginate";
 import {ReadManyQuestsDto} from "./dtos/read-many-quests.dto";
 import {UpdateQuestDto} from "./dtos/update-quest.dto";
+import {Request} from "express";
 
 @ApiTags('Quests')
-@Controller('quests')
+@Controller('api/quests')
 export class QuestsController {
     constructor(private readonly service: QuestsService) {}
 
     @Get('')
-    async readMany(@Paginate() query: PaginateQuery): Promise<ReadManyQuestsDto> {
-        return this.service.readAll(query);
+    async readMany(
+        @Req() request: Request,
+        @Paginate() query: PaginateQuery
+    ): Promise<ReadManyQuestsDto> {
+        return this.service.readAllForUser(request.user['id'], query);
     }
 
     @Post('')

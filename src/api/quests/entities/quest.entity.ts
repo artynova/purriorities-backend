@@ -38,12 +38,12 @@ export class Quest extends Resource {
     deadlineSetDate?: Date;
 
     @AutoMap()
-    @Column({ nullable: true })
-    deadline?: Date;
+    @Column({ nullable: true, type: 'timestamptz' })
+    deadline?: string;
 
     @AutoMap()
-    @Column({ nullable: true })
-    limit?: Date;
+    @Column({ nullable: true, type: 'timestamptz' })
+    limit?: string;
 
     @AutoMap()
     @Column({ nullable: true, type: 'int' })
@@ -58,7 +58,9 @@ export class Quest extends Resource {
     finishDate?: Date;
 
     get editingLateness(): Lateness {
+        console.log(new Date(this.deadline))
+
         if (!this.deadline) return Lateness.EARLY;
-        return getEditingLateness(this.deadlineSetDate, this.deadline, new Date());
+        return getEditingLateness(this.deadlineSetDate, new Date(this.deadline), new Date());
     }
 }

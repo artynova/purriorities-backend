@@ -35,21 +35,21 @@ export class ReadQuestDto {
     priority: Priority;
 
     @AutoMap()
-    deadline?: Date;
+    deadline?: string;
 
     @AutoMap()
-    limit?: Date;
+    limit?: string;
 
     @AutoMap()
     interval?: number;
 
-    @AutoMap()
+    @AutoMap(() => ReadCategoryDto)
     category: ReadCategoryDto;
 
-    @AutoMap()
+    @AutoMap(() => [ReadSkillDto])
     questSkills: ReadSkillDto[];
 
-    @AutoMap()
+    @AutoMap(() => [ReadStageDto])
     stages: ReadStageDto[];
 
     @AutoMap()

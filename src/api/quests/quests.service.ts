@@ -1,35 +1,40 @@
-import {Injectable} from "@nestjs/common";
+import {Inject, Injectable} from "@nestjs/common";
 import {ResourceService} from "../../common/resource-base/resource.service-base";
 import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
+import {FindManyOptions, Repository} from "typeorm";
 import {InjectMapper} from "@automapper/nestjs";
 import {Mapper} from "@automapper/core";
-import {FilterOperator, paginate, Paginated, PaginateQuery} from "nestjs-paginate";
+import {FilterOperator, paginate, PaginateConfig, Paginated, PaginateQuery} from "nestjs-paginate";
 import {Quest} from "./entities/quest.entity";
 import {CreateQuestDto} from "./dtos/create-quest.dto";
 import {ReadQuestDto} from "./dtos/read-quest.dto";
 import {ReadManyQuestsDto} from "./dtos/read-many-quests.dto";
 import {UpdateQuestDto} from "./dtos/update-quest.dto";
-import {QuestSkill} from "./entities/quest-skill.entity";
+import {StagesService} from "../stages/stages.service";
+import {TasksService} from "../tasks/tasks.service";
+import {Stage} from "../stages/stage.entity";
+import {Task} from "../tasks/task.entity";
 
 @Injectable()
 export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQuestDto, ReadManyQuestsDto, UpdateQuestDto> {
     constructor(
         @InjectRepository(Quest) questRepository: Repository<Quest>,
-        //@InjectRepository(QuestSkill) private questSkillRepository: Repository<QuestSkill>,
-        @InjectMapper() mapper: Mapper
+        @InjectRepository(Task) private tasksRepository: Repository<Task>,
+        @InjectRepository(Stage) private stagesRepository: Repository<Stage>,
+        @InjectMapper() mapper: Mapper,
+        // private stagesService: StagesService,
+        // private tasksService: TasksService,
     ) {
         super(
             questRepository,
             {
                 sortableColumns: ['deadline'],
                 defaultSortBy: [['deadline', 'ASC']],
-                select: ['id', 'name', 'priority', 'deadline', 'limit', 'interval', 'category', 'questSkills', 'stages', 'finishDate'],
                 filterableColumns: {
                     "category.(user.(id))": [FilterOperator.EQ],
                     categoryId: [FilterOperator.EQ],
                     finishDate: [FilterOperator.NULL],
-                    "questSkills.(id)": [FilterOperator.EQ]
+                    //"questSkills.(id)": [FilterOperator.EQ]
                 },
             },
             mapper,
@@ -41,15 +46,54 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
         );
     }
 
-    async readAll(query: PaginateQuery): Promise<ReadManyQuestsDto> {
-        const paginated = await paginate(query, this.repository, this.paginateConfig);
+    async create(createDto: CreateQuestDto): Promise<ReadQuestDto> {
+        const quest = this.mapper.map(createDto, this.createDtoType, this.entityType); // valid because of dto validation
+        const savedQuest = this.mapper.map(await this.repository.save(quest), this.entityType, this.readOneDtoType)
+        //console.log(createDto)
 
-        //paginated.data['questSkills'] = await this.questSkillRepository.findBy({questId: });
+        for (let i = 0; i < createDto.stages.length; i++) {
+            const stage = createDto.stages[i];
+            const savedStage = await this.stagesRepository.save({
+                ...stage, questId: savedQuest.id, index: i
+            });
+            //console.log(savedStage)
 
-        return this.mapper.mapAsync(
-            await paginate(query, this.repository, this.paginateConfig),
+            for (const task of stage.tasks) {
+                const savedTask = await this.tasksRepository.save({
+                    ...task, stageId: savedStage.id
+                });
+                //console.log(savedTask)
+            }
+        }
+
+        //TODO should it also return all the new tasks and stages?
+        return savedQuest;
+    }
+
+    async readAllForUser(userId: string, query: PaginateQuery): Promise<ReadManyQuestsDto> {
+        const queryOptions: FindManyOptions = {
+            where: {
+                category: {
+                    //TODO
+                    //userId: userId
+                    id: '5aaf5265-c75b-446d-8fe9-af388074dcc6'
+                },
+            },
+            relations: {
+                stages: {tasks: true},
+                questSkills: {skill: true},
+                category: true,
+            },
+        };
+
+        return this.mapper.map(
+            await paginate(
+                query,
+                this.repository,
+                {...this.paginateConfig, ...queryOptions} as PaginateConfig<Quest>
+            ),
             Paginated<Quest>,
-            this.readManyDtoType,
+            ReadManyQuestsDto,
         );
     }
 }
