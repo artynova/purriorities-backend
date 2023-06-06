@@ -62,6 +62,7 @@ export class UsersMapper extends AutomapperProfile {
             );
 
             createMap(mapper, User, SyncUserDto);
+            createMap(mapper, User, ReadUserDto);
         };
     }
 }

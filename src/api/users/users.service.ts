@@ -57,6 +57,17 @@ export class UsersService extends ResourceService<User, CreateUserDto, ReadUserD
         return this.mapper.map(savedUser, User, ReadUserDto);
     }
 
+    async readOne(id: string): Promise<ReadUserDto> {
+        const user = await this.repository.findOne({
+            where: { id },
+            relations: {
+                catOwnerships: { cat: true },
+            },
+        });
+
+        return this.mapper.map(user, User, ReadUserDto);
+    }
+
     async sync(id: string): Promise<SyncUserDto> {
         const user = await this.repository.findOne({
             where: { id },

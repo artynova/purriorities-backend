@@ -1,10 +1,10 @@
 import {Injectable} from "@nestjs/common";
 import {ResourceService} from "../../common/resource-base/resource.service-base";
 import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
+import {FindManyOptions, Repository} from "typeorm";
 import {InjectMapper} from "@automapper/nestjs";
 import {Mapper} from "@automapper/core";
-import {FilterOperator} from "nestjs-paginate";
+import {FilterOperator, paginate, PaginateConfig, Paginated, PaginateQuery} from "nestjs-paginate";
 import {Skill} from "./skill.entity";
 import {CreateSkillDto} from "./dtos/create-skill.dto";
 import {ReadSkillDto} from "./dtos/read-skill.dto";
@@ -30,6 +30,21 @@ export class SkillsService extends ResourceService<Skill, CreateSkillDto, ReadSk
             ReadSkillDto,
             ReadManySkillsDto,
             UpdateSkillDto,
+        );
+    }
+
+    async readAllForUser(userId: string, query: PaginateQuery): Promise<ReadManySkillsDto> {
+        const queryOptions: FindManyOptions = {
+            //relationLoadStrategy:
+            where: {
+                userId,
+            },
+        };
+
+        return this.mapper.map(
+            await paginate(query, this.repository, {...this.paginateConfig, ...queryOptions} as PaginateConfig<Skill>),
+            Paginated<Skill>,
+            ReadManySkillsDto,
         );
     }
 }

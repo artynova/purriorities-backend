@@ -1,16 +1,12 @@
-import { AutoMap } from '@automapper/classes';
-import { ReadCategoryDto } from '../../categories/dtos/read-category.dto';
-import { ReadCatOwnershipDto } from '../../cats/dtos/read-cat-ownership.dto';
-import { ReadSkillDto } from '../../skills/dtos/read-skill.dto';
-import { ReadUserDto } from './read-user.dto';
+import {AutoMap} from '@automapper/classes';
+import {ReadCategoryDto} from '../../categories/dtos/read-category.dto';
+import {ReadSkillDto} from '../../skills/dtos/read-skill.dto';
+import {ReadUserDto} from './read-user.dto';
 
 export class SyncUserDto extends ReadUserDto {
     @AutoMap(() => [ReadSkillDto])
-    skills: ReadCategoryDto[];
+    skills: ReadSkillDto[];
 
     @AutoMap(() => [ReadCategoryDto])
     categories: ReadCategoryDto[];
-
-    @AutoMap(() => [ReadCatOwnershipDto])
-    catOwnerships: ReadCatOwnershipDto[];
 }
