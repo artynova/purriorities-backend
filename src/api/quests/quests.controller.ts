@@ -22,8 +22,8 @@ export class QuestsController {
     }
 
     @Post('')
-    async create(@Body() createQuestDto: CreateQuestDto): Promise<void> {
-        await this.service.create(createQuestDto);
+    async create(@Body() createQuestDto: CreateQuestDto): Promise<ReadQuestDto> {
+        return await this.service.create(createQuestDto);
     }
 
     @Get(':id')
