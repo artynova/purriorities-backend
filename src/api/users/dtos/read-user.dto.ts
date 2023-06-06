@@ -15,8 +15,8 @@
 //     levelCap: number;
 // }
 
-import {AutoMap} from '@automapper/classes';
-import {ReadCatOwnershipDto} from "../../cats/dtos/read-cat-ownership.dto";
+import { AutoMap } from '@automapper/classes';
+import { ReadCatOwnershipDto } from '../../cats/dtos/read-cat-ownership.dto';
 
 export class ReadUserDto {
     @AutoMap()
@@ -24,12 +24,6 @@ export class ReadUserDto {
 
     @AutoMap()
     email: string;
-
-    @AutoMap()
-    locale: string;
-
-    @AutoMap()
-    timezone: string;
 
     @AutoMap()
     level: number;

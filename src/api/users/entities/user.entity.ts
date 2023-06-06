@@ -26,14 +26,6 @@ export class User extends Resource {
     joinDate: Date;
 
     @AutoMap()
-    @Column()
-    locale: string;
-
-    @AutoMap()
-    @Column()
-    timezone: string;
-
-    @AutoMap()
     @Column({ default: 1 })
     level: number;
 

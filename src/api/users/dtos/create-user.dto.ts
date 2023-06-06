@@ -1,22 +1,14 @@
-import {IsEmail, IsLocale, IsNotEmpty, IsTimeZone, MinLength} from 'class-validator';
-import {AutoMap} from "@automapper/classes";
+import { AutoMap } from '@automapper/classes';
+import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 
 export class CreateUserDto {
     @AutoMap()
-    @IsNotEmpty({message: 'Nickname should not be empty'})
+    @IsNotEmpty({ message: 'Nickname should not be empty' })
     nickname: string;
 
     @AutoMap()
-    @IsEmail({}, {message: 'Email is invalid'})
+    @IsEmail({}, { message: 'Email is invalid' })
     email: string;
-
-    @AutoMap()
-    @IsLocale({message: 'Locale is invalid'})
-    locale: string;
-
-    @AutoMap()
-    @IsTimeZone({message: 'Timezone is invalid'})
-    timezone: string;
 
     /**
      * Must be a password of minimum length 8.
