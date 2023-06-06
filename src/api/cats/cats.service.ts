@@ -76,6 +76,7 @@ export class CatsService {
             catOwnership = this.catOwnershipRepository.create({ cat, user });
         } else {
             catOwnership.level++;
+            catOwnership.isAway = false;
         }
         const savedCatOwnership = await this.catOwnershipRepository.save(catOwnership);
         savedCatOwnership.cat = cat;
