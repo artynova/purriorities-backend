@@ -65,7 +65,7 @@ export class UpdateQuestDto {
     @IsOptional()
     skills?: string[];
 
-    @AutoMap()
+    @AutoMap(() => [CreateStageDto])
     @IsArray()
     @ValidateNested({ each: true })
     @Type(() => CreateStageDto)

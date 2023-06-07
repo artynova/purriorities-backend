@@ -25,7 +25,7 @@ export class ReadStageDto {
     @AutoMap()
     questId: string;
 
-    @AutoMap()
+    @AutoMap(() => [ReadTaskDto])
     tasks: ReadTaskDto[];
 
     @AutoMap()

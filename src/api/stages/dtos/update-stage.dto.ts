@@ -22,7 +22,7 @@ export class UpdateStageDto {
     @IsOptional()
     name?: string;
 
-    @AutoMap()
+    @AutoMap(() => [UpdateTaskDto])
     @IsArray()
     @ValidateNested({each: true})
     @Type(() => UpdateTaskDto)

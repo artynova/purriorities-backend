@@ -11,7 +11,8 @@ export class UpdateUserDto {
 
     @AutoMap()
     @IsOptional()
-    @IsEmail()
+    //@IsEmail()
+    @IsNotEmpty()
     email?: string;
 
     @AutoMap()
