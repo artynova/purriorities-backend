@@ -61,7 +61,7 @@ export class CreateQuestDto {
     @IsUUID(undefined, { each: true })
     skills: string[];
 
-    @AutoMap()
+    @AutoMap(() => [CreateStageDto])
     @IsArray()
     @ValidateNested({ each: true })
     @Type(() => CreateStageDto)

@@ -1,4 +1,4 @@
-import {Inject, Injectable} from "@nestjs/common";
+import {Injectable} from "@nestjs/common";
 import {ResourceService} from "../../common/resource-base/resource.service-base";
 import {InjectRepository} from "@nestjs/typeorm";
 import {FindManyOptions, In, Repository} from "typeorm";
@@ -10,11 +10,10 @@ import {CreateQuestDto} from "./dtos/create-quest.dto";
 import {ReadQuestDto} from "./dtos/read-quest.dto";
 import {ReadManyQuestsDto} from "./dtos/read-many-quests.dto";
 import {UpdateQuestDto} from "./dtos/update-quest.dto";
-import {StagesService} from "../stages/stages.service";
-import {TasksService} from "../tasks/tasks.service";
 import {Stage} from "../stages/stage.entity";
 import {Task} from "../tasks/task.entity";
 import {Category} from "../categories/category.entity";
+import {QuestSkill} from "./entities/quest-skill.entity";
 
 @Injectable()
 export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQuestDto, ReadManyQuestsDto, UpdateQuestDto> {
@@ -22,7 +21,8 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
         @InjectRepository(Quest) questRepository: Repository<Quest>,
         @InjectRepository(Task) private tasksRepository: Repository<Task>,
         @InjectRepository(Stage) private stagesRepository: Repository<Stage>,
-        @InjectRepository(Category) private categoryRepository: Repository<Category>,
+        @InjectRepository(Category) private categoriesRepository: Repository<Category>,
+        @InjectRepository(QuestSkill) private questSkillsRepository: Repository<QuestSkill>,
         @InjectMapper() mapper: Mapper,
         // private stagesService: StagesService,
         // private tasksService: TasksService,
@@ -68,12 +68,23 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
             }
         }
 
+        for (let i = 0; i < createDto.skills.length; i++) {
+            const skillId = createDto.skills[i];
+            const savedSkill = await this.questSkillsRepository.save({
+                questId: quest.id,
+                skillId: skillId,
+                index: i,
+            });
+
+            //console.log(savedSkill)
+        }
+
         //TODO should it also return all the new tasks and stages?
         return savedQuest;
     }
 
     async readAllForUser(userId: string, query: PaginateQuery): Promise<ReadManyQuestsDto> {
-        const categoriesOfCurrentUser = await this.categoryRepository.createQueryBuilder('c')
+        const categoriesOfCurrentUser = await this.categoriesRepository.createQueryBuilder('c')
             .where('c.userId=:userId', {userId})
             .getMany();
 

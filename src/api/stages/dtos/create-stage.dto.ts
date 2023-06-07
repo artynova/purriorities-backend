@@ -18,7 +18,7 @@ export class CreateStageDto {
     @IsNotEmpty()
     name: string;
 
-    @AutoMap()
+    @AutoMap(() => [CreateTaskDto])
     @IsArray()
     @ValidateNested({each: true})
     @Type(() => CreateTaskDto)

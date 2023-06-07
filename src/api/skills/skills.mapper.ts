@@ -9,6 +9,7 @@ import {UpdateSkillDto} from "./dtos/update-skill.dto";
 import {createPaginatedToReadManyMap} from "../../common/helpers/mapping";
 import {LogicConfigService} from "../../common/processed-config/logic-config.service";
 import {getLevelCap} from "../../common/helpers/formulas";
+import {QuestSkill} from "../quests/entities/quest-skill.entity";
 
 @Injectable()
 export class SkillsMapper extends AutomapperProfile {
@@ -30,6 +31,7 @@ export class SkillsMapper extends AutomapperProfile {
                 ),
             );
             createPaginatedToReadManyMap(mapper, Skill, ReadSkillDto, ReadManySkillsDto);
+            createMap(mapper, QuestSkill, ReadSkillDto);
             createMap(mapper, CreateSkillDto, Skill);
             createMap(mapper, UpdateSkillDto, Skill);
         };
