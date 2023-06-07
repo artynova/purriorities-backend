@@ -26,14 +26,6 @@ export class User extends Resource {
     joinDate: Date;
 
     @AutoMap()
-    @Column()
-    locale: string;
-
-    @AutoMap()
-    @Column()
-    timezone: string;
-
-    @AutoMap()
     @Column({ default: 1 })
     level: number;
 
@@ -58,7 +50,7 @@ export class User extends Resource {
     catnip: number;
 
     @AutoMap()
-    @Column({ default: 0 })
+    @Column({ type: 'double precision', default: 100 })
     trust: number;
 
     @Column({ default: () => 'CURRENT_TIMESTAMP' })

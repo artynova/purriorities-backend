@@ -76,15 +76,10 @@ export class CatsService {
             catOwnership = this.catOwnershipRepository.create({ cat, user });
         } else {
             catOwnership.level++;
+            catOwnership.isAway = false;
         }
-        await this.catOwnershipRepository.save(catOwnership);
-        const savedCatOwnership = await this.catOwnershipRepository.findOne({
-            where: {
-                catNameId: cat.nameId,
-                userId: user.id,
-            },
-            relations: ['cat'],
-        });
+        const savedCatOwnership = await this.catOwnershipRepository.save(catOwnership);
+        savedCatOwnership.cat = cat;
         return this.mapper.map(savedCatOwnership, CatOwnership, ReadCatOwnershipDto);
     }
 

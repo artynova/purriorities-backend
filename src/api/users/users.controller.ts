@@ -62,6 +62,7 @@ export class UsersController {
     @ApiUnauthorizedResponse()
     @Delete('me')
     async deleteMe(@Req() request: Request): Promise<ReadUserDto> {
+        await this.sessionsService.fullLogout(request.user['email']);
         return this.service.delete(request.user['id']);
     }
 }
