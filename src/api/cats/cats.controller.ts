@@ -1,5 +1,5 @@
 import { Controller, Get, NotFoundException, Param, Post, Req, Res } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { existsSync } from 'fs';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
@@ -16,11 +16,13 @@ import { ReadManyCatsDto } from './dtos/read-many-cats.dto';
 export class CatsController {
     constructor(private readonly service: CatsService, private readonly configService: HttpConfigService) {}
 
+    @ApiCookieAuth('session')
     @Get('')
     async readMany(@Paginate() query: PaginateQuery): Promise<ReadManyCatsDto> {
         return this.service.readAll(query);
     }
 
+    @ApiCookieAuth('session')
     @Get(':id')
     async readOne(@Param('id') id: string): Promise<ReadCatDto> {
         return this.service.readOne(id);
@@ -37,6 +39,7 @@ export class CatsController {
     /**
      * Spend feed to open a common cat case (lower probabilities for high-rarity cats).
      */
+    @ApiCookieAuth('session')
     @Post('case/common')
     async openCaseCommon(@Req() request: Request): Promise<ReadCatOwnershipDto> {
         return this.service.gachaCommon(request.user['id']);
@@ -45,6 +48,7 @@ export class CatsController {
     /**
      * Spend catnip to open a legendary cat case (higher probabilities for high-rarity cats).
      */
+    @ApiCookieAuth('session')
     @Post('case/legendary')
     async openCaseLegendary(@Req() request: Request): Promise<ReadCatOwnershipDto> {
         return this.service.gachaLegendary(request.user['id']);
