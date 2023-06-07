@@ -1,13 +1,17 @@
-import {Module} from "@nestjs/common";
-import {TypeOrmModule} from "@nestjs/typeorm";
-import {Task} from "./task.entity";
-import {TasksController} from "./tasks.controller";
-import {TasksService} from "./tasks.service";
-import {TasksMapper} from "./tasks.mapper";
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { QuestSkill } from '../quests/entities/quest-skill.entity';
+import { Quest } from '../quests/entities/quest.entity';
+import { QuestsMapper } from '../quests/quests.mapper';
+import { Stage } from '../stages/stage.entity';
+import { Task } from './task.entity';
+import { TasksController } from './tasks.controller';
+import { TasksMapper } from './tasks.mapper';
+import { TasksService } from './tasks.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Task])],
+    imports: [TypeOrmModule.forFeature([Task, Stage, Quest, QuestSkill])],
     controllers: [TasksController],
-    providers: [TasksService, TasksMapper],
+    providers: [TasksService, TasksMapper, QuestsMapper],
 })
 export class TasksModule {}

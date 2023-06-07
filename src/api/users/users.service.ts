@@ -1,6 +1,6 @@
 import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { resolve } from 'path';
 import { Repository } from 'typeorm';
@@ -9,6 +9,7 @@ import { ResourceService } from '../../common/resource-base/resource.service-bas
 import { Category } from '../categories/category.entity';
 import { Quest } from '../quests/entities/quest.entity';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { PunishmentDto } from './dtos/punishment.dto';
 import { ReadManyUsersDto } from './dtos/read-many-users';
 import { ReadUserDto } from './dtos/read-user.dto';
 import { SyncUserDto } from './dtos/sync-user.dto';
@@ -77,7 +78,17 @@ export class UsersService extends ResourceService<User, CreateUserDto, ReadUserD
                 catOwnerships: { cat: true },
             },
         });
+        if (user === null) throw new NotFoundException('Unknown user');
 
         return this.mapper.map(user, User, SyncUserDto);
+    }
+
+    /**
+     * Collects and applies all pending punishments for the user since last call.
+     * May apply no punishments if none are needed (no overdue deadlines etc.).
+     */
+    async punish(id: string): Promise<PunishmentDto> {
+        // TODO add actual punishment
+        return new PunishmentDto();
     }
 }

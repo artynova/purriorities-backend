@@ -1,17 +1,16 @@
-import {Column, Entity, JoinColumn, ManyToOne} from 'typeorm';
-import {Skill} from '../../skills/skill.entity';
-import {Quest} from './quest.entity';
-import {Resource} from "../../../common/resource-base/resource.entity-base";
-import {AutoMap} from "@automapper/classes";
+import { AutoMap } from '@automapper/classes';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Skill } from '../../skills/skill.entity';
+import { Quest } from './quest.entity';
 
 @Entity('quest_skills')
-export class QuestSkill extends Resource {
+export class QuestSkill {
     @AutoMap()
     @Column()
     index: number; // index starting from 0
 
     @AutoMap()
-    @Column()
+    @PrimaryColumn()
     questId: string;
 
     @AutoMap(() => Quest)
@@ -23,7 +22,7 @@ export class QuestSkill extends Resource {
     quest: Quest;
 
     @AutoMap()
-    @Column()
+    @PrimaryColumn()
     skillId: string;
 
     @AutoMap(() => Skill)
