@@ -1,7 +1,7 @@
 import {Inject, Injectable} from "@nestjs/common";
 import {ResourceService} from "../../common/resource-base/resource.service-base";
 import {InjectRepository} from "@nestjs/typeorm";
-import {FindManyOptions, Repository} from "typeorm";
+import {FindManyOptions, In, Repository} from "typeorm";
 import {InjectMapper} from "@automapper/nestjs";
 import {Mapper} from "@automapper/core";
 import {FilterOperator, paginate, PaginateConfig, Paginated, PaginateQuery} from "nestjs-paginate";
@@ -14,6 +14,7 @@ import {StagesService} from "../stages/stages.service";
 import {TasksService} from "../tasks/tasks.service";
 import {Stage} from "../stages/stage.entity";
 import {Task} from "../tasks/task.entity";
+import {Category} from "../categories/category.entity";
 
 @Injectable()
 export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQuestDto, ReadManyQuestsDto, UpdateQuestDto> {
@@ -21,6 +22,7 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
         @InjectRepository(Quest) questRepository: Repository<Quest>,
         @InjectRepository(Task) private tasksRepository: Repository<Task>,
         @InjectRepository(Stage) private stagesRepository: Repository<Stage>,
+        @InjectRepository(Category) private categoryRepository: Repository<Category>,
         @InjectMapper() mapper: Mapper,
         // private stagesService: StagesService,
         // private tasksService: TasksService,
@@ -71,13 +73,15 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
     }
 
     async readAllForUser(userId: string, query: PaginateQuery): Promise<ReadManyQuestsDto> {
+        const categoriesOfCurrentUser = await this.categoryRepository.createQueryBuilder('c')
+            .where('c.userId=:userId', {userId})
+            .getMany();
+
+        const categoryIds = categoriesOfCurrentUser.map((category => category.id));
+
         const queryOptions: FindManyOptions = {
             where: {
-                category: {
-                    //TODO
-                    //userId: userId
-                    id: '5aaf5265-c75b-446d-8fe9-af388074dcc6'
-                },
+                category: {id: In(categoryIds)}
             },
             relations: {
                 stages: {tasks: true},

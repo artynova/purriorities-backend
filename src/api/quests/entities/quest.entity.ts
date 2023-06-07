@@ -38,12 +38,12 @@ export class Quest extends Resource {
     deadlineSetDate?: Date;
 
     @AutoMap()
-    @Column({ nullable: true, type: 'timestamptz' })
-    deadline?: string;
+    @Column({ nullable: true })
+    deadline?: Date;
 
     @AutoMap()
-    @Column({ nullable: true, type: 'timestamptz' })
-    limit?: string;
+    @Column({ nullable: true })
+    limit?: Date;
 
     @AutoMap()
     @Column({ nullable: true, type: 'int' })
