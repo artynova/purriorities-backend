@@ -7,7 +7,8 @@ export class CreateUserDto {
     nickname: string;
 
     @AutoMap()
-    @IsEmail({}, { message: 'Email is invalid' })
+    @IsNotEmpty()
+    //@IsEmail({}, { message: 'Email is invalid' })
     email: string;
 
     /**
