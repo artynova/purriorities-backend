@@ -50,7 +50,7 @@ export class User extends Resource {
     catnip: number;
 
     @AutoMap()
-    @Column({ default: 0 })
+    @Column({ type: 'double precision', default: 100 })
     trust: number;
 
     @Column({ default: () => 'CURRENT_TIMESTAMP' })
