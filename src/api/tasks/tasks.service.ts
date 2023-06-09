@@ -5,7 +5,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FilterOperator } from 'nestjs-paginate';
 import { Repository } from 'typeorm';
 import { ResourceService } from '../../common/resource-base/resource.service-base';
-import { ReadQuestDto } from '../quests/dtos/read-quest.dto';
 import { QuestSkill } from '../quests/entities/quest-skill.entity';
 import { Quest } from '../quests/entities/quest.entity';
 import { Stage } from '../stages/stage.entity';
@@ -50,7 +49,6 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
         const newQuest = await this.finish(task);
         // TODO rewards
         const response = new CompleteResponseDto();
-        response.newQuest = this.mapper.map(newQuest, Quest, ReadQuestDto);
         return response;
     }
 
@@ -59,11 +57,10 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
         const newQuest = await this.finish(task);
         // TODO punishments and rewards
         const response = new RefuseResponseDto();
-        response.newQuest = this.mapper.map(newQuest, Quest, ReadQuestDto);
         return response;
     }
 
-    private async finish(task: Task): Promise<Quest> {
+    private async finish(task: Task): Promise<void> {
         await this.repository.softRemove(task);
         const remainingTasks = await this.repository.findBy({ stageId: task.stageId }); // results do not include soft-deleted (= finished) tasks
         if (remainingTasks.length) return null;
@@ -71,10 +68,10 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
         const remainingStages = await this.stageRepository.findBy({ questId: task.stage.questId });
         if (remainingStages.length) return null;
         await this.questRepository.softRemove(task.stage.quest);
-        return this.tryScheduleNext(task.stage.quest);
+        await this.tryScheduleNext(task.stage.quest);
     }
 
-    private async tryScheduleNext(quest: Quest): Promise<Quest> {
+    private async tryScheduleNext(quest: Quest): Promise<void> {
         if (quest.deadline === null) return null;
         quest.deadline.setDate(quest.deadline.getDate() + quest.interval); // schedule the new copy
         if (quest.limit !== null && quest.limit < quest.deadline) return null;
@@ -84,7 +81,6 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
         const savedQuest = await this.questRepository.save(quest);
         await this.saveQuestSkillCopies(savedQuest, oldQuestId);
         await this.saveStageCopies(savedQuest, oldQuestId);
-        return savedQuest; // rescheduled copy quest with relationships already filled out during cloning
     }
 
     private async saveQuestSkillCopies(quest: Quest, oldId: string) {
