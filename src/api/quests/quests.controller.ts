@@ -1,12 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from '@nestjs/common';
-import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
-import { Request } from 'express';
-import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import { CreateQuestDto } from './dtos/create-quest.dto';
-import { ReadManyQuestsDto } from './dtos/read-many-quests.dto';
-import { ReadQuestDto } from './dtos/read-quest.dto';
-import { UpdateQuestDto } from './dtos/update-quest.dto';
-import { QuestsService } from './quests.service';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Req} from '@nestjs/common';
+import {ApiCookieAuth, ApiTags} from '@nestjs/swagger';
+import {Request} from 'express';
+import {Paginate, PaginateQuery} from 'nestjs-paginate';
+import {CreateQuestDto} from './dtos/create-quest.dto';
+import {ReadManyQuestsDto} from './dtos/read-many-quests.dto';
+import {ReadQuestDto} from './dtos/read-quest.dto';
+import {UpdateQuestDto} from './dtos/update-quest.dto';
+import {QuestsService} from './quests.service';
 
 @ApiTags('Quests')
 @ApiCookieAuth('session')

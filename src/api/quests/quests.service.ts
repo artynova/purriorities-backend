@@ -1,7 +1,7 @@
 import {Injectable} from "@nestjs/common";
 import {ResourceService} from "../../common/resource-base/resource.service-base";
 import {InjectRepository} from "@nestjs/typeorm";
-import {FindManyOptions, In, Repository} from "typeorm";
+import {FindManyOptions, In, Repository, SelectQueryBuilder} from "typeorm";
 import {InjectMapper} from "@automapper/nestjs";
 import {Mapper} from "@automapper/core";
 import {FilterOperator, paginate, PaginateConfig, Paginated, PaginateQuery} from "nestjs-paginate";
@@ -30,13 +30,13 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
         super(
             questRepository,
             {
+                relations: ['questSkills'],
                 sortableColumns: ['deadline'],
                 defaultSortBy: [['deadline', 'ASC']],
                 filterableColumns: {
-                    "category.(user.(id))": [FilterOperator.EQ],
                     categoryId: [FilterOperator.EQ],
-                    finishDate: [FilterOperator.NULL],
-                    //"questSkills.(id)": [FilterOperator.EQ]
+                    //finishDate: [FilterOperator.NULL],
+                    'questSkills.(skillId)': [FilterOperator.EQ]
                 },
             },
             mapper,
@@ -94,17 +94,43 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
             where: {
                 category: {id: In(categoryIds)}
             },
+            // order: {
+            //     stages: {
+            //         index: 'ASC',
+            //     },
+            // },
             relations: {
-                stages: {tasks: true},
-                questSkills: {skill: true},
+                stages: {
+                    tasks: true,
+                },
+                //questSkills: {skill: true},
+                questSkills: [],
                 category: true,
             },
         };
+
+        // const queryBuilder = this.repository.createQueryBuilder('q')
+        //     //.leftJoin('q.stages', 's')
+        //     //.select('*')
+        //     .from((qb: SelectQueryBuilder<Stage>) => qb
+        //             .select('*')
+        //             .where('s.questId=q.id')
+        //             .from(Stage, 'inner_s')
+        //             .orderBy('inner_s.index', 'ASC'),
+        //         's')
+        //     .leftJoinAndSelect('s.tasks', 't')
+        //     .leftJoinAndSelect('q.questSkills', 'qs')
+        //     .leftJoinAndSelect('qs.skill', 'sk')
+        //     .leftJoinAndSelect('q.category', 'c')
+        //     //.orderBy('s.index', 'ASC')
+        //     .where('c.id IN (:...categoryIds)', {categoryIds});
+
 
         return this.mapper.map(
             await paginate(
                 query,
                 this.repository,
+                //queryBuilder,
                 {...this.paginateConfig, ...queryOptions} as PaginateConfig<Quest>
             ),
             Paginated<Quest>,
