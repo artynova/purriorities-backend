@@ -94,11 +94,6 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
             where: {
                 category: {id: In(categoryIds)}
             },
-            // order: {
-            //     stages: {
-            //         index: 'ASC',
-            //     },
-            // },
             relations: {
                 stages: {
                     tasks: true,
@@ -117,5 +112,29 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
             Paginated<Quest>,
             ReadManyQuestsDto,
         );
+
+        // const quests = await this.repository.createQueryBuilder('quest')
+        //     .leftJoinAndSelect('quest.stages', 'stages')
+        //     .leftJoinAndSelect('stages.tasks', 'tasks')
+        //     .leftJoinAndSelect('quest.questSkills', 'questSkills')
+        //     .leftJoinAndSelect('quest.category', 'category')
+        //     .where('category.id IN (:...categoryIds)', { categoryIds })
+        //     .orderBy('stages.index', 'ASC')
+        //     .getMany(); // Sort stages by index in ascending order
+        //
+        // const total = quests.length;
+        // const totalPages = Math.ceil(total / query.limit);
+        //
+        // const paginatedResponse = {
+        //     meta: {
+        //         totalPages,
+        //         itemsPerPage: 0,
+        //         totalItems: 0,
+        //         currentPage: 0,
+        //     },
+        //     data: quests,
+        // };
+        //
+        // return this.mapper.map(paginatedResponse, typeof paginatedResponse, ReadManyQuestsDto);
     }
 }
