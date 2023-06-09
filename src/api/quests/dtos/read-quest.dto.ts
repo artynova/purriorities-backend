@@ -3,6 +3,7 @@ import {ReadCategoryDto} from "../../categories/dtos/read-category.dto";
 import {ReadSkillDto} from "../../skills/dtos/read-skill.dto";
 import {Priority} from "../../../common/types/enums";
 import {AutoMap} from "@automapper/classes";
+import {ReadShortSkillDto} from "../../skills/dtos/read-short-skill.dto";
 
 // export class ReadQuestDto extends OmitType(Quest, [
 //     'category',
@@ -46,8 +47,8 @@ export class ReadQuestDto {
     @AutoMap(() => ReadCategoryDto)
     category: ReadCategoryDto;
 
-    @AutoMap(() => [ReadSkillDto])
-    questSkills: ReadSkillDto[];
+    @AutoMap(() => [ReadShortSkillDto])
+    skills: ReadShortSkillDto[];
 
     @AutoMap(() => [ReadStageDto])
     stages: ReadStageDto[];

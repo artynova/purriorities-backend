@@ -30,7 +30,7 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
         super(
             questRepository,
             {
-                relations: ['questSkills'],
+                relations: {questSkills: true},
                 sortableColumns: ['deadline'],
                 defaultSortBy: [['deadline', 'ASC']],
                 filterableColumns: {
@@ -90,7 +90,7 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
 
         const categoryIds = categoriesOfCurrentUser.map((category => category.id));
 
-        const queryOptions: FindManyOptions = {
+        const queryOptions: FindManyOptions<Quest> = {
             where: {
                 category: {id: In(categoryIds)}
             },
@@ -103,34 +103,15 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
                 stages: {
                     tasks: true,
                 },
-                //questSkills: {skill: true},
-                questSkills: [],
+                questSkills: {skill: true},
                 category: true,
             },
         };
-
-        // const queryBuilder = this.repository.createQueryBuilder('q')
-        //     //.leftJoin('q.stages', 's')
-        //     //.select('*')
-        //     .from((qb: SelectQueryBuilder<Stage>) => qb
-        //             .select('*')
-        //             .where('s.questId=q.id')
-        //             .from(Stage, 'inner_s')
-        //             .orderBy('inner_s.index', 'ASC'),
-        //         's')
-        //     .leftJoinAndSelect('s.tasks', 't')
-        //     .leftJoinAndSelect('q.questSkills', 'qs')
-        //     .leftJoinAndSelect('qs.skill', 'sk')
-        //     .leftJoinAndSelect('q.category', 'c')
-        //     //.orderBy('s.index', 'ASC')
-        //     .where('c.id IN (:...categoryIds)', {categoryIds});
-
 
         return this.mapper.map(
             await paginate(
                 query,
                 this.repository,
-                //queryBuilder,
                 {...this.paginateConfig, ...queryOptions} as PaginateConfig<Quest>
             ),
             Paginated<Quest>,
