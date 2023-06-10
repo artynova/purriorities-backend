@@ -1,11 +1,11 @@
-import { Mapper } from '@automapper/core';
-import { BadRequestException, NotFoundException, Type } from '@nestjs/common';
-import { validateOrReject } from 'class-validator';
-import { PaginateConfig, PaginateQuery, Paginated, paginate } from 'nestjs-paginate';
-import { FindOptionsWhere, Repository } from 'typeorm';
-import { buildErrorsString } from '../helpers/validation';
-import { ReadManyDtoBase } from './read-many.dto-base';
-import { Resource } from './resource.entity-base';
+import {Mapper} from '@automapper/core';
+import {BadRequestException, NotFoundException, Type} from '@nestjs/common';
+import {validateOrReject} from 'class-validator';
+import {paginate, PaginateConfig, Paginated, PaginateQuery} from 'nestjs-paginate';
+import {FindOptionsWhere, Repository} from 'typeorm';
+import {buildErrorsString} from '../helpers/validation';
+import {ReadManyDtoBase} from './read-many.dto-base';
+import {Resource} from './resource.entity-base';
 
 export class ResourceService<
     Entity extends Resource,
@@ -30,34 +30,45 @@ export class ResourceService<
         return this.mapper.map(await this.repository.save(inEntity), this.entityType, this.readOneDtoType);
     }
 
-    async readAll(query: PaginateQuery): Promise<ReadManyDto> {
+    async readAll(query: PaginateQuery, userId?: string): Promise<ReadManyDto> {
+        const paginateConfig = {...this.paginateConfig};
+
+        if (userId) paginateConfig['userId'] = userId;
+
         return this.mapper.map(
-            await paginate(query, this.repository, this.paginateConfig),
+            await paginate(query, this.repository, paginateConfig),
             Paginated<Entity>,
             this.readManyDtoType,
         );
     }
 
-    async readOne(id: string): Promise<ReadOneDto> {
-        return this.mapper.map(await this.findOneOrFail(id), this.entityType, this.readOneDtoType);
+    async readOne(id: string, userId?: string): Promise<ReadOneDto> {
+        console.log(await this.findOneOrFail(id, userId))
+        return this.mapper.map(await this.findOneOrFail(id, userId), this.entityType, this.readOneDtoType);
     }
 
-    async update(id: string, updateUserDto: UpdateDto): Promise<ReadOneDto> {
-        const oldEntity = await this.findOneOrFail(id);
-        const inEntity = this.mapper.map(updateUserDto, this.updateDtoType, this.entityType);
+    async update(id: string, updateDto: UpdateDto, userId?: string): Promise<ReadOneDto> {
+        const oldEntity = await this.findOneOrFail(id, userId);
+        const inEntity = this.mapper.map(updateDto, this.updateDtoType, this.entityType);
         const newEntity: Entity = { ...oldEntity, ...inEntity };
         this.validateRequestOrFail(newEntity); // since dto is partial, this validation is needed
         return this.mapper.map(await this.repository.save(newEntity), this.entityType, this.readOneDtoType);
     }
 
-    async delete(id: string): Promise<ReadOneDto> {
-        const toRemove = await this.findOneOrFail(id);
+    async delete(id: string, userId?: string): Promise<ReadOneDto> {
+        const toRemove = await this.findOneOrFail(id, userId);
         return this.mapper.map(await this.repository.remove(toRemove), this.entityType, this.readOneDtoType);
     }
 
-    protected async findOneOrFail(id: string): Promise<Entity> {
+    protected async findOneOrFail(id: string, userId?: string): Promise<Entity> {
+        const findOptionsWhere = {
+            id
+        } as FindOptionsWhere<Entity>;
+
+        if(userId) findOptionsWhere['userId'] = userId;
+
         const out = await this.repository.findOne({
-            where: { id } as FindOptionsWhere<Entity>,
+            where: findOptionsWhere,
             relations: this.paginateConfig.relations,
         }); // a little help for typescript to figure out that, since id is present in Resource, id is also present in Entity
         if (out === null) throw new NotFoundException('Required resource was not found in the database');

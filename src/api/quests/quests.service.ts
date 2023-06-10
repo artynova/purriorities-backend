@@ -35,7 +35,7 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
                 defaultSortBy: [['deadline', 'ASC']],
                 filterableColumns: {
                     categoryId: [FilterOperator.EQ],
-                    //finishDate: [FilterOperator.NULL],
+                    finishDate: [FilterOperator.NULL],
                     'questSkills.(skillId)': [FilterOperator.EQ]
                 },
             },
@@ -83,7 +83,7 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
         return savedQuest;
     }
 
-    async readAllForUser(userId: string, query: PaginateQuery): Promise<ReadManyQuestsDto> {
+    async readAll(query: PaginateQuery, userId: string): Promise<ReadManyQuestsDto> {
         const categoriesOfCurrentUser = await this.categoriesRepository.createQueryBuilder('c')
             .where('c.userId=:userId', {userId})
             .getMany();
@@ -112,29 +112,42 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
             Paginated<Quest>,
             ReadManyQuestsDto,
         );
+    }
 
-        // const quests = await this.repository.createQueryBuilder('quest')
-        //     .leftJoinAndSelect('quest.stages', 'stages')
-        //     .leftJoinAndSelect('stages.tasks', 'tasks')
-        //     .leftJoinAndSelect('quest.questSkills', 'questSkills')
-        //     .leftJoinAndSelect('quest.category', 'category')
-        //     .where('category.id IN (:...categoryIds)', { categoryIds })
-        //     .orderBy('stages.index', 'ASC')
-        //     .getMany(); // Sort stages by index in ascending order
+    async update(id: string, updateDto: UpdateQuestDto, userId?: string): Promise<ReadQuestDto> {
+        // const quest = this.mapper.map(createDto, this.createDtoType, this.entityType); // valid because of dto validation
+        // const savedQuest = this.mapper.map(await this.repository.save(quest), this.entityType, this.readOneDtoType)
+        // //console.log(createDto)
         //
-        // const total = quests.length;
-        // const totalPages = Math.ceil(total / query.limit);
+        // for (let i = 0; i < createDto.stages.length; i++) {
+        //     const stage = createDto.stages[i];
+        //     const savedStage = await this.stagesRepository.save({
+        //         ...stage, questId: savedQuest.id, index: i
+        //     });
+        //     //console.log(savedStage)
         //
-        // const paginatedResponse = {
-        //     meta: {
-        //         totalPages,
-        //         itemsPerPage: 0,
-        //         totalItems: 0,
-        //         currentPage: 0,
-        //     },
-        //     data: quests,
-        // };
+        //     for (const task of stage.tasks) {
+        //         const savedTask = await this.tasksRepository.save({
+        //             ...task, stageId: savedStage.id
+        //         });
+        //         //console.log(savedTask)
+        //     }
+        // }
         //
-        // return this.mapper.map(paginatedResponse, typeof paginatedResponse, ReadManyQuestsDto);
+        // for (let i = 0; i < createDto.skills.length; i++) {
+        //     const skillId = createDto.skills[i];
+        //     const savedSkill = await this.questSkillsRepository.save({
+        //         questId: quest.id,
+        //         skillId: skillId,
+        //         index: i,
+        //     });
+        //
+        //     //console.log(savedSkill)
+        // }
+        //
+        // //TODO should it also return all the new tasks and stages?
+        // return savedQuest;
+
+        return super.update(id, updateDto, userId);
     }
 }

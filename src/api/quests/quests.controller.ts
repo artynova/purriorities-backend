@@ -16,7 +16,7 @@ export class QuestsController {
 
     @Get('')
     async readMany(@Req() request: Request, @Paginate() query: PaginateQuery): Promise<ReadManyQuestsDto> {
-        return this.service.readAllForUser(request.user['id'], query);
+        return this.service.readAll(query, request.user['id']);
     }
 
     @Post('')

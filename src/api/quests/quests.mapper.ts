@@ -9,7 +9,6 @@ import {UpdateQuestDto} from "./dtos/update-quest.dto";
 import {createPaginatedToReadManyMap} from "../../common/helpers/mapping";
 import {QuestSkill} from "./entities/quest-skill.entity";
 import {ReadSkillDto} from "../skills/dtos/read-skill.dto";
-import {ReadShortSkillDto} from "../skills/dtos/read-short-skill.dto";
 
 const stringToDateConverter = typeConverter(String, Date, (str) => str ? new Date(str) : null);
 //const dateToStringConvertor = typeConverter(Date, String, (date) => date?.toISOString());
@@ -27,7 +26,7 @@ export class QuestsMapper extends AutomapperProfile {
                 Quest,
                 ReadQuestDto,
                 forMember((readQuestDto) => readQuestDto.skills,
-                    mapFrom(quest => quest.questSkills.map(qs => {
+                    mapFrom(quest => quest.questSkills?.map(qs => {
                                 return {
                                     id: qs.skill.id,
                                     name: qs.skill.name
