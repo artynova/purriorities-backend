@@ -28,4 +28,13 @@ export class CategoriesService extends ResourceService<Category, CreateCategoryD
             UpdateCategoryDto,
         );
     }
+
+    async getDefault(userId: string): Promise<ReadCategoryDto> {
+        return this.repository.findOne({
+            where: {
+                inbox: true,
+                userId
+            }
+        });
+    }
 }

@@ -1,6 +1,6 @@
 import {Injectable} from "@nestjs/common";
 import {AutomapperProfile, InjectMapper} from "@automapper/nestjs";
-import {createMap, forMember, mapFrom, Mapper} from "@automapper/core";
+import {createMap, Mapper} from "@automapper/core";
 import {Stage} from "./stage.entity";
 import {ReadStageDto} from "./dtos/read-stage.dto";
 import {CreateStageDto} from "./dtos/create-stage.dto";

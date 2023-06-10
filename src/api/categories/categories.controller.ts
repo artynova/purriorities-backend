@@ -23,6 +23,11 @@ export class CategoriesController {
         return await this.service.create({...createCategoryDto, userId: request.user['id']});
     }
 
+    @Get('default')
+    async default(@Req() request: Request): Promise<ReadCategoryDto> {
+        return this.service.getDefault(request.user['id']);
+    }
+
     @Get(':id')
     async readOne(@Param('id') id: string): Promise<ReadCategoryDto> {
         return this.service.readOne(id);
@@ -37,4 +42,5 @@ export class CategoriesController {
     async delete(@Param('id') id: string): Promise<ReadCategoryDto> {
         return this.service.delete(id);
     }
+
 }
