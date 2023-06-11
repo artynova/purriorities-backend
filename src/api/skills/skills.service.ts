@@ -1,10 +1,9 @@
 import {Injectable} from "@nestjs/common";
 import {ResourceService} from "../../common/resource-base/resource.service-base";
 import {InjectRepository} from "@nestjs/typeorm";
-import {FindManyOptions, Repository} from "typeorm";
+import {Repository} from "typeorm";
 import {InjectMapper} from "@automapper/nestjs";
 import {Mapper} from "@automapper/core";
-import {FilterOperator, paginate, PaginateConfig, Paginated, PaginateQuery} from "nestjs-paginate";
 import {Skill} from "./skill.entity";
 import {CreateSkillDto} from "./dtos/create-skill.dto";
 import {ReadSkillDto} from "./dtos/read-skill.dto";

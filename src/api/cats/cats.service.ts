@@ -1,28 +1,22 @@
-import { Mapper } from '@automapper/core';
-import { InjectMapper } from '@automapper/nestjs';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { FilterOperator, FilterSuffix, PaginateConfig, PaginateQuery, Paginated, paginate } from 'nestjs-paginate';
-import { Repository } from 'typeorm';
-import { randomFromArray } from '../../common/helpers/random';
-import { LogicConfigService } from '../../common/processed-config/logic-config.service';
-import { Rarity } from '../../common/types/enums';
-import { User } from '../users/entities/user.entity';
-import { ReadCatOwnershipDto } from './dtos/read-cat-ownership.dto';
-import { ReadCatDto } from './dtos/read-cat.dto';
-import { ReadManyCatsDto } from './dtos/read-many-cats.dto';
-import { CatOwnership } from './entities/cat-ownership.entity';
-import { Cat } from './entities/cat.entity';
+import {Mapper} from '@automapper/core';
+import {InjectMapper} from '@automapper/nestjs';
+import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
+import {InjectRepository} from '@nestjs/typeorm';
+import {paginate, PaginateConfig, Paginated, PaginateQuery} from 'nestjs-paginate';
+import {Repository} from 'typeorm';
+import {randomFromArray} from '../../common/helpers/random';
+import {LogicConfigService} from '../../common/processed-config/logic-config.service';
+import {Rarity} from '../../common/types/enums';
+import {User} from '../users/entities/user.entity';
+import {ReadCatOwnershipDto} from './dtos/read-cat-ownership.dto';
+import {ReadCatDto} from './dtos/read-cat.dto';
+import {ReadManyCatsDto} from './dtos/read-many-cats.dto';
+import {CatOwnership} from './entities/cat-ownership.entity';
+import {Cat} from './entities/cat.entity';
 
 const catsPaginationConfig: PaginateConfig<Cat> = {
     sortableColumns: ['nameId'],
     defaultSortBy: [['nameId', 'DESC']],
-    searchableColumns: [],
-    select: [],
-    filterableColumns: {
-        name: [FilterOperator.EQ, FilterSuffix.NOT],
-        age: true,
-    },
 };
 
 @Injectable()

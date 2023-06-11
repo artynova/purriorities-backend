@@ -31,9 +31,6 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
                 sortableColumns: ['id'],
                 defaultSortBy: [['id', 'DESC']],
                 select: ['id', 'name', 'minutes', 'stageId', 'finishDate'],
-                filterableColumns: {
-                    stageId: [FilterOperator.EQ],
-                },
             },
             mapper,
             Task,

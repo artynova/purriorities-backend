@@ -1,7 +1,7 @@
 import {ForbiddenException, Injectable} from "@nestjs/common";
 import {ResourceService} from "../../common/resource-base/resource.service-base";
 import {InjectRepository} from "@nestjs/typeorm";
-import {FindManyOptions, FindOneOptions, In, Not, Repository} from "typeorm";
+import {FindManyOptions, FindOneOptions, In, Repository} from "typeorm";
 import {InjectMapper} from "@automapper/nestjs";
 import {Mapper} from "@automapper/core";
 import {FilterOperator, paginate, PaginateConfig, Paginated, PaginateQuery} from "nestjs-paginate";
@@ -14,8 +14,6 @@ import {Stage} from "../stages/stage.entity";
 import {Task} from "../tasks/task.entity";
 import {Category} from "../categories/category.entity";
 import {QuestSkill} from "./entities/quest-skill.entity";
-import {TasksService} from "../tasks/tasks.service";
-import {StagesService} from "../stages/stages.service";
 import {Skill} from "../skills/skill.entity";
 
 @Injectable()
@@ -28,8 +26,6 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
         @InjectRepository(QuestSkill) private questSkillsRepository: Repository<QuestSkill>,
         @InjectRepository(Skill) private skillsRepository: Repository<Skill>,
         @InjectMapper() mapper: Mapper,
-        private stagesService: StagesService,
-        private tasksService: TasksService,
     ) {
         super(
             questRepository,

@@ -5,7 +5,6 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {InjectMapper} from "@automapper/nestjs";
 import {Mapper} from "@automapper/core";
-import {FilterOperator} from "nestjs-paginate";
 import {Stage} from "./stage.entity";
 import {CreateStageDto} from "./dtos/create-stage.dto";
 import {ReadStageDto} from "./dtos/read-stage.dto";
@@ -26,9 +25,6 @@ export class StagesService extends ResourceService<Stage, CreateStageDto, ReadSt
                 sortableColumns: ['index'],
                 defaultSortBy: [['index', 'ASC']],
                 select: ['id', 'name', 'questId', 'tasks', 'finishDate'],
-                filterableColumns: {
-                    questId: [FilterOperator.EQ]
-                },
             },
             mapper,
             Stage,
