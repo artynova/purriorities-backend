@@ -14,7 +14,16 @@ export class RewardDto {
      * Only skills affected by the reward.
      */
     skillLeveling: SkillLevelingDto[];
-    trustGained: number;
-    feedGained: number;
-    catnipGained: number;
+    /**
+     * Value after getting the reward.
+     */
+    trust: number;
+    /**
+     * Value after getting the reward.
+     */
+    feed: number;
+    /**
+     * Value after getting the reward.
+     */
+    catnip: number;
 }

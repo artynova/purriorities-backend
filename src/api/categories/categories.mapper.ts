@@ -2,11 +2,11 @@ import { Mapper, createMap } from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 import { createPaginatedToReadManyMap } from '../../common/helpers/mapping';
-import { Category } from './category.entity';
 import { CreateCategoryDto } from './dtos/create-category.dto';
 import { ReadCategoryDto } from './dtos/read-category.dto';
 import { ReadManyCategoriesDto } from './dtos/read-many-categories.dto';
 import { UpdateCategoryDto } from './dtos/update-category.dto';
+import { Category } from './entities/category.entity';
 
 @Injectable()
 export class CategoriesMapper extends AutomapperProfile {

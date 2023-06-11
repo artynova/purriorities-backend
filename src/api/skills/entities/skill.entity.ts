@@ -1,7 +1,7 @@
-import {Column, Entity, JoinColumn, ManyToOne, Unique} from 'typeorm';
-import { Resource } from '../../common/resource-base/resource.entity-base';
-import { User } from '../users/entities/user.entity';
-import {AutoMap} from "@automapper/classes";
+import { AutoMap } from '@automapper/classes';
+import { Column, Entity, JoinColumn, ManyToOne, Unique } from 'typeorm';
+import { Resource } from '../../../common/resource-base/resource.entity-base';
+import { User } from '../../users/entities/user.entity';
 
 @Entity('skills')
 @Unique(['userId', 'name'])

@@ -1,7 +1,7 @@
+import { AutoMap } from '@automapper/classes';
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { Resource } from '../../common/resource-base/resource.entity-base';
-import { Stage } from '../stages/stage.entity';
-import {AutoMap} from "@automapper/classes";
+import { Resource } from '../../../common/resource-base/resource.entity-base';
+import { Stage } from '../../stages/entities/stage.entity';
 
 @Entity('tasks')
 export class Task extends Resource {

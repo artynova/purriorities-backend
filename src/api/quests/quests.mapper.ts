@@ -14,7 +14,6 @@ import {LogicConfigService} from "../../common/processed-config/logic-config.ser
 import {ReadCategoryDto} from "../categories/dtos/read-category.dto";
 
 const stringToDateConverter = typeConverter(String, Date, (str) => str ? new Date(str) : null);
-
 //const dateToStringConvertor = typeConverter(Date, String, (date) => date?.toISOString());
 
 @Injectable()
