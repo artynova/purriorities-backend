@@ -38,6 +38,10 @@ export class QuestsMapper extends AutomapperProfile {
             );
             //createMap(mapper, Quest, ReadQuestDto, dateToStringConvertor);
             createPaginatedToReadManyMap(mapper, Quest, ReadQuestDto, ReadManyQuestsDto);
+            createMap(mapper, CreateQuestDto, Quest, forMember(
+                (quest) => quest.categoryId,
+                mapFrom((createQuestDto) => createQuestDto.category)
+            ));
             createMap(mapper, CreateQuestDto, Quest, stringToDateConverter);
             createMap(mapper, UpdateQuestDto, Quest, stringToDateConverter);
             createMap(mapper, UpdateQuestDto, Quest, forMember(

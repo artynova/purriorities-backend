@@ -88,7 +88,7 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
     }
 
     async create(createDto: CreateQuestDto, userId?: string): Promise<ReadQuestDto> {
-        await this.authorizeCategory(createDto.categoryId, userId);
+        await this.authorizeCategory(createDto.category, userId);
 
         for (const skillId of createDto.skills) {
             await this.authorizeSkill(skillId, userId);
@@ -96,7 +96,6 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
 
         const quest = this.mapper.map(createDto, this.createDtoType, this.entityType);
         const savedQuest = this.mapper.map(await this.repository.save(quest), this.entityType, this.readOneDtoType)
-        //console.log(createDto)
 
         for (let i = 0; i < createDto.stages.length; i++) {
             const stage = createDto.stages[i];

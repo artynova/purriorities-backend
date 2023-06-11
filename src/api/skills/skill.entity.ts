@@ -1,9 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, Unique} from 'typeorm';
 import { Resource } from '../../common/resource-base/resource.entity-base';
 import { User } from '../users/entities/user.entity';
 import {AutoMap} from "@automapper/classes";
 
 @Entity('skills')
+@Unique(['userId', 'name'])
 export class Skill extends Resource {
     @AutoMap()
     @Column()
