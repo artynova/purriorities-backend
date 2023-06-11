@@ -1,4 +1,4 @@
-import {Injectable} from "@nestjs/common";
+import {ForbiddenException, Injectable} from "@nestjs/common";
 import {ResourceService} from "../../common/resource-base/resource.service-base";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
@@ -36,5 +36,14 @@ export class CategoriesService extends ResourceService<Category, CreateCategoryD
                 userId
             }
         });
+    }
+
+    async delete(id: string, userId?: string): Promise<ReadCategoryDto> {
+        const toRemove = await this.findOneOrFail(id, userId);
+
+        if (toRemove.inbox)
+            throw new ForbiddenException('Cannot delete inbox category')
+
+        return this.mapper.map(await this.repository.remove(toRemove), this.entityType, this.readOneDtoType);
     }
 }

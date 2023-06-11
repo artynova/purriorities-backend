@@ -14,8 +14,8 @@ export class CategoriesController {
     constructor(private readonly service: CategoriesService) {}
     
     @Get('')
-    async readMany(@Paginate() query: PaginateQuery): Promise<ReadManyCategoriesDto> {
-        return this.service.readAll(query);
+    async readMany(@Req() request: Request, @Paginate() query: PaginateQuery): Promise<ReadManyCategoriesDto> {
+        return this.service.readAll(query, request.user['id']);
     }
 
     @Post('')
@@ -29,18 +29,18 @@ export class CategoriesController {
     }
 
     @Get(':id')
-    async readOne(@Param('id') id: string): Promise<ReadCategoryDto> {
-        return this.service.readOne(id);
+    async readOne(@Req() request: Request, @Param('id') id: string): Promise<ReadCategoryDto> {
+        return this.service.readOne(id, request.user['id']);
     }
 
     @Patch(':id')
-    async update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto): Promise<ReadCategoryDto> {
-        return this.service.update(id, updateCategoryDto);
+    async update(@Req() request: Request, @Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto): Promise<ReadCategoryDto> {
+        return this.service.update(id, updateCategoryDto, request.user['id']);
     }
 
     @Delete(':id')
-    async delete(@Param('id') id: string): Promise<ReadCategoryDto> {
-        return this.service.delete(id);
+    async delete(@Req() request: Request, @Param('id') id: string): Promise<ReadCategoryDto> {
+        return this.service.delete(id, request.user['id']);
     }
 
 }

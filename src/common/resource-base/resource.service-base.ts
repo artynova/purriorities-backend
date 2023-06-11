@@ -1,8 +1,8 @@
 import {Mapper} from '@automapper/core';
-import {BadRequestException, NotFoundException, Type} from '@nestjs/common';
+import {BadRequestException, ForbiddenException, NotFoundException, Type} from '@nestjs/common';
 import {validateOrReject} from 'class-validator';
 import {paginate, PaginateConfig, Paginated, PaginateQuery} from 'nestjs-paginate';
-import {FindOptionsWhere, Repository} from 'typeorm';
+import {FindManyOptions, FindOptionsWhere, Repository} from 'typeorm';
 import {buildErrorsString} from '../helpers/validation';
 import {ReadManyDtoBase} from './read-many.dto-base';
 import {Resource} from './resource.entity-base';
@@ -27,23 +27,23 @@ export class ResourceService<
 
     async create(createDto: CreateDto): Promise<ReadOneDto> {
         const inEntity = this.mapper.map(createDto, this.createDtoType, this.entityType); // valid because of dto validation
+
         return this.mapper.map(await this.repository.save(inEntity), this.entityType, this.readOneDtoType);
     }
 
     async readAll(query: PaginateQuery, userId?: string): Promise<ReadManyDto> {
-        const paginateConfig = {...this.paginateConfig};
-
-        if (userId) paginateConfig['userId'] = userId;
+        const findOptions: FindManyOptions = {
+            where: {userId: userId}
+        };
 
         return this.mapper.map(
-            await paginate(query, this.repository, paginateConfig),
+            await paginate(query, this.repository, {...this.paginateConfig, ...findOptions} as PaginateConfig<Entity>),
             Paginated<Entity>,
             this.readManyDtoType,
         );
     }
 
     async readOne(id: string, userId?: string): Promise<ReadOneDto> {
-        console.log(await this.findOneOrFail(id, userId))
         return this.mapper.map(await this.findOneOrFail(id, userId), this.entityType, this.readOneDtoType);
     }
 
@@ -51,27 +51,30 @@ export class ResourceService<
         const oldEntity = await this.findOneOrFail(id, userId);
         const inEntity = this.mapper.map(updateDto, this.updateDtoType, this.entityType);
         const newEntity: Entity = { ...oldEntity, ...inEntity };
+
         this.validateRequestOrFail(newEntity); // since dto is partial, this validation is needed
+
         return this.mapper.map(await this.repository.save(newEntity), this.entityType, this.readOneDtoType);
     }
 
     async delete(id: string, userId?: string): Promise<ReadOneDto> {
         const toRemove = await this.findOneOrFail(id, userId);
+
         return this.mapper.map(await this.repository.remove(toRemove), this.entityType, this.readOneDtoType);
     }
 
     protected async findOneOrFail(id: string, userId?: string): Promise<Entity> {
-        const findOptionsWhere = {
-            id
-        } as FindOptionsWhere<Entity>;
-
-        if(userId) findOptionsWhere['userId'] = userId;
-
         const out = await this.repository.findOne({
-            where: findOptionsWhere,
+            where: { id } as FindOptionsWhere<Entity>,
             relations: this.paginateConfig.relations,
         }); // a little help for typescript to figure out that, since id is present in Resource, id is also present in Entity
-        if (out === null) throw new NotFoundException('Required resource was not found in the database');
+
+        if (out === null)
+            throw new NotFoundException('Required resource was not found in the database');
+
+        if (userId && out['userId'] != userId)
+            throw new ForbiddenException("Cannot access and manipulate other users' data");
+
         return out;
     }
 

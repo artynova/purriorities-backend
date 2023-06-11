@@ -20,9 +20,6 @@ export class SkillsService extends ResourceService<Skill, CreateSkillDto, ReadSk
                 sortableColumns: ['id'],
                 defaultSortBy: [['id', 'DESC']],
                 select: ['id', 'name', 'level', 'levelExp'],
-                filterableColumns: {
-                    userId: [FilterOperator.EQ]
-                },
             },
             mapper,
             Skill,
@@ -30,21 +27,6 @@ export class SkillsService extends ResourceService<Skill, CreateSkillDto, ReadSk
             ReadSkillDto,
             ReadManySkillsDto,
             UpdateSkillDto,
-        );
-    }
-
-    async readAllForUser(userId: string, query: PaginateQuery): Promise<ReadManySkillsDto> {
-        const queryOptions: FindManyOptions = {
-            //relationLoadStrategy:
-            where: {
-                userId,
-            },
-        };
-
-        return this.mapper.map(
-            await paginate(query, this.repository, {...this.paginateConfig, ...queryOptions} as PaginateConfig<Skill>),
-            Paginated<Skill>,
-            ReadManySkillsDto,
         );
     }
 }
