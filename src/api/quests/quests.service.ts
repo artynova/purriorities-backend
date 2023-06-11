@@ -1,23 +1,29 @@
-import {ForbiddenException, Injectable} from "@nestjs/common";
-import {ResourceService} from "../../common/resource-base/resource.service-base";
-import {InjectRepository} from "@nestjs/typeorm";
-import {FindManyOptions, FindOneOptions, In, Repository} from "typeorm";
-import {InjectMapper} from "@automapper/nestjs";
-import {Mapper} from "@automapper/core";
-import {FilterOperator, paginate, PaginateConfig, Paginated, PaginateQuery} from "nestjs-paginate";
-import {Quest} from "./entities/quest.entity";
-import {CreateQuestDto} from "./dtos/create-quest.dto";
-import {ReadQuestDto} from "./dtos/read-quest.dto";
-import {ReadManyQuestsDto} from "./dtos/read-many-quests.dto";
-import {UpdateQuestDto} from "./dtos/update-quest.dto";
-import {Stage} from "../stages/stage.entity";
-import {Task} from "../tasks/task.entity";
-import {Category} from "../categories/category.entity";
-import {QuestSkill} from "./entities/quest-skill.entity";
-import {Skill} from "../skills/skill.entity";
+import { Mapper } from '@automapper/core';
+import { InjectMapper } from '@automapper/nestjs';
+import { ForbiddenException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FilterOperator, PaginateConfig, PaginateQuery, Paginated, paginate } from 'nestjs-paginate';
+import { FindManyOptions, FindOneOptions, In, Repository } from 'typeorm';
+import { ResourceService } from '../../common/resource-base/resource.service-base';
+import { Category } from '../categories/entities/category.entity';
+import { Skill } from '../skills/entities/skill.entity';
+import { Stage } from '../stages/entities/stage.entity';
+import { Task } from '../tasks/entities/task.entity';
+import { CreateQuestDto } from './dtos/create-quest.dto';
+import { ReadManyQuestsDto } from './dtos/read-many-quests.dto';
+import { ReadQuestDto } from './dtos/read-quest.dto';
+import { UpdateQuestDto } from './dtos/update-quest.dto';
+import { QuestSkill } from './entities/quest-skill.entity';
+import { Quest } from './entities/quest.entity';
 
 @Injectable()
-export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQuestDto, ReadManyQuestsDto, UpdateQuestDto> {
+export class QuestsService extends ResourceService<
+    Quest,
+    CreateQuestDto,
+    ReadQuestDto,
+    ReadManyQuestsDto,
+    UpdateQuestDto
+> {
     constructor(
         @InjectRepository(Quest) questRepository: Repository<Quest>,
         @InjectRepository(Task) private tasksRepository: Repository<Task>,
@@ -30,13 +36,13 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
         super(
             questRepository,
             {
-                relations: {questSkills: true},
+                relations: { questSkills: true },
                 sortableColumns: ['deadline'],
                 defaultSortBy: [['deadline', 'ASC']],
                 filterableColumns: {
                     categoryId: [FilterOperator.EQ],
                     finishDate: [FilterOperator.NULL],
-                    'questSkills.(skillId)': [FilterOperator.EQ]
+                    'questSkills.(skillId)': [FilterOperator.EQ],
                 },
             },
             mapper,
@@ -48,18 +54,16 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
         );
     }
 
-
     private authorize(expectedUserId: string, actualUserId: string, errorMsg?: string) {
-        if (expectedUserId !== actualUserId) throw new ForbiddenException(
-            errorMsg ?? 'Cannot access and modify someone else\'s quests'
-        );
+        if (expectedUserId !== actualUserId)
+            throw new ForbiddenException(errorMsg ?? "Cannot access and modify someone else's quests");
     }
 
     private async authorizeQuest(questId: string, userId: string) {
         const category = await this.categoriesRepository
             .createQueryBuilder('c')
             .leftJoinAndSelect('c.quests', 'q')
-            .where('q.id=:questId', {questId})
+            .where('q.id=:questId', { questId })
             .getOne();
 
         this.authorize(category.userId, userId);
@@ -67,8 +71,8 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
 
     private async authorizeCategory(categoryId: string, userId: string) {
         const category = await this.categoriesRepository.findOneOrFail({
-            select: {userId: true},
-            where: {id: categoryId}
+            select: { userId: true },
+            where: { id: categoryId },
         });
 
         this.authorize(category.userId, userId, "Cannot access someone else's categories");
@@ -76,9 +80,9 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
 
     private async authorizeSkill(skillId: string, userId) {
         const skill = await this.skillsRepository.findOneOrFail({
-            select: {userId: true},
-            where: {id: skillId}
-        })
+            select: { userId: true },
+            where: { id: skillId },
+        });
 
         this.authorize(skill.userId, userId, "Cannot access someone else's skills");
     }
@@ -91,18 +95,21 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
         }
 
         const quest = this.mapper.map(createDto, this.createDtoType, this.entityType);
-        const savedQuest = this.mapper.map(await this.repository.save(quest), this.entityType, this.readOneDtoType)
+        const savedQuest = this.mapper.map(await this.repository.save(quest), this.entityType, this.readOneDtoType);
 
         for (let i = 0; i < createDto.stages.length; i++) {
             const stage = createDto.stages[i];
             const savedStage = await this.stagesRepository.save({
-                ...stage, questId: savedQuest.id, index: i
+                ...stage,
+                questId: savedQuest.id,
+                index: i,
             });
             //console.log(savedStage)
 
             for (const task of stage.tasks) {
                 const savedTask = await this.tasksRepository.save({
-                    ...task, stageId: savedStage.id
+                    ...task,
+                    stageId: savedStage.id,
                 });
                 //console.log(savedTask)
             }
@@ -124,31 +131,31 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
     }
 
     async readAll(query: PaginateQuery, userId: string): Promise<ReadManyQuestsDto> {
-        const categoriesOfCurrentUser = await this.categoriesRepository.createQueryBuilder('c')
-            .where('c.userId=:userId', {userId})
+        const categoriesOfCurrentUser = await this.categoriesRepository
+            .createQueryBuilder('c')
+            .where('c.userId=:userId', { userId })
             .getMany();
 
-        const categoryIds = categoriesOfCurrentUser.map((category => category.id));
+        const categoryIds = categoriesOfCurrentUser.map((category) => category.id);
 
         const queryOptions: FindManyOptions<Quest> = {
             where: {
-                category: {id: In(categoryIds)}
+                category: { id: In(categoryIds) },
             },
             relations: {
                 stages: {
                     tasks: true,
                 },
-                questSkills: {skill: true},
+                questSkills: { skill: true },
                 category: true,
             },
         };
 
         return this.mapper.map(
-            await paginate(
-                query,
-                this.repository,
-                {...this.paginateConfig, ...queryOptions} as PaginateConfig<Quest>
-            ),
+            await paginate(query, this.repository, {
+                ...this.paginateConfig,
+                ...queryOptions,
+            } as PaginateConfig<Quest>),
             Paginated<Quest>,
             ReadManyQuestsDto,
         );
@@ -163,16 +170,12 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
                 stages: {
                     tasks: true,
                 },
-                questSkills: {skill: true},
+                questSkills: { skill: true },
                 category: true,
             },
         };
 
-        return this.mapper.map(
-            await this.repository.findOneOrFail(queryOptions),
-            Quest,
-            ReadQuestDto
-        );
+        return this.mapper.map(await this.repository.findOneOrFail(queryOptions), Quest, ReadQuestDto);
     }
 
     async update(id: string, updateDto: UpdateQuestDto, userId: string): Promise<ReadQuestDto> {

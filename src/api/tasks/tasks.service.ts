@@ -2,19 +2,18 @@ import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FilterOperator } from 'nestjs-paginate';
 import { Repository } from 'typeorm';
 import { ResourceService } from '../../common/resource-base/resource.service-base';
 import { QuestSkill } from '../quests/entities/quest-skill.entity';
 import { Quest } from '../quests/entities/quest.entity';
-import { Stage } from '../stages/stage.entity';
+import { Stage } from '../stages/entities/stage.entity';
 import { CompleteResponseDto } from './dtos/complete-response.dto';
 import { CreateTaskDto } from './dtos/create-task.dto';
 import { ReadManyTasksDto } from './dtos/read-many-tasks.dto';
 import { ReadTaskDto } from './dtos/read-task.dto';
 import { RefuseResponseDto } from './dtos/refuse-response.dto';
 import { UpdateTaskDto } from './dtos/update-task.dto';
-import { Task } from './task.entity';
+import { Task } from './entities/task.entity';
 
 @Injectable()
 export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskDto, ReadManyTasksDto, UpdateTaskDto> {

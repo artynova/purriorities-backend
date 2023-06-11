@@ -6,7 +6,7 @@ import { resolve } from 'path';
 import { Repository } from 'typeorm';
 import { loadObject } from '../../common/helpers/yaml';
 import { ResourceService } from '../../common/resource-base/resource.service-base';
-import { Category } from '../categories/category.entity';
+import { Category } from '../categories/entities/category.entity';
 import { Quest } from '../quests/entities/quest.entity';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { PunishmentDto } from './dtos/punishment.dto';

@@ -1,19 +1,25 @@
-import {Injectable} from "@nestjs/common";
-import {ResourceService} from "../../common/resource-base/resource.service-base";
+import { Injectable } from '@nestjs/common';
+import { ResourceService } from '../../common/resource-base/resource.service-base';
 
-import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
-import {InjectMapper} from "@automapper/nestjs";
-import {Mapper} from "@automapper/core";
-import {Stage} from "./stage.entity";
-import {CreateStageDto} from "./dtos/create-stage.dto";
-import {ReadStageDto} from "./dtos/read-stage.dto";
-import {ReadManyStagesDto} from "./dtos/read-many-stages.dto";
-import {UpdateStageDto} from "./dtos/update-stage.dto";
-import {TasksService} from "../tasks/tasks.service";
+import { Mapper } from '@automapper/core';
+import { InjectMapper } from '@automapper/nestjs';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { TasksService } from '../tasks/tasks.service';
+import { CreateStageDto } from './dtos/create-stage.dto';
+import { ReadManyStagesDto } from './dtos/read-many-stages.dto';
+import { ReadStageDto } from './dtos/read-stage.dto';
+import { UpdateStageDto } from './dtos/update-stage.dto';
+import { Stage } from './entities/stage.entity';
 
 @Injectable()
-export class StagesService extends ResourceService<Stage, CreateStageDto, ReadStageDto, ReadManyStagesDto, UpdateStageDto> {
+export class StagesService extends ResourceService<
+    Stage,
+    CreateStageDto,
+    ReadStageDto,
+    ReadManyStagesDto,
+    UpdateStageDto
+> {
     constructor(
         @InjectRepository(Stage) repository: Repository<Stage>,
         @InjectMapper() mapper: Mapper,

@@ -1,11 +1,11 @@
+import { AutoMap } from '@automapper/classes';
 import { Lateness, Priority } from 'src/common/types/enums';
 import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { getEditingLateness } from '../../../common/helpers/punishments';
 import { Resource } from '../../../common/resource-base/resource.entity-base';
-import { Category } from '../../categories/category.entity';
-import { Stage } from '../../stages/stage.entity';
+import { Category } from '../../categories/entities/category.entity';
+import { Stage } from '../../stages/entities/stage.entity';
 import { QuestSkill } from './quest-skill.entity';
-import {AutoMap} from "@automapper/classes";
 
 @Entity('quests')
 export class Quest extends Resource {
@@ -58,7 +58,7 @@ export class Quest extends Resource {
     finishDate?: Date;
 
     get editingLateness(): Lateness {
-        console.log(new Date(this.deadline))
+        console.log(new Date(this.deadline));
 
         if (!this.deadline) return Lateness.EARLY;
         return getEditingLateness(this.deadlineSetDate, new Date(this.deadline), new Date());

@@ -1,6 +1,6 @@
 import { AutoMap } from '@automapper/classes';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
-import { Skill } from '../../skills/skill.entity';
+import { Skill } from '../../skills/entities/skill.entity';
 import { Quest } from './quest.entity';
 
 @Entity('quest_skills')
