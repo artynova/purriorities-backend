@@ -1,6 +1,6 @@
 import {UpdateTaskDto} from "../../tasks/dtos/update-task.dto";
 import {Type} from "class-transformer";
-import {IsArray, IsInt, IsOptional, IsUUID, Min, ValidateNested} from "class-validator";
+import {IsArray, IsInt, IsNotEmpty, IsOptional, IsUUID, Min, ValidateNested} from "class-validator";
 import {AutoMap} from "@automapper/classes";
 
 // export class UpdateStageDto extends IntersectionType(
@@ -19,8 +19,14 @@ export class UpdateStageDto {
     id: string;
 
     @AutoMap()
+    @IsNotEmpty()
     @IsOptional()
     name?: string;
+
+    @AutoMap()
+    @IsInt()
+    @IsOptional()
+    index?: number;
 
     @AutoMap(() => [UpdateTaskDto])
     @IsArray()

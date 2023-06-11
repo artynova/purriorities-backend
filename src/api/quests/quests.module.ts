@@ -19,7 +19,7 @@ import {TasksMapper} from "../tasks/tasks.mapper";
 import {Skill} from "../skills/skill.entity";
 
 @Module({
-    imports: [TasksModule, StagesModule, TypeOrmModule.forFeature([Quest, Stage, Task, QuestSkill, Category, Skill])],
+    imports: [StagesModule, TypeOrmModule.forFeature([Task, Stage, Quest, QuestSkill, Category, Skill])],
     controllers: [QuestsController],
     providers: [QuestsService, StagesService, TasksService, QuestsMapper, TasksMapper, StagesMapper, SkillsMapper, CategoriesMapper, ],
 })

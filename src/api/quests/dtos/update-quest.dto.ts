@@ -14,6 +14,7 @@ import {
 } from 'class-validator';
 import { Priority } from '../../../common/types/enums';
 import { CreateStageDto } from '../../stages/dtos/create-stage.dto';
+import {UpdateStageDto} from "../../stages/dtos/update-stage.dto";
 
 // export class UpdateQuestDto extends IntersectionType(
 //     OmitType(PartialType(CreateQuestDto), ['stages']),
@@ -65,9 +66,9 @@ export class UpdateQuestDto {
     @IsOptional()
     skills?: string[];
 
-    @AutoMap(() => [CreateStageDto])
+    @AutoMap(() => [UpdateStageDto])
     @IsArray()
     @ValidateNested({ each: true })
-    @Type(() => CreateStageDto)
-    stages: CreateStageDto[];
+    @Type(() => UpdateStageDto)
+    stages: UpdateStageDto[];
 }

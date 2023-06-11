@@ -20,22 +20,22 @@ export class QuestsController {
     }
 
     @Post('')
-    async create(@Body() createQuestDto: CreateQuestDto): Promise<ReadQuestDto> {
-        return await this.service.create(createQuestDto);
+    async create(@Req() request: Request, @Body() createQuestDto: CreateQuestDto): Promise<ReadQuestDto> {
+        return await this.service.create(createQuestDto, request.user['id']);
     }
 
     @Get(':id')
-    async readOne(@Param('id') id: string): Promise<ReadQuestDto> {
-        return this.service.readOne(id);
+    async readOne(@Req() request: Request, @Param('id') id: string): Promise<ReadQuestDto> {
+        return this.service.readOne(id, request.user['id']);
     }
 
     @Patch(':id')
-    async update(@Param('id') id: string, @Body() updateQuestDto: UpdateQuestDto): Promise<ReadQuestDto> {
-        return this.service.update(id, updateQuestDto);
+    async update(@Req() request: Request, @Param('id') id: string, @Body() updateQuestDto: UpdateQuestDto): Promise<ReadQuestDto> {
+        return this.service.update(id, updateQuestDto, request.user['id']);
     }
 
     @Delete(':id')
-    async delete(@Param('id') id: string): Promise<ReadQuestDto> {
-        return this.service.delete(id);
+    async delete(@Req() request: Request, @Param('id') id: string): Promise<ReadQuestDto> {
+        return this.service.delete(id, request.user['id']);
     }
 }

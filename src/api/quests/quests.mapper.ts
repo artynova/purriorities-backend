@@ -28,8 +28,8 @@ export class QuestsMapper extends AutomapperProfile {
                 forMember((readQuestDto) => readQuestDto.skills,
                     mapFrom(quest => quest.questSkills?.map(qs => {
                                 return {
-                                    id: qs.skill.id,
-                                    name: qs.skill.name
+                                    id: qs.skill?.id,
+                                    name: qs.skill?.name
                                 }
                             }
                         )
@@ -40,6 +40,10 @@ export class QuestsMapper extends AutomapperProfile {
             createPaginatedToReadManyMap(mapper, Quest, ReadQuestDto, ReadManyQuestsDto);
             createMap(mapper, CreateQuestDto, Quest, stringToDateConverter);
             createMap(mapper, UpdateQuestDto, Quest, stringToDateConverter);
+            createMap(mapper, UpdateQuestDto, Quest, forMember(
+                (quest) => quest.categoryId,
+                mapFrom((updateQuestDto) => updateQuestDto.category)
+            ));
             createMap(mapper, QuestSkill, ReadSkillDto);
         };
     }
