@@ -52,7 +52,7 @@ export class ResourceService<
         const inEntity = this.mapper.map(updateDto, this.updateDtoType, this.entityType);
         const newEntity: Entity = { ...oldEntity, ...inEntity };
 
-        this.validateRequestOrFail(newEntity); // since dto is partial, this validation is needed
+        await this.validateRequestOrFail(newEntity); // since dto is partial, this validation is needed
 
         return this.mapper.map(await this.repository.save(newEntity), this.entityType, this.readOneDtoType);
     }

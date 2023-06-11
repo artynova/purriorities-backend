@@ -15,6 +15,10 @@ import {Task} from "../tasks/task.entity";
 import {Category} from "../categories/category.entity";
 import {QuestSkill} from "./entities/quest-skill.entity";
 import {Skill} from "../skills/skill.entity";
+import {CategoriesService} from "../categories/categories.service";
+import {ReadCategoryDto} from "../categories/dtos/read-category.dto";
+import {SkillsService} from "../skills/skills.service";
+import {ReadSkillDto} from "../skills/dtos/read-skill.dto";
 
 @Injectable()
 export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQuestDto, ReadManyQuestsDto, UpdateQuestDto> {
@@ -25,6 +29,8 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
         @InjectRepository(Category) private categoriesRepository: Repository<Category>,
         @InjectRepository(QuestSkill) private questSkillsRepository: Repository<QuestSkill>,
         @InjectRepository(Skill) private skillsRepository: Repository<Skill>,
+        private categoriesService: CategoriesService,
+        private skillsService: SkillsService,
         @InjectMapper() mapper: Mapper,
     ) {
         super(
@@ -48,13 +54,6 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
         );
     }
 
-
-    private authorize(expectedUserId: string, actualUserId: string, errorMsg?: string) {
-        if (expectedUserId !== actualUserId) throw new ForbiddenException(
-            errorMsg ?? 'Cannot access and modify someone else\'s quests'
-        );
-    }
-
     private async authorizeQuest(questId: string, userId: string) {
         const category = await this.categoriesRepository
             .createQueryBuilder('c')
@@ -62,25 +61,15 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
             .where('q.id=:questId', {questId})
             .getOne();
 
-        this.authorize(category.userId, userId);
+        await this.categoriesService.readOne(category.id, userId);
     }
 
     private async authorizeCategory(categoryId: string, userId: string) {
-        const category = await this.categoriesRepository.findOneOrFail({
-            select: {userId: true},
-            where: {id: categoryId}
-        });
-
-        this.authorize(category.userId, userId, "Cannot access someone else's categories");
+        await this.categoriesService.readOne(categoryId, userId);
     }
 
     private async authorizeSkill(skillId: string, userId) {
-        const skill = await this.skillsRepository.findOneOrFail({
-            select: {userId: true},
-            where: {id: skillId}
-        })
-
-        this.authorize(skill.userId, userId, "Cannot access someone else's skills");
+        await this.skillsService.readOne(skillId, userId);
     }
 
     async create(createDto: CreateQuestDto, userId?: string): Promise<ReadQuestDto> {
@@ -91,7 +80,19 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
         }
 
         const quest = this.mapper.map(createDto, this.createDtoType, this.entityType);
+        // const category = await this.categoriesRepository.findOneBy({id: quest.categoryId});
+        // const skills = await this.skillsRepository.findBy(
+        //     {id: In(createDto.skills)}
+        // );
+
         const savedQuest = this.mapper.map(await this.repository.save(quest), this.entityType, this.readOneDtoType)
+
+        // //TODO not sure how to access mappers from external services more correctly
+        // savedQuest.category = this.categoriesService.mapper.map(category, Category, ReadCategoryDto);
+        // savedQuest.skills = skills.map(skill =>
+        //     this.skillsService.mapper.map(skill, Skill, ReadSkillDto)
+        // );
+        // savedQuest.stages = [];
 
         for (let i = 0; i < createDto.stages.length; i++) {
             const stage = createDto.stages[i];
@@ -119,8 +120,7 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
             //console.log(savedSkill)
         }
 
-        //TODO should it also return all the new tasks and stages?
-        return savedQuest;
+        return await this.readOne(savedQuest.id, userId);
     }
 
     async readAll(query: PaginateQuery, userId: string): Promise<ReadManyQuestsDto> {
@@ -178,9 +178,7 @@ export class QuestsService extends ResourceService<Quest, CreateQuestDto, ReadQu
     async update(id: string, updateDto: UpdateQuestDto, userId: string): Promise<ReadQuestDto> {
         await this.authorizeQuest(id, userId);
 
-        //TODO finish this method!!!!!!!!!!!!!!!!!!1
-
-        // const quest = this.mapper.map(updateDto, this.updateDtoType, this.entityType);
+        const quest = this.mapper.map(updateDto, this.updateDtoType, this.entityType);
         // const updatedQuest = await super.update(id, updateDto);
         // console.log(updatedQuest)
         //

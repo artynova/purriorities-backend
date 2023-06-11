@@ -33,13 +33,6 @@ export class SkillsMapper extends AutomapperProfile {
             );
             createMap(mapper, Skill, ReadShortSkillDto);
             createPaginatedToReadManyMap(mapper, Skill, ReadSkillDto, ReadManySkillsDto);
-            createMap(mapper, QuestSkill, ReadSkillDto,
-                forMember(
-                    (readSkillDto) => readSkillDto.name,
-                    mapFrom(questSkill =>
-                        questSkill.skill.name,
-                    ),
-                ));
             createMap(mapper, CreateSkillDto, Skill);
             createMap(mapper, UpdateSkillDto, Skill);
         };
