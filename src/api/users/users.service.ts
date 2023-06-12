@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { loadObject } from '../../common/helpers/yaml';
 import { ResourceService } from '../../common/resource-base/resource.service-base';
 import { Category } from '../categories/entities/category.entity';
+import { QuestSkill } from '../quests/entities/quest-skill.entity';
 import { Quest } from '../quests/entities/quest.entity';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { PunishmentDto } from './dtos/punishment.dto';
@@ -27,7 +28,7 @@ export class UsersService extends ResourceService<User, CreateUserDto, ReadUserD
         @InjectRepository(User) repository: Repository<User>,
         @InjectMapper() mapper: Mapper,
         @InjectRepository(Category) private readonly categoryRepository: Repository<Category>,
-        @InjectRepository(Quest) private readonly questRepository: Repository<Quest>,
+        @InjectRepository(QuestSkill) private readonly questskillRepository: Repository<QuestSkill>,
     ) {
         super(
             repository,
@@ -56,6 +57,21 @@ export class UsersService extends ResourceService<User, CreateUserDto, ReadUserD
         await this.categoryRepository.save(noneCategory);
 
         return this.mapper.map(savedUser, User, ReadUserDto);
+    }
+
+    override async delete(id: string, userId?: string): Promise<ReadUserDto> {
+        // deleting the quest skills because otherwise their constraints cause deletion problems
+        const user = await this.repository.findOne({
+            where: { id },
+            relations: { categories: { quests: { questSkills: true } } },
+        });
+        for (const category of user.categories) {
+            for (const quest of category.quests) {
+                for (const questSkill of quest.questSkills) await this.questskillRepository.remove(questSkill);
+            }
+        }
+
+        return super.delete(id, userId);
     }
 
     async readOne(id: string): Promise<ReadUserDto> {
