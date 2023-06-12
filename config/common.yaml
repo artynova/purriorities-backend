@@ -52,13 +52,32 @@ logic:
         roundingIncrement: 0.01
   cases:
     common:
-      price: 100 # in feed
+      price: 3000 # in feed
       rarePercentage: 12
       legendaryPercentage: 3
     legendary:
       price: 20 # in catnip
       rarePercentage: 50
       legendaryPercentage: 30
+  rewards:
+    valuableMinutesCap: 600 # 10 hours, adding any more minutes to a single task does not increase its value further
+    # ids are quest priority ids
+    feedPerMinute:
+      0: 3
+      1: 5
+      2: 6
+    trustPerTask:
+      0: 1
+      1: 5
+      2: 10
+    mainExpPerMinute:
+      0: 0.45
+      1: 0.75
+      2: 1.05
+    catnipPerMainLevel: 3
+    skillExpPerMinute: 1
+    minorSkillFactor: 0.2 # static, cutting from major skill the more minor skills there are
+    catnipPerSkillLevel: 1
 
 openapi:
   title: Purriorities API

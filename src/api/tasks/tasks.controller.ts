@@ -1,7 +1,7 @@
 import { Controller, Param, Post, Req } from '@nestjs/common';
 import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { CompleteResponseDto } from './dtos/complete-response.dto';
+import { RewardDto } from '../users/dtos/reward.dto';
 import { RefuseResponseDto } from './dtos/refuse-response.dto';
 import { TasksService } from './tasks.service';
 
@@ -13,7 +13,7 @@ export class TasksController {
     constructor(private readonly service: TasksService) {}
 
     @Post(':id/complete')
-    async complete(@Param('id') id: string, @Req() request: Request): Promise<CompleteResponseDto> {
+    async complete(@Param('id') id: string, @Req() request: Request): Promise<RewardDto> {
         await this.service.validateOwner(id, request.user['id']);
         return this.service.complete(id);
     }

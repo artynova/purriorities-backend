@@ -1,29 +1,15 @@
-export class LevelingDto {
-    level: number;
-    exp: number;
-    cap: number;
-}
-
-export class SkillLevelingDto extends LevelingDto {
+export class SkillRewardDto {
     id: string;
+    levelExpGained = 0;
 }
 
 export class RewardDto {
-    mainLeveling: LevelingDto;
+    mainLevelExpGained = 0;
+    skillRewards: SkillRewardDto[] = [];
+    feedGained = 0;
+    catnipGained = 0;
     /**
-     * Only skills affected by the reward.
+     * Taking 100 cap into account
      */
-    skillLeveling: SkillLevelingDto[];
-    /**
-     * Value after getting the reward.
-     */
-    trust: number;
-    /**
-     * Value after getting the reward.
-     */
-    feed: number;
-    /**
-     * Value after getting the reward.
-     */
-    catnip: number;
+    trustGained = 0;
 }

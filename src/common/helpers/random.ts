@@ -8,13 +8,7 @@ export function randomIntInBounds(min: number, max: number) {
  * Element weights are uniform.
  */
 export function randomFromArray<T>(array: T[]) {
-    if (array === undefined) console.log('undefined array');
     const num = randomIntInBounds(0, array.length - 1);
-    if (array[num] === undefined) {
-        console.log('undefined elem ' + num);
-        console.log(array);
-    }
-
     return array[num];
 }
 

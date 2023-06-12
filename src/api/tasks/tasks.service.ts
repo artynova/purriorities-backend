@@ -3,11 +3,15 @@ import { InjectMapper } from '@automapper/nestjs';
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { getCompletedMinutes, getExpBoost, normalizeLevelable, taskFeedReward } from '../../common/helpers/rewards';
+import { LogicConfigService } from '../../common/processed-config/logic-config.service';
 import { ResourceService } from '../../common/resource-base/resource.service-base';
 import { QuestSkill } from '../quests/entities/quest-skill.entity';
 import { Quest } from '../quests/entities/quest.entity';
+import { Skill } from '../skills/entities/skill.entity';
 import { Stage } from '../stages/entities/stage.entity';
-import { CompleteResponseDto } from './dtos/complete-response.dto';
+import { RewardDto, SkillRewardDto } from '../users/dtos/reward.dto';
+import { User } from '../users/entities/user.entity';
 import { CreateTaskDto } from './dtos/create-task.dto';
 import { ReadManyTasksDto } from './dtos/read-many-tasks.dto';
 import { ReadTaskDto } from './dtos/read-task.dto';
@@ -23,6 +27,9 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
         @InjectRepository(Stage) private readonly stageRepository: Repository<Stage>,
         @InjectRepository(Quest) private readonly questRepository: Repository<Quest>,
         @InjectRepository(QuestSkill) private readonly questSkillRepository: Repository<QuestSkill>,
+        @InjectRepository(User) private readonly userRepository: Repository<User>,
+        @InjectRepository(Skill) private readonly skillRepository: Repository<Skill>,
+        private readonly logicConfig: LogicConfigService,
     ) {
         super(
             repository,
@@ -40,12 +47,86 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
         );
     }
 
-    async complete(id: string): Promise<CompleteResponseDto> {
+    async complete(id: string): Promise<RewardDto> {
         const task = await this.findOneWithUser(id);
-        const newQuest = await this.finish(task);
-        // TODO rewards
-        const response = new CompleteResponseDto();
-        return response;
+        task.completed = true;
+        await this.repository.save(task);
+
+        const quest = task.stage.quest;
+        const user = quest.category.user;
+        const reward = new RewardDto();
+
+        reward.feedGained = taskFeedReward(task, this.logicConfig);
+        user.feed += reward.feedGained;
+        reward.trustGained = Math.min(100 - user.trust, this.logicConfig.trustPerTask(quest.priority));
+        user.trust += reward.trustGained;
+
+        const questCompleted = await this.finish(task);
+        if (questCompleted) {
+            await this.processQuestCompletion(quest, reward);
+        }
+        user.catnip += reward.catnipGained;
+
+        await this.userRepository.save(user);
+        return reward;
+    }
+
+    private async processQuestCompletion(questWithUser: Quest, reward: RewardDto) {
+        const user = questWithUser.category.user; // acquire reference to the user that is beind modified by the operation
+        const fullQuest = await this.findFullQuest(questWithUser.id);
+
+        const completedMinutes = Math.min(getCompletedMinutes(fullQuest), this.logicConfig.valuableMinutesCap);
+        const expBoost = getExpBoost(fullQuest.category.user.catOwnerships, this.logicConfig);
+        const mainExpPerMinute = this.logicConfig.mainExpPerMinute(fullQuest.priority);
+        reward.mainLevelExpGained = (completedMinutes * mainExpPerMinute * (100 + expBoost)) / 100;
+
+        const oldLevel = user.level;
+        user.levelExp += reward.mainLevelExpGained;
+        normalizeLevelable(user, this.logicConfig.mainExpFormula);
+
+        const levelsGained = user.level - oldLevel;
+        reward.catnipGained = levelsGained * this.logicConfig.catnipPerMainLevel;
+
+        await this.processQuestSkills(fullQuest.questSkills, completedMinutes, reward);
+        await this.tryScheduleNext(fullQuest);
+    }
+
+    private async findFullQuest(id: string) {
+        return this.questRepository.findOne({
+            where: { id },
+            relations: {
+                stages: { tasks: true },
+                questSkills: { skill: true },
+                category: { user: { catOwnerships: { cat: true } } },
+            },
+            withDeleted: true,
+        });
+    }
+
+    private async processQuestSkills(questSkills: QuestSkill[], questCompletedMinutes: number, reward: RewardDto) {
+        if (questSkills.length === 0) return;
+
+        const totalSkillReward = questCompletedMinutes * this.logicConfig.skillExpPerMinute;
+        const minorSkillReward = totalSkillReward * this.logicConfig.minorSkillFactor;
+        for (const questSkill of questSkills) {
+            const skill = questSkill.skill;
+            const skillReward = new SkillRewardDto();
+            skillReward.id = skill.id;
+            skillReward.levelExpGained =
+                questSkill.index === 0
+                    ? totalSkillReward - minorSkillReward * (questSkills.length - 1)
+                    : minorSkillReward;
+            reward.skillRewards.push(skillReward);
+
+            const oldSkillLevel = skill.level;
+            skill.levelExp += skillReward.levelExpGained;
+            normalizeLevelable(skill, this.logicConfig.skillExpFormula);
+
+            const skillLevelsGained = skill.level - oldSkillLevel;
+            reward.catnipGained += skillLevelsGained * this.logicConfig.catnipPerSkillLevel;
+
+            await this.skillRepository.save(skill);
+        }
     }
 
     async refuse(id: string): Promise<RefuseResponseDto> {
@@ -56,62 +137,61 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
         return response;
     }
 
-    private async finish(task: Task): Promise<void> {
+    /**
+     * @returns whether finishing the task also finished the quest
+     */
+    private async finish(task: Task): Promise<boolean> {
         await this.repository.softRemove(task);
         const remainingTasks = await this.repository.findBy({ stageId: task.stageId }); // results do not include soft-deleted (= finished) tasks
-        if (remainingTasks.length) return null;
+        if (remainingTasks.length) return false;
         await this.stageRepository.softRemove(task.stage);
         const remainingStages = await this.stageRepository.findBy({ questId: task.stage.questId });
-        if (remainingStages.length) return null;
+        if (remainingStages.length) return false;
         await this.questRepository.softRemove(task.stage.quest);
-        await this.tryScheduleNext(task.stage.quest);
+        return true;
     }
 
-    private async tryScheduleNext(quest: Quest): Promise<void> {
-        if (quest.deadline === null) return null;
-        quest.deadline.setDate(quest.deadline.getDate() + quest.interval); // schedule the new copy
-        if (quest.limit !== null && quest.limit < quest.deadline) return null;
-        const oldQuestId = quest.id;
-        quest.id = undefined;
-        quest.finishDate = null;
-        const savedQuest = await this.questRepository.save(quest);
-        await this.saveQuestSkillCopies(savedQuest, oldQuestId);
-        await this.saveStageCopies(savedQuest, oldQuestId);
+    private async tryScheduleNext(fullQuest: Quest): Promise<void> {
+        if (fullQuest.deadline === null) return;
+        fullQuest.deadline.setDate(fullQuest.deadline.getDate() + fullQuest.interval); // schedule the new copy
+        if (fullQuest.limit !== null && fullQuest.limit < fullQuest.deadline) return;
+        fullQuest.id = undefined;
+        fullQuest.finishDate = null;
+        const questSkills = fullQuest.questSkills;
+        fullQuest.questSkills = null;
+        const stages = fullQuest.stages;
+        fullQuest.stages = null; // fix for very weird behaviour: typeorm cascade-updates relations, but does not cascade-create them, so it is necessary to manually remember the stages array and save the quest without stages temporarily
+        const savedQuest = await this.questRepository.save(fullQuest);
+        await this.saveQuestSkillCopies(savedQuest.id, questSkills);
+        await this.saveStageCopies(savedQuest.id, stages);
     }
 
-    private async saveQuestSkillCopies(quest: Quest, oldId: string) {
-        const questSkills = await this.questSkillRepository.find({ where: { questId: oldId } });
-        quest.questSkills = [];
+    private async saveQuestSkillCopies(questId: string, questSkills: QuestSkill[]) {
         for (const questSkill of questSkills) {
-            questSkill.questId = quest.id;
-            const savedQuestSkill = await this.questSkillRepository.save(questSkill);
-            quest.questSkills.push(savedQuestSkill);
+            questSkill.questId = questId;
+            await this.questSkillRepository.save(questSkill);
         }
     }
 
-    private async saveStageCopies(quest: Quest, oldId: string) {
-        quest.stages = [];
-        const allStages = await this.stageRepository.find({ where: { questId: oldId }, withDeleted: true });
-        for (const stage of allStages) {
-            const oldStageId = stage.id;
+    private async saveStageCopies(questId: string, stages: Stage[]) {
+        for (const stage of stages) {
             stage.id = undefined;
-            stage.questId = quest.id;
+            stage.questId = questId;
             stage.finishDate = null; // unfinish the copy
+            const tasks = stage.tasks;
+            stage.tasks = null; // same trick as above
             const savedStage = await this.stageRepository.save(stage);
-            quest.stages.push(savedStage);
-            await this.saveTaskCopies(savedStage, oldStageId);
+            await this.saveTaskCopies(savedStage.id, tasks);
         }
     }
 
-    private async saveTaskCopies(stage: Stage, oldId: string) {
-        stage.tasks = [];
-        const allStageTasks = await this.repository.find({ where: { stageId: oldId }, withDeleted: true });
-        for (const task of allStageTasks) {
+    private async saveTaskCopies(stageId: string, tasks: Task[]) {
+        for (const task of tasks) {
             task.id = undefined;
-            task.stageId = stage.id;
+            task.stageId = stageId;
             task.finishDate = null; // unfinish the copy
-            const savedTask = await this.repository.save(task);
-            stage.tasks.push(savedTask);
+            task.completed = null;
+            await this.repository.save(task);
         }
     }
 

@@ -1,12 +1,13 @@
 import { AutoMap } from '@automapper/classes';
 import { Column, CreateDateColumn, Entity, OneToMany } from 'typeorm';
+import { ExperienceLevelable } from '../../../common/helpers/rewards';
 import { Resource } from '../../../common/resource-base/resource.entity-base';
 import { Category } from '../../categories/entities/category.entity';
 import { CatOwnership } from '../../cats/entities/cat-ownership.entity';
 import { Skill } from '../../skills/entities/skill.entity';
 
 @Entity('users')
-export class User extends Resource {
+export class User extends Resource implements ExperienceLevelable {
     /**
      * @example StepanBandera19
      */
@@ -34,8 +35,12 @@ export class User extends Resource {
      * @example 150
      */
     @AutoMap()
-    @Column({ default: 0 })
+    @Column({ type: 'double precision', default: 0 })
     levelExp: number;
+
+    @AutoMap(() => [Category])
+    @OneToMany(() => Category, (category) => category.user)
+    categories: Category[];
 
     @AutoMap(() => [Skill])
     @OneToMany(() => Skill, (skill) => skill.user)
@@ -55,10 +60,6 @@ export class User extends Resource {
 
     @Column({ default: () => 'CURRENT_TIMESTAMP' })
     lastPunishmentCheckDate: Date;
-
-    @AutoMap(() => [Category])
-    @OneToMany(() => Category, (category) => category.user)
-    categories: Category[];
 
     @AutoMap(() => [CatOwnership])
     @OneToMany(() => CatOwnership, (catOwnership) => catOwnership.user)

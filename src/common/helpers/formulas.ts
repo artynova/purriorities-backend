@@ -27,6 +27,6 @@ export function getLevelCap(level: number, expFormula: ExpFormula) {
     return expFormula(level + 1) - expFormula(level);
 }
 
-function roundForIncrement(value: number, increment: number) {
+export function roundForIncrement(value: number, increment: number) {
     return Math.round(value / increment) * increment;
 }
