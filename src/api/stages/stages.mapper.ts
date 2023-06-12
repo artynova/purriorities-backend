@@ -1,4 +1,4 @@
-import { Mapper, createMap } from '@automapper/core';
+import { Mapper, createMap, forMember, mapFrom } from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { Injectable } from '@nestjs/common';
 import { createPaginatedToReadManyMap } from '../../common/helpers/mapping';
@@ -16,7 +16,15 @@ export class StagesMapper extends AutomapperProfile {
 
     override get profile() {
         return (mapper) => {
-            createMap(mapper, Stage, ReadStageDto);
+            createMap(
+                mapper,
+                Stage,
+                ReadStageDto,
+                forMember(
+                    (readStageDto) => readStageDto.finished,
+                    mapFrom((stage) => stage.finishDate !== null),
+                ),
+            );
             createPaginatedToReadManyMap(mapper, Stage, ReadStageDto, ReadManyStagesDto);
             createMap(mapper, CreateStageDto, Stage);
             createMap(mapper, UpdateStageDto, Stage);

@@ -1,5 +1,5 @@
-import {ReadTaskDto} from "../../tasks/dtos/read-task.dto";
-import {AutoMap} from "@automapper/classes";
+import { AutoMap } from '@automapper/classes';
+import { ReadTaskDto } from '../../tasks/dtos/read-task.dto';
 
 // export class ReadStageDto extends PickType(Stage, [
 //     'id',
@@ -31,6 +31,5 @@ export class ReadStageDto {
     @AutoMap(() => [ReadTaskDto])
     tasks: ReadTaskDto[];
 
-    @AutoMap()
-    isFinished: boolean;
+    finished: boolean;
 }

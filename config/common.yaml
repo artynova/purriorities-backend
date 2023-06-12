@@ -2,11 +2,10 @@
 logic:
   questHistoryLimit: 90 # for how many days soft-deleted quests are retained
   punishments:
-    # in trust percents; order: for early change, for late change, for change when already overdue
+    # in trust percents; order: for early change, for change when overdue
     changeDeadline:
-      - 0
-      - 1
-      - 2
+      0: 0
+      1: 2
   formulas:
     userLeveling:
       main:
