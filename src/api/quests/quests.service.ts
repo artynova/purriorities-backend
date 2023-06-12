@@ -48,6 +48,7 @@ export class QuestsService extends ResourceService<
                     finishDate: [FilterOperator.NULL],
                     'questSkills.(skillId)': [FilterOperator.EQ],
                 },
+                withDeleted: true,
             },
             mapper,
             Quest,
@@ -58,7 +59,7 @@ export class QuestsService extends ResourceService<
         );
     }
 
-    private async authorizeQuest(questId: string, userId: string) {
+    private async checkAccessToQuest(questId: string, userId: string) {
         const category = await this.categoriesRepository
             .createQueryBuilder('c')
             .leftJoinAndSelect('c.quests', 'q')
@@ -70,19 +71,19 @@ export class QuestsService extends ResourceService<
         await this.categoriesService.readOne(category.id, userId);
     }
 
-    private async authorizeCategory(categoryId: string, userId: string) {
+    private async checkAccessToCategory(categoryId: string, userId: string) {
         await this.categoriesService.readOne(categoryId, userId);
     }
 
-    private async authorizeSkill(skillId: string, userId) {
+    private async checkAccessToSkill(skillId: string, userId) {
         await this.skillsService.readOne(skillId, userId);
     }
 
     async create(createDto: CreateQuestDto, userId?: string): Promise<ReadQuestDto> {
-        await this.authorizeCategory(createDto.category, userId);
+        await this.checkAccessToCategory(createDto.category, userId);
 
         for (const skillId of createDto.skills) {
-            await this.authorizeSkill(skillId, userId);
+            await this.checkAccessToSkill(skillId, userId);
         }
 
         const quest = this.mapper.map(createDto, this.createDtoType, this.entityType);
@@ -159,7 +160,7 @@ export class QuestsService extends ResourceService<
     }
 
     async readOne(id: string, userId: string): Promise<ReadQuestDto> {
-        await this.authorizeQuest(id, userId);
+        await this.checkAccessToQuest(id, userId);
 
         const queryOptions: FindOneOptions<Quest> = {
             where: { id },
@@ -170,13 +171,15 @@ export class QuestsService extends ResourceService<
                 questSkills: { skill: true },
                 category: true,
             },
+            //TODO make it work so that finished quests are also returned
+            //withDeleted: true,
         };
 
         return this.mapper.map(await this.repository.findOneOrFail(queryOptions), Quest, ReadQuestDto);
     }
 
     async update(id: string, updateDto: UpdateQuestDto, userId: string): Promise<ReadQuestDto> {
-        await this.authorizeQuest(id, userId);
+        await this.checkAccessToQuest(id, userId);
 
         const quest = this.mapper.map(updateDto, this.updateDtoType, this.entityType);
         // const updatedQuest = await super.update(id, updateDto);
@@ -219,7 +222,7 @@ export class QuestsService extends ResourceService<
     }
 
     async delete(id: string, userId: string): Promise<ReadQuestDto> {
-        await this.authorizeQuest(id, userId);
+        await this.checkAccessToQuest(id, userId);
 
         return super.delete(id);
     }
