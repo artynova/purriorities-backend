@@ -31,7 +31,8 @@ export class QuestsMapper extends AutomapperProfile {
                 mapper,
                 Quest,
                 ReadQuestDto,
-                forMember<Quest, ReadQuestDto, ReadSkillDto[]>((readQuestDto) => readQuestDto.skills,
+                forMember<Quest, ReadQuestDto, ReadSkillDto[]>(
+                    (readQuestDto) => readQuestDto.skills,
                     mapFrom(quest => quest.questSkills?.map(qs =>
                             this.mapper.map(qs, QuestSkill, ReadSkillDto)
                         )
@@ -61,19 +62,19 @@ export class QuestsMapper extends AutomapperProfile {
             createMap(mapper, QuestSkill, ReadSkillDto,
                 forMember<QuestSkill, ReadSkillDto, string>(
                     (readSkillDto) => readSkillDto.name,
-                    mapFrom(questSkill => questSkill.skill.name,),
+                    mapFrom(questSkill => questSkill?.skill.name,),
                 ),
                 forMember<QuestSkill, ReadSkillDto, string>(
                     (readSkillDto) => readSkillDto.id,
-                    mapFrom(questSkill => questSkill.skill.id,),
+                    mapFrom(questSkill => questSkill?.skill.id,),
                 ),
                 forMember<QuestSkill, ReadSkillDto, number>(
                     (readSkillDto) => readSkillDto.level,
-                    mapFrom(questSkill => questSkill.skill.level,),
+                    mapFrom(questSkill => questSkill?.skill.level,),
                 ),
                 forMember<QuestSkill, ReadSkillDto, number>(
                     (readSkillDto) => readSkillDto.levelExp,
-                    mapFrom(questSkill => questSkill.skill.levelExp,),
+                    mapFrom(questSkill => questSkill?.skill.levelExp,),
                 ),
                 forMember<QuestSkill, ReadSkillDto, number>(
                     (readSkillDto) => readSkillDto.levelCap,

@@ -1,4 +1,4 @@
-import {Injectable} from "@nestjs/common";
+import {Injectable, NotFoundException} from "@nestjs/common";
 import {ResourceService} from "../../common/resource-base/resource.service-base";
 import {InjectRepository} from "@nestjs/typeorm";
 import {FindManyOptions, FindOneOptions, In, Repository} from "typeorm";
@@ -64,6 +64,8 @@ export class QuestsService extends ResourceService<
             .leftJoinAndSelect('c.quests', 'q')
             .where('q.id=:questId', { questId })
             .getOne();
+
+        if (!category) throw new NotFoundException('Such quest does not exist');
 
         await this.categoriesService.readOne(category.id, userId);
     }
