@@ -48,7 +48,6 @@ export class QuestsService extends ResourceService<
                     finishDate: [FilterOperator.NULL],
                     'questSkills.(skillId)': [FilterOperator.EQ],
                 },
-                withDeleted: true,
             },
             mapper,
             Quest,
@@ -147,6 +146,7 @@ export class QuestsService extends ResourceService<
                 questSkills: { skill: true },
                 category: true,
             },
+            withDeleted: true,
         };
 
         return this.mapper.map(
@@ -178,48 +178,16 @@ export class QuestsService extends ResourceService<
         return this.mapper.map(await this.repository.findOneOrFail(queryOptions), Quest, ReadQuestDto);
     }
 
-    async update(id: string, updateDto: UpdateQuestDto, userId: string): Promise<ReadQuestDto> {
-        await this.checkAccessToQuest(id, userId);
-
-        const quest = this.mapper.map(updateDto, this.updateDtoType, this.entityType);
-        // const updatedQuest = await super.update(id, updateDto);
-        // console.log(updatedQuest)
-        //
-        // for (let i = 0; i < updateDto.stages.length; i++) {
-        //     const stage = updateDto.stages[i];
-        //     const updatedStage = await this.stagesService.update(stage.id, {...stage, index: i});
-        //     console.log(updatedStage)
-        //
-        //     for (const task of stage.tasks) {
-        //         const updatedTask = await this.tasksService.update(task.id, task);
-        //         console.log(updatedTask)
-        //     }
-        // }
-        //
-        // const skillIds = updatedQuest.skills.map(skill => skill.id);
-        // await this.questSkillsRepository.remove(
-        //     await this.questSkillsRepository.find({
-        //         where: {
-        //             questId: updatedQuest.id,
-        //             skillId: Not(In(skillIds)),
-        //         }
-        //     })
-        // );
-        //
-        // for (let i = 0; i < updateDto.skills.length; i++) {
-        //     const skillId = updateDto.skills[i];
-        //     const updatedSkill = await this.questSkillsRepository.save({
-        //         questId: quest.id,
-        //         skillId: skillId,
-        //         index: i,
-        //     });
-        //     console.log(updatedSkill)
-        // }
-        //
-        // return updatedQuest;
-
-        return super.update(id, updateDto);
-    }
+    // async update(id: string, updateDto: UpdateQuestDto, userId: string): Promise<ReadQuestDto> {
+    //     await this.checkAccessToQuest(id, userId);
+    //
+    //     const quest = this.mapper.map(updateDto, this.updateDtoType, this.entityType);
+    //     const updatedQuest = await super.update(id, updateDto);
+    //     console.log(updatedQuest)
+    //
+    //     return await this.readOne(updatedQuest.id, userId);
+    //
+    // }
 
     async delete(id: string, userId: string): Promise<ReadQuestDto> {
         await this.checkAccessToQuest(id, userId);

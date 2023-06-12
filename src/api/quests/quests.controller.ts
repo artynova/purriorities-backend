@@ -29,10 +29,10 @@ export class QuestsController {
         return this.service.readOne(id, request.user['id']);
     }
 
-    @Patch(':id')
-    async update(@Req() request: Request, @Param('id') id: string, @Body() updateQuestDto: UpdateQuestDto): Promise<ReadQuestDto> {
-        return this.service.update(id, updateQuestDto, request.user['id']);
-    }
+    // @Patch(':id')
+    // async update(@Req() request: Request, @Param('id') id: string, @Body() updateQuestDto: UpdateQuestDto): Promise<ReadQuestDto> {
+    //     return this.service.update(id, updateQuestDto, request.user['id']);
+    // }
 
     @Delete(':id')
     async delete(@Req() request: Request, @Param('id') id: string): Promise<ReadQuestDto> {
