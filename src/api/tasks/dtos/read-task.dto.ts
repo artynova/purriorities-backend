@@ -1,4 +1,4 @@
-import {AutoMap} from "@automapper/classes";
+import { AutoMap } from '@automapper/classes';
 
 // export class ReadTaskDto extends PickType(Task, [
 //     'id',
@@ -23,5 +23,5 @@ export class ReadTaskDto {
     stageId: string;
 
     @AutoMap()
-    isFinished: boolean;
+    completed: boolean;
 }
