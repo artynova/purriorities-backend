@@ -1,6 +1,5 @@
 export enum Lateness {
     EARLY,
-    LATE,
     OVERDUE,
 }
 export enum Priority {
