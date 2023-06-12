@@ -56,7 +56,7 @@ export class Quest extends Resource {
     @DeleteDateColumn({ default: null })
     finishDate?: Date;
 
-    get editingLateness(): Lateness {
+    get lateness(): Lateness {
         if (!this.deadline || new Date() <= this.deadline) return Lateness.EARLY;
         return Lateness.OVERDUE;
     }

@@ -17,10 +17,6 @@ import { CaseSettings } from '../types/random';
 export class LogicConfigService {
     constructor(private configService: ConfigService) {}
 
-    editingPenalty(lateness: Lateness) {
-        return this.configService.get<number[]>('logic.punishments.changeDeadline')[lateness];
-    }
-
     get mainExpFormula(): ExpFormula {
         const settings = this.configService.get<ExpFormulaSettings>('logic.formulas.userLeveling.main');
         return exponentialProgression(settings.levelFactor, settings.growthRate, settings.roundingIncrement);
@@ -100,5 +96,13 @@ export class LogicConfigService {
 
     get catnipPerSkillLevel() {
         return this.configService.get<number>('logic.rewards.catnipPerSkillLevel');
+    }
+
+    refuseTaskTrust(lateness: Lateness) {
+        return this.configService.get<number[]>('logic.punishments.refuseTaskTrust')[lateness];
+    }
+
+    runawayFeedLossFactor(rarity: Rarity) {
+        return this.configService.get<number[]>('logic.punishments.runawayFeedLossFactor')[rarity];
     }
 }

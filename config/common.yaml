@@ -1,11 +1,6 @@
 ---
 logic:
   questHistoryLimit: 90 # for how many days soft-deleted quests are retained
-  punishments:
-    # in trust percents; order: for early change, for change when overdue
-    changeDeadline:
-      0: 0
-      1: 2
   formulas:
     userLeveling:
       main:
@@ -67,8 +62,8 @@ logic:
       2: 6
     trustPerTask:
       0: 1
-      1: 5
-      2: 10
+      1: 4
+      2: 8
     mainExpPerMinute:
       0: 0.45
       1: 0.75
@@ -77,6 +72,15 @@ logic:
     skillExpPerMinute: 1
     minorSkillFactor: 0.2 # static, cutting from major skill the more minor skills there are
     catnipPerSkillLevel: 1
+  punishments:
+    # in trust percents; order: for early refuse, for refuse when quest is overdue
+    refuseTaskTrust:
+      0: 0
+      1: 8
+    runawayFeedLossFactor:
+      0: 0.1
+      1: 0.25
+      2: 0.5
 
 openapi:
   title: Purriorities API

@@ -1,14 +1,15 @@
 export class OverdueQuestDto {
     id: string;
-    totalTrustLost: number;
+    totalTrustLost = 0;
 }
 
 export class RunawayCatDto {
     nameId: string;
-    feedTaken: number;
+    feedTaken = 0;
 }
 
 export class PunishmentDto {
-    overdueQuests: OverdueQuestDto[];
-    runawayCats: RunawayCatDto[];
+    overdueQuests: OverdueQuestDto[] = [];
+    runawayCats: RunawayCatDto[] = [];
+    extraTrustLost = 0;
 }

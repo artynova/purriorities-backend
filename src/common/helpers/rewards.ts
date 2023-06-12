@@ -34,6 +34,16 @@ export function normalizeLevelable(levelable: ExperienceLevelable, formula: ExpF
     }
 }
 
+/**
+ * @returns number of full added levels (difference between old and new level)
+ */
+export function addExperienceProper(exp: number, levelable: ExperienceLevelable, formula: ExpFormula) {
+    levelable.levelExp += exp;
+    const oldLevel = levelable.level;
+    normalizeLevelable(levelable, formula);
+    return levelable.level - oldLevel;
+}
+
 export function getExpBoost(catOwnerships: CatOwnership[], logicConfig: LogicConfigService) {
     let cumulative = 0;
     for (const catOwnership of catOwnerships) {

@@ -61,6 +61,9 @@ export class User extends Resource implements ExperienceLevelable {
     @Column({ default: () => 'CURRENT_TIMESTAMP' })
     lastPunishmentCheckDate: Date;
 
+    @Column({ default: () => "NOW() - INTERVAL '1 DAY'" }) // last runaway on the "previous day" before registration, thus allowing the system to punish the user normally starting from the first actual day
+    lastRunawayDate: Date;
+
     @AutoMap(() => [CatOwnership])
     @OneToMany(() => CatOwnership, (catOwnership) => catOwnership.user)
     catOwnerships: CatOwnership[];

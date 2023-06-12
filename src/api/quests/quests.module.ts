@@ -20,9 +20,14 @@ import { Quest } from './entities/quest.entity';
 import { QuestsController } from './quests.controller';
 import { QuestsMapper } from './quests.mapper';
 import { QuestsService } from './quests.service';
+import { CatOwnership } from '../cats/entities/cat-ownership.entity';
+import { Cat } from '../cats/entities/cat.entity';
 
 @Module({
-    imports: [StagesModule, TypeOrmModule.forFeature([Task, Stage, Quest, QuestSkill, Category, Skill, User])],
+    imports: [
+        StagesModule,
+        TypeOrmModule.forFeature([Task, Stage, Quest, QuestSkill, Category, Skill, User, CatOwnership, Cat]),
+    ],
     controllers: [QuestsController],
     providers: [
         QuestsService,
