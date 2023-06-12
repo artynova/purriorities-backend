@@ -1,11 +1,12 @@
 import { AutoMap } from '@automapper/classes';
 import { Column, Entity, JoinColumn, ManyToOne, Unique } from 'typeorm';
+import { ExperienceLevelable } from '../../../common/helpers/rewards';
 import { Resource } from '../../../common/resource-base/resource.entity-base';
 import { User } from '../../users/entities/user.entity';
 
 @Entity('skills')
 @Unique(['userId', 'name'])
-export class Skill extends Resource {
+export class Skill extends Resource implements ExperienceLevelable {
     @AutoMap()
     @Column()
     userId: string;
@@ -27,6 +28,6 @@ export class Skill extends Resource {
     level: number;
 
     @AutoMap()
-    @Column({ default: 0 })
+    @Column({ type: 'double precision', default: 0 })
     levelExp: number;
 }

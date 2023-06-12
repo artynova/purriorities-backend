@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { boundedProgression, exponentialProgression } from '../helpers/formulas';
 import { weightedRandom } from '../helpers/random';
-import { Lateness, Rarity } from '../types/enums';
+import { Lateness, Priority, Rarity } from '../types/enums';
 import {
     BoostFormula,
     BoostFormulaSettings,
@@ -68,5 +68,37 @@ export class LogicConfigService {
             { option: Rarity.RARE, weight: caseSettings.rarePercentage },
             { option: Rarity.LEGENDARY, weight: caseSettings.legendaryPercentage },
         ]);
+    }
+
+    get valuableMinutesCap() {
+        return this.configService.get<number>('logic.rewards.valuableMinutesCap');
+    }
+
+    feedPerMinute(priority: Priority) {
+        return this.configService.get<number[]>('logic.rewards.feedPerMinute')[priority];
+    }
+
+    trustPerTask(priority: Priority) {
+        return this.configService.get<number[]>('logic.rewards.trustPerTask')[priority];
+    }
+
+    mainExpPerMinute(priority: Priority) {
+        return this.configService.get<number[]>('logic.rewards.mainExpPerMinute')[priority];
+    }
+
+    get skillExpPerMinute() {
+        return this.configService.get<number>('logic.rewards.skillExpPerMinute');
+    }
+
+    get minorSkillFactor() {
+        return this.configService.get<number>('logic.rewards.minorSkillFactor');
+    }
+
+    get catnipPerMainLevel() {
+        return this.configService.get<number>('logic.rewards.catnipPerMainLevel');
+    }
+
+    get catnipPerSkillLevel() {
+        return this.configService.get<number>('logic.rewards.catnipPerSkillLevel');
     }
 }
