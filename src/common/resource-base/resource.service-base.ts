@@ -1,11 +1,11 @@
-import {Mapper} from '@automapper/core';
-import {BadRequestException, ForbiddenException, NotFoundException, Type} from '@nestjs/common';
-import {validateOrReject} from 'class-validator';
-import {paginate, PaginateConfig, Paginated, PaginateQuery} from 'nestjs-paginate';
-import {FindManyOptions, FindOptionsWhere, Repository} from 'typeorm';
-import {buildErrorsString} from '../helpers/validation';
-import {ReadManyDtoBase} from './read-many.dto-base';
-import {Resource} from './resource.entity-base';
+import { Mapper } from '@automapper/core';
+import { BadRequestException, ForbiddenException, NotFoundException, Type } from '@nestjs/common';
+import { validateOrReject } from 'class-validator';
+import { paginate, PaginateConfig, Paginated, PaginateQuery } from 'nestjs-paginate';
+import { FindManyOptions, FindOptionsWhere, Repository } from 'typeorm';
+import { buildErrorsString } from '../helpers/validation';
+import { ReadManyDtoBase } from './read-many.dto-base';
+import { Resource } from './resource.entity-base';
 
 export class ResourceService<
     Entity extends Resource,
@@ -33,11 +33,14 @@ export class ResourceService<
 
     async readAll(query: PaginateQuery, userId?: string): Promise<ReadManyDto> {
         const findOptions: FindManyOptions = {
-            where: {userId: userId}
+            where: { userId: userId },
         };
 
         return this.mapper.map(
-            await paginate(query, this.repository, {...this.paginateConfig, ...findOptions} as PaginateConfig<Entity>),
+            await paginate(query, this.repository, {
+                ...this.paginateConfig,
+                ...findOptions,
+            } as PaginateConfig<Entity>),
             Paginated<Entity>,
             this.readManyDtoType,
         );
@@ -71,8 +74,7 @@ export class ResourceService<
             where: { id } as FindOptionsWhere<Entity>,
         }); // a little help for typescript to figure out that, since id is present in Resource, id is also present in Entity
 
-        if (out === null)
-            throw new NotFoundException('Required resource was not found in the database');
+        if (out === null) throw new NotFoundException('Required resource was not found in the database');
 
         if (userId && out['userId'] != userId)
             throw new ForbiddenException("Cannot access and manipulate other users' data");

@@ -1,23 +1,23 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { ResourceService } from '../../common/resource-base/resource.service-base';
-import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, FindOneOptions, In, IsNull, Not, Repository } from 'typeorm';
-import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
-import { FilterOperator, paginate, PaginateConfig, Paginated, PaginateQuery } from 'nestjs-paginate';
-import { Quest } from './entities/quest.entity';
-import { CreateQuestDto } from './dtos/create-quest.dto';
-import { ReadQuestDto } from './dtos/read-quest.dto';
-import { ReadManyQuestsDto } from './dtos/read-many-quests.dto';
-import { UpdateQuestDto } from './dtos/update-quest.dto';
-import { QuestSkill } from './entities/quest-skill.entity';
+import { InjectMapper } from '@automapper/nestjs';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FilterOperator, PaginateConfig, PaginateQuery, Paginated, paginate } from 'nestjs-paginate';
+import { FindManyOptions, FindOneOptions, In, Repository } from 'typeorm';
+import { ResourceService } from '../../common/resource-base/resource.service-base';
 import { CategoriesService } from '../categories/categories.service';
-import { SkillsService } from '../skills/skills.service';
-import { Task } from '../tasks/entities/task.entity';
-import { Stage } from '../stages/entities/stage.entity';
 import { Category } from '../categories/entities/category.entity';
 import { Skill } from '../skills/entities/skill.entity';
+import { SkillsService } from '../skills/skills.service';
 import { ReadStageDto } from '../stages/dtos/read-stage.dto';
+import { Stage } from '../stages/entities/stage.entity';
+import { Task } from '../tasks/entities/task.entity';
+import { CreateQuestDto } from './dtos/create-quest.dto';
+import { ReadManyQuestsDto } from './dtos/read-many-quests.dto';
+import { ReadQuestDto } from './dtos/read-quest.dto';
+import { UpdateQuestDto } from './dtos/update-quest.dto';
+import { QuestSkill } from './entities/quest-skill.entity';
+import { Quest } from './entities/quest.entity';
 
 @Injectable()
 export class QuestsService extends ResourceService<
@@ -207,17 +207,6 @@ export class QuestsService extends ResourceService<
 
         return this.mapper.map(await this.repository.findOneOrFail(queryOptions), Quest, ReadQuestDto);
     }
-
-    // async update(id: string, updateDto: UpdateQuestDto, userId: string): Promise<ReadQuestDto> {
-    //     await this.checkAccessToQuest(id, userId);
-    //
-    //     const quest = this.mapper.map(updateDto, this.updateDtoType, this.entityType);
-    //     const updatedQuest = await super.update(id, updateDto);
-    //     console.log(updatedQuest)
-    //
-    //     return await this.readOne(updatedQuest.id, userId);
-    //
-    // }
 
     async delete(id: string, userId: string): Promise<ReadQuestDto> {
         await this.checkAccessToQuest(id, userId);

@@ -2,7 +2,6 @@ import { AutoMap } from '@automapper/classes';
 import { Type } from 'class-transformer';
 import {
     IsArray,
-    IsDate,
     IsDateString,
     IsEnum,
     IsInt,
@@ -10,11 +9,10 @@ import {
     IsOptional,
     IsUUID,
     Min,
-    ValidateNested
+    ValidateNested,
 } from 'class-validator';
 import { Priority } from '../../../common/types/enums';
-import { CreateStageDto } from '../../stages/dtos/create-stage.dto';
-import {UpdateStageDto} from "../../stages/dtos/update-stage.dto";
+import { UpdateStageDto } from '../../stages/dtos/update-stage.dto';
 
 // export class UpdateQuestDto extends IntersectionType(
 //     OmitType(PartialType(CreateQuestDto), ['stages']),
@@ -32,38 +30,39 @@ export class UpdateQuestDto {
     id: string;
 
     @AutoMap()
-    @IsNotEmpty()
     @IsOptional()
+    @IsNotEmpty()
     name?: string;
 
     @AutoMap()
-    @IsEnum(Priority)
     @IsOptional()
+    @IsEnum(Priority)
     priority?: Priority;
 
     @AutoMap()
-    @IsDateString()
     @IsOptional()
+    @IsDateString()
     deadline?: string;
 
     @AutoMap()
-    @IsDateString()
     @IsOptional()
+    @IsDateString()
     limit?: string;
 
     @AutoMap()
+    @IsOptional()
     @IsInt()
     @Min(0)
     interval?: number;
 
     @AutoMap()
-    @IsUUID()
     @IsOptional()
+    @IsUUID()
     category?: string;
 
     @AutoMap()
-    @IsUUID(undefined, { each: true })
     @IsOptional()
+    @IsUUID(undefined, { each: true })
     skills?: string[];
 
     @AutoMap(() => [UpdateStageDto])

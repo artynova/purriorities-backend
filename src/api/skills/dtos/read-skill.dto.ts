@@ -1,5 +1,5 @@
-import {AutoMap} from "@automapper/classes";
-import {ReadShortSkillDto} from "./read-short-skill.dto";
+import { AutoMap } from '@automapper/classes';
+import { ReadShortSkillDto } from './read-short-skill.dto';
 
 // export class ReadSkillDto extends OmitType(Skill, [
 //     'user'
@@ -8,7 +8,7 @@ import {ReadShortSkillDto} from "./read-short-skill.dto";
 //     userId: string;
 // }
 
-export class ReadSkillDto extends ReadShortSkillDto{
+export class ReadSkillDto extends ReadShortSkillDto {
     @AutoMap()
     level: number;
 

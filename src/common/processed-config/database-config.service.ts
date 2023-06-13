@@ -9,6 +9,9 @@ export class DatabaseConfigService {
     constructor(private configService: ConfigService) {}
 
     get options(): DataSourceOptions {
-        return dataSourceOptions(this.configService.get<DatabaseSettings>('database'), this.configService.get<string>('env'));
+        return dataSourceOptions(
+            this.configService.get<DatabaseSettings>('database'),
+            this.configService.get<string>('env'),
+        );
     }
 }

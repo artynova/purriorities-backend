@@ -3,8 +3,8 @@
 //     'user'
 // ]) {}
 
-import {AutoMap} from "@automapper/classes";
-import {IsNotEmpty, IsUUID} from "class-validator";
+import { AutoMap } from '@automapper/classes';
+import { IsNotEmpty, IsUUID } from 'class-validator';
 
 export class UpdateSkillDto {
     @AutoMap()

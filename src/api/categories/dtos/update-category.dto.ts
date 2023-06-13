@@ -1,14 +1,11 @@
-import {AutoMap} from "@automapper/classes";
-import {IsNotEmpty, IsUUID} from "class-validator";
+import { AutoMap } from '@automapper/classes';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 
 // export class UpdateCategoryDto extends OmitType(PartialType(CreateCategoryDto), ['questIds']) {}
 
 export class UpdateCategoryDto {
     @AutoMap()
-    @IsUUID()
-    id: string;
-
-    @AutoMap()
+    @IsOptional()
     @IsNotEmpty()
-    name: string;
+    name?: string;
 }

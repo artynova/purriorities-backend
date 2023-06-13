@@ -1,5 +1,5 @@
-import {AutoMap} from "@automapper/classes";
-import {IsInt, IsNotEmpty, Min} from "class-validator";
+import { AutoMap } from '@automapper/classes';
+import { IsInt, IsNotEmpty, Min } from 'class-validator';
 
 // export class CreateTaskDto extends PickType(Task, [
 //     'name',

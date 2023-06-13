@@ -1,7 +1,7 @@
-import {UpdateTaskDto} from "../../tasks/dtos/update-task.dto";
-import {Type} from "class-transformer";
-import {IsArray, IsInt, IsNotEmpty, IsOptional, IsUUID, Min, ValidateNested} from "class-validator";
-import {AutoMap} from "@automapper/classes";
+import { AutoMap } from '@automapper/classes';
+import { Type } from 'class-transformer';
+import { IsArray, IsInt, IsNotEmpty, IsOptional, ValidateNested } from 'class-validator';
+import { UpdateTaskDto } from '../../tasks/dtos/update-task.dto';
 
 // export class UpdateStageDto extends IntersectionType(
 //     OmitType(PartialType(CreateStageDto), ['tasks']),
@@ -15,22 +15,18 @@ import {AutoMap} from "@automapper/classes";
 
 export class UpdateStageDto {
     @AutoMap()
-    @IsUUID()
-    id: string;
-
-    @AutoMap()
-    @IsNotEmpty()
     @IsOptional()
+    @IsNotEmpty()
     name?: string;
 
     @AutoMap()
-    @IsInt()
     @IsOptional()
+    @IsInt()
     index?: number;
 
     @AutoMap(() => [UpdateTaskDto])
     @IsArray()
-    @ValidateNested({each: true})
+    @ValidateNested({ each: true })
     @Type(() => UpdateTaskDto)
     tasks: UpdateTaskDto[];
 }

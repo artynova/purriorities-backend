@@ -1,5 +1,5 @@
-import {IsInt, IsNotEmpty, IsOptional, IsUUID, Min} from "class-validator";
-import {AutoMap} from "@automapper/classes";
+import { AutoMap } from '@automapper/classes';
+import { IsInt, IsNotEmpty, IsOptional, Min } from 'class-validator';
 
 // export class UpdateTaskDto extends IntersectionType(
 //     PartialType(CreateTaskDto),
@@ -12,17 +12,13 @@ import {AutoMap} from "@automapper/classes";
 
 export class UpdateTaskDto {
     @AutoMap()
-    @IsUUID()
-    id: string;
-
-    @AutoMap()
-    @IsNotEmpty()
     @IsOptional()
+    @IsNotEmpty()
     name?: string;
 
     @AutoMap()
+    @IsOptional()
     @IsInt()
     @Min(0)
-    @IsOptional()
     minutes?: number;
 }

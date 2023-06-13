@@ -1,4 +1,4 @@
-import {AutoMap} from "@automapper/classes";
+import { AutoMap } from '@automapper/classes';
 
 // export class ReadCategoryDto extends OmitType(Category, ['user', 'quests']) {
 //     @IsArray()
@@ -7,7 +7,7 @@ import {AutoMap} from "@automapper/classes";
 //     quests: ReadQuestDto[];
 // }
 
-export class ReadCategoryDto{
+export class ReadCategoryDto {
     @AutoMap()
     id: string;
 

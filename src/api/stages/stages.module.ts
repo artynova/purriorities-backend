@@ -11,13 +11,10 @@ import { TasksModule } from '../tasks/tasks.module';
 import { TasksService } from '../tasks/tasks.service';
 import { User } from '../users/entities/user.entity';
 import { Stage } from './entities/stage.entity';
-import { StagesController } from './stages.controller';
 import { StagesMapper } from './stages.mapper';
-import { StagesService } from './stages.service';
 
 @Module({
     imports: [TasksModule, TypeOrmModule.forFeature([QuestSkill, Quest, Stage, Task, User, Skill, CatOwnership, Cat])],
-    controllers: [StagesController],
-    providers: [TasksService, StagesService, StagesMapper, TasksMapper],
+    providers: [TasksService, StagesMapper, TasksMapper],
 })
 export class StagesModule {}

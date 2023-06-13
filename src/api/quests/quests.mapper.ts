@@ -6,16 +6,15 @@ import { createPaginatedToReadManyMap } from '../../common/helpers/mapping';
 import { LogicConfigService } from '../../common/processed-config/logic-config.service';
 import { ReadCategoryDto } from '../categories/dtos/read-category.dto';
 import { ReadSkillDto } from '../skills/dtos/read-skill.dto';
+import { ReadStageDto } from '../stages/dtos/read-stage.dto';
+import { Stage } from '../stages/entities/stage.entity';
+import { ReadTaskDto } from '../tasks/dtos/read-task.dto';
+import { Task } from '../tasks/entities/task.entity';
 import { CreateQuestDto } from './dtos/create-quest.dto';
 import { ReadManyQuestsDto } from './dtos/read-many-quests.dto';
 import { ReadQuestDto } from './dtos/read-quest.dto';
-import { UpdateQuestDto } from './dtos/update-quest.dto';
 import { QuestSkill } from './entities/quest-skill.entity';
 import { Quest } from './entities/quest.entity';
-import { Stage } from '../stages/entities/stage.entity';
-import { ReadStageDto } from '../stages/dtos/read-stage.dto';
-import { ReadTaskDto } from '../tasks/dtos/read-task.dto';
-import { Task } from '../tasks/entities/task.entity';
 
 const stringToDateConverter = typeConverter(String, Date, (str) => (str ? new Date(str) : null));
 //const dateToStringConvertor = typeConverter(Date, String, (date) => date?.toISOString());
@@ -62,16 +61,6 @@ export class QuestsMapper extends AutomapperProfile {
                     mapFrom((createQuestDto) => createQuestDto.category),
                 ),
                 stringToDateConverter,
-            );
-
-            createMap(
-                mapper,
-                UpdateQuestDto,
-                Quest,
-                forMember(
-                    (quest) => quest.categoryId,
-                    mapFrom((updateQuestDto) => updateQuestDto.category),
-                ),
             );
 
             createMap(

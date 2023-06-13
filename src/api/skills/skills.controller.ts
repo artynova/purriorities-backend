@@ -30,7 +30,11 @@ export class SkillsController {
     }
 
     @Patch(':id')
-    async update(@Req() request: Request, @Param('id') id: string, @Body() updateSkillDto: UpdateSkillDto): Promise<ReadSkillDto> {
+    async update(
+        @Req() request: Request,
+        @Param('id') id: string,
+        @Body() updateSkillDto: UpdateSkillDto,
+    ): Promise<ReadSkillDto> {
         return this.service.update(id, updateSkillDto, request.user['id']);
     }
 
