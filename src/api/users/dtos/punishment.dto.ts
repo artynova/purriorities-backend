@@ -1,6 +1,6 @@
 export class OverdueQuestDto {
     id: string;
-    totalTrustLost = 0;
+    trustLost = 0;
 }
 
 export class RunawayCatDto {

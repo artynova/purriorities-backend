@@ -5,6 +5,7 @@ import { NoGlobalAuth } from '../../common/decorators/no-global-auth.decorator';
 import { IsNotAuthenticatedGuard } from '../../common/guards/is-not-authenticated.guard';
 import { SessionsService } from '../auth/sessions.service';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { PunishmentDto } from './dtos/punishment.dto';
 import { ReadUserDto } from './dtos/read-user.dto';
 import { SyncUserDto } from './dtos/sync-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -64,5 +65,12 @@ export class UsersController {
     async deleteMe(@Req() request: Request): Promise<ReadUserDto> {
         await this.sessionsService.fullLogout(request.user['email']);
         return this.service.delete(request.user['id']);
+    }
+
+    @ApiCookieAuth('session')
+    @ApiUnauthorizedResponse()
+    @Get('me/new-punishments')
+    async newPunishments(@Req() request: Request): Promise<PunishmentDto> {
+        return this.service.calculatePunishments(request.user['id']);
     }
 }

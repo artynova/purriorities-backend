@@ -8,9 +8,14 @@ import { randomFromArray } from './random';
 /**
  * @returns a RunawayCatDto infromation object if subtraction resulted in a cat running away, null otherwise
  */
-export function subtractTrust(trust: number, user: User, logicConfig: LogicConfigService): null | RunawayCatDto {
+export function subtractTrust(
+    trust: number,
+    user: User,
+    logicConfig: LogicConfigService,
+    date: Date,
+): null | RunawayCatDto {
     user.trust = Math.max(user.trust - trust, 0);
-    if (isToday(user.lastRunawayDate)) return null; // runaways happen at most once a day
+    if (dayMatches(date, user.lastRunawayDate)) return null; // runaways happen at most once a day
 
     let potentialRunaways: CatOwnership[] = [];
     let topRarity = Rarity.COMMON;
@@ -29,14 +34,18 @@ export function subtractTrust(trust: number, user: User, logicConfig: LogicConfi
     runaway.isAway = true; // updating through this reference also updates one within the user
     const result = new RunawayCatDto();
     result.nameId = runaway.cat.nameId;
-    result.feedTaken = user.feed * logicConfig.runawayFeedLossFactor(runaway.cat.rarity);
+    result.feedTaken = Math.floor(user.feed * logicConfig.runawayFeedLossFactor(runaway.cat.rarity));
+    user.feed -= result.feedTaken;
     user.lastRunawayDate = new Date();
     return result;
 }
 
-function isToday(date: Date) {
-    const now = new Date();
-    if (now.getFullYear() !== date.getFullYear()) return false;
-    if (now.getMonth() !== date.getMonth()) return false;
-    return now.getDate() === date.getDate();
+export function subtractTrustToday(trust: number, user: User, logicConfig: LogicConfigService) {
+    return subtractTrust(trust, user, logicConfig, new Date());
+}
+
+function dayMatches(date1: Date, date2: Date) {
+    if (date1.getFullYear() !== date2.getFullYear()) return false;
+    if (date1.getMonth() !== date2.getMonth()) return false;
+    return date1.getDate() === date2.getDate();
 }

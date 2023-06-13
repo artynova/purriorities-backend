@@ -3,7 +3,6 @@ import { InjectMapper } from '@automapper/nestjs';
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { subtractTrust } from '../../common/helpers/punishment';
 import { addExperienceProper, getCompletedMinutes, getExpBoost, taskFeedReward } from '../../common/helpers/rewards';
 import { LogicConfigService } from '../../common/processed-config/logic-config.service';
 import { ResourceService } from '../../common/resource-base/resource.service-base';
@@ -20,6 +19,7 @@ import { ReadTaskDto } from './dtos/read-task.dto';
 import { RefuseResponseDto } from './dtos/refuse-response.dto';
 import { UpdateTaskDto } from './dtos/update-task.dto';
 import { Task } from './entities/task.entity';
+import { subtractTrustToday } from '../../common/helpers/punishment';
 
 @Injectable()
 export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskDto, ReadManyTasksDto, UpdateTaskDto> {
@@ -84,7 +84,7 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
         const response = new RefuseResponseDto();
 
         response.punishment.extraTrustLost = this.logicConfig.refuseTaskTrust(quest.lateness);
-        const runaway = subtractTrust(response.punishment.extraTrustLost, user, this.logicConfig);
+        const runaway = subtractTrustToday(response.punishment.extraTrustLost, user, this.logicConfig);
         if (runaway) response.punishment.runawayCats.push(runaway);
 
         const questCompleted = await this.finish(task);

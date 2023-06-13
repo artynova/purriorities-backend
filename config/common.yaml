@@ -62,8 +62,8 @@ logic:
       2: 6
     trustPerTask:
       0: 1
-      1: 4
-      2: 8
+      1: 2
+      2: 3
     mainExpPerMinute:
       0: 0.45
       1: 0.75
@@ -77,6 +77,12 @@ logic:
     refuseTaskTrust:
       0: 0
       1: 8
+    # indices are for priority
+    missDeadlineTrust:
+      0: 0
+      1: 10
+      2: 20
+    # indices are for rarity
     runawayFeedLossFactor:
       0: 0.1
       1: 0.25

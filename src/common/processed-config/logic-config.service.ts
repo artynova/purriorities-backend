@@ -105,4 +105,8 @@ export class LogicConfigService {
     runawayFeedLossFactor(rarity: Rarity) {
         return this.configService.get<number[]>('logic.punishments.runawayFeedLossFactor')[rarity];
     }
+
+    missDeadlineTrust(priority: Priority) {
+        return this.configService.get<number[]>('logic.punishments.missDeadlineTrust')[priority];
+    }
 }

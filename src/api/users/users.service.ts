@@ -4,13 +4,16 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { resolve } from 'path';
 import { Repository } from 'typeorm';
+import { subtractTrust } from '../../common/helpers/punishment';
 import { loadObject } from '../../common/helpers/yaml';
+import { LogicConfigService } from '../../common/processed-config/logic-config.service';
 import { ResourceService } from '../../common/resource-base/resource.service-base';
 import { Category } from '../categories/entities/category.entity';
+import { CatOwnership } from '../cats/entities/cat-ownership.entity';
 import { QuestSkill } from '../quests/entities/quest-skill.entity';
 import { Quest } from '../quests/entities/quest.entity';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { PunishmentDto } from './dtos/punishment.dto';
+import { PunishmentDto, RunawayCatDto } from './dtos/punishment.dto';
 import { ReadManyUsersDto } from './dtos/read-many-users';
 import { ReadUserDto } from './dtos/read-user.dto';
 import { SyncUserDto } from './dtos/sync-user.dto';
@@ -28,7 +31,10 @@ export class UsersService extends ResourceService<User, CreateUserDto, ReadUserD
         @InjectRepository(User) repository: Repository<User>,
         @InjectMapper() mapper: Mapper,
         @InjectRepository(Category) private readonly categoryRepository: Repository<Category>,
+        @InjectRepository(Quest) private readonly questRepository: Repository<Quest>,
         @InjectRepository(QuestSkill) private readonly questskillRepository: Repository<QuestSkill>,
+        @InjectRepository(CatOwnership) private readonly catOwnershipRepository: Repository<CatOwnership>,
+        private readonly logicConfig: LogicConfigService,
     ) {
         super(
             repository,
@@ -101,10 +107,101 @@ export class UsersService extends ResourceService<User, CreateUserDto, ReadUserD
 
     /**
      * Collects and applies all pending punishments for the user since last call.
-     * May apply no punishments if none are needed (no overdue deadlines etc.).
+     * May apply no punishments if none are needed (no newly overdue deadlines etc.).
      */
-    async punish(id: string): Promise<PunishmentDto> {
-        // TODO add actual punishment
-        return new PunishmentDto();
+    async calculatePunishments(id: string): Promise<PunishmentDto> {
+        const punishment = new PunishmentDto();
+        const extendedUser = await this.repository.findOne({
+            where: { id },
+            relations: { categories: { quests: true }, catOwnerships: { cat: true } },
+        });
+
+        const lastCheckDate = extendedUser.lastPunishmentCheckDate;
+        const lastCheckDateEnd = new Date(
+            lastCheckDate.getFullYear(),
+            lastCheckDate.getMonth(),
+            lastCheckDate.getDate() + 1,
+        ); // next day after last check
+        lastCheckDateEnd.setMilliseconds(lastCheckDateEnd.getMilliseconds() - 1); //last moment of the last check day
+        const endCheckDate = new Date();
+        const checkDate = lastCheckDateEnd < endCheckDate ? lastCheckDateEnd : endCheckDate;
+
+        const overdues = {} as Record<string, number>;
+        const runaways: RunawayCatDto[] = [];
+        this.punishForDateWithCutoff(
+            extendedUser,
+            checkDate,
+            lastCheckDate.getHours(),
+            lastCheckDate.getMinutes(),
+            lastCheckDate.getSeconds(),
+            lastCheckDate.getMilliseconds(),
+            overdues,
+            runaways,
+        );
+
+        checkDate.setDate(checkDate.getDate() + 1);
+        for (; checkDate < endCheckDate; checkDate.setDate(checkDate.getDate() + 1)) {
+            this.punishForDate(extendedUser, checkDate, overdues, runaways);
+        }
+
+        if (lastCheckDateEnd < endCheckDate) this.punishForDate(extendedUser, endCheckDate, overdues, runaways); // final punishment, for the non-full last day (if it is, in fact, a separate non-full day, which happens when endCheckDate is greater than last moment of last check date's date)
+
+        for (const id of Object.keys(overdues)) {
+            punishment.overdueQuests.push({ id, trustLost: overdues[id] });
+        }
+        punishment.runawayCats = runaways;
+
+        extendedUser.categories = undefined;
+        const catOwnerships = extendedUser.catOwnerships;
+        extendedUser.catOwnerships = undefined;
+        extendedUser.lastPunishmentCheckDate = endCheckDate;
+        await this.repository.save(extendedUser);
+        for (const catOwnership of catOwnerships) {
+            await this.catOwnershipRepository.save(catOwnership);
+        }
+
+        return punishment;
+    }
+
+    private punishForDate(extendedUser: User, date: Date, overdues: Record<string, number>, runaways: RunawayCatDto[]) {
+        return this.punishForDateWithCutoff(extendedUser, date, 0, 0, 0, 0, overdues, runaways); // midnight start cutoff, passes all quests
+    }
+
+    private punishForDateWithCutoff(
+        extendedUser: User,
+        date: Date,
+        cutoffHours: number,
+        cutoffMinutes: number,
+        cutoffSeconds: number,
+        cutoffMilliseconds: number,
+        overdues: Record<string, number>,
+        runaways: RunawayCatDto[],
+    ) {
+        for (const category of extendedUser.categories) {
+            for (const quest of category.quests) {
+                if (!quest.deadline) continue;
+                if (quest.deadline >= date) continue;
+                const cutoffDate = new Date(
+                    quest.deadline.getFullYear(),
+                    quest.deadline.getMonth(),
+                    quest.deadline.getDate(),
+                    cutoffHours,
+                    cutoffMinutes,
+                    cutoffSeconds,
+                    cutoffMilliseconds,
+                );
+                if (cutoffDate > quest.deadline) continue; // deadline was processed before the cutoff
+
+                overdues[quest.id] = (overdues[quest.id] ?? 0) + this.logicConfig.missDeadlineTrust(quest.priority);
+
+                const runaway = subtractTrust(
+                    this.logicConfig.missDeadlineTrust(quest.priority),
+                    extendedUser,
+                    this.logicConfig,
+                    date,
+                );
+                if (runaway) runaways.push(runaway);
+            }
+        }
     }
 }
