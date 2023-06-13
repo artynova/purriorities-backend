@@ -1,22 +1,23 @@
-import { Mapper } from '@automapper/core';
-import { InjectMapper } from '@automapper/nestjs';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { FilterOperator, PaginateConfig, PaginateQuery, Paginated, paginate } from 'nestjs-paginate';
-import { FindManyOptions, FindOneOptions, In, Repository } from 'typeorm';
 import { ResourceService } from '../../common/resource-base/resource.service-base';
-import { CategoriesService } from '../categories/categories.service';
-import { Category } from '../categories/entities/category.entity';
-import { Skill } from '../skills/entities/skill.entity';
-import { SkillsService } from '../skills/skills.service';
-import { Stage } from '../stages/entities/stage.entity';
-import { Task } from '../tasks/entities/task.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FindManyOptions, FindOneOptions, In, IsNull, Not, Repository } from 'typeorm';
+import { InjectMapper } from '@automapper/nestjs';
+import { Mapper } from '@automapper/core';
+import { FilterOperator, paginate, PaginateConfig, Paginated, PaginateQuery } from 'nestjs-paginate';
+import { Quest } from './entities/quest.entity';
 import { CreateQuestDto } from './dtos/create-quest.dto';
-import { ReadManyQuestsDto } from './dtos/read-many-quests.dto';
 import { ReadQuestDto } from './dtos/read-quest.dto';
+import { ReadManyQuestsDto } from './dtos/read-many-quests.dto';
 import { UpdateQuestDto } from './dtos/update-quest.dto';
 import { QuestSkill } from './entities/quest-skill.entity';
-import { Quest } from './entities/quest.entity';
+import { CategoriesService } from '../categories/categories.service';
+import { SkillsService } from '../skills/skills.service';
+import { Task } from '../tasks/entities/task.entity';
+import { Stage } from '../stages/entities/stage.entity';
+import { Category } from '../categories/entities/category.entity';
+import { Skill } from '../skills/entities/skill.entity';
+import { ReadStageDto } from '../stages/dtos/read-stage.dto';
 
 @Injectable()
 export class QuestsService extends ResourceService<
@@ -59,11 +60,18 @@ export class QuestsService extends ResourceService<
     }
 
     private async checkAccessToQuest(questId: string, userId: string) {
-        const category = await this.categoriesRepository
-            .createQueryBuilder('c')
-            .leftJoinAndSelect('c.quests', 'q')
-            .where('q.id=:questId', { questId })
-            .getOne();
+        const category = await this.categoriesRepository.findOne({
+            relations: { quests: true },
+            where: { quests: { id: questId } },
+        });
+
+        // TODO this code allows to get a category of a soft-deleted quest
+        // const queryBuilder = this.categoriesRepository.createQueryBuilder('c')
+        //     .withDeleted()
+        //     .leftJoinAndSelect('c.quests', 'q')
+        //     .where('q.id = :questId', { questId });
+        //
+        // const category = await queryBuilder.getOne();
 
         if (!category) throw new NotFoundException('Such quest does not exist');
 
@@ -154,7 +162,7 @@ export class QuestsService extends ResourceService<
             withDeleted: true,
         };
 
-        return this.mapper.map(
+        const quests = this.mapper.map(
             await paginate(query, this.repository, {
                 ...this.paginateConfig,
                 ...queryOptions,
@@ -162,6 +170,23 @@ export class QuestsService extends ResourceService<
             Paginated<Quest>,
             ReadManyQuestsDto,
         );
+
+        for (const quest of quests.data) {
+            const stages = await this.stagesRepository.find({
+                relations: { tasks: true },
+                where: { questId: quest.id },
+                withDeleted: true,
+            });
+            // .createQueryBuilder('stage')
+            // .leftJoinAndSelect('stage.tasks', 'task')
+            // .where('stage.questId=:questId', { questId: quest.id })
+            // .withDeleted()
+            // .getMany();
+
+            quest.stages = stages.map((stage) => this.mapper.map(stage, Stage, ReadStageDto));
+        }
+
+        return quests;
     }
 
     async readOne(id: string, userId: string): Promise<ReadQuestDto> {

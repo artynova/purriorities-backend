@@ -35,5 +35,5 @@ export class Task extends Resource {
 
     @AutoMap()
     @Column({ nullable: true })
-    completed: boolean; // as in, completed / refused
+    completed?: boolean; // as in, completed / refused
 }

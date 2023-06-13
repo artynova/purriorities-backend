@@ -23,5 +23,5 @@ export class ReadTaskDto {
     stageId: string;
 
     @AutoMap()
-    completed: boolean;
+    completed?: boolean;
 }
