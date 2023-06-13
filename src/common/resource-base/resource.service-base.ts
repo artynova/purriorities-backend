@@ -64,9 +64,11 @@ export class ResourceService<
     }
 
     protected async findOneOrFail(id: string, userId?: string): Promise<Entity> {
+        //TODO withDelete will only work if rewrite it using a query builder!!!
         const out = await this.repository.findOne({
-            where: { id } as FindOptionsWhere<Entity>,
+            withDeleted: true,
             relations: this.paginateConfig.relations,
+            where: { id } as FindOptionsWhere<Entity>,
         }); // a little help for typescript to figure out that, since id is present in Resource, id is also present in Entity
 
         if (out === null)

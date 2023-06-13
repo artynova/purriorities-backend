@@ -12,6 +12,10 @@ import { ReadQuestDto } from './dtos/read-quest.dto';
 import { UpdateQuestDto } from './dtos/update-quest.dto';
 import { QuestSkill } from './entities/quest-skill.entity';
 import { Quest } from './entities/quest.entity';
+import { Stage } from '../stages/entities/stage.entity';
+import { ReadStageDto } from '../stages/dtos/read-stage.dto';
+import { ReadTaskDto } from '../tasks/dtos/read-task.dto';
+import { Task } from '../tasks/entities/task.entity';
 
 const stringToDateConverter = typeConverter(String, Date, (str) => (str ? new Date(str) : null));
 //const dateToStringConvertor = typeConverter(Date, String, (date) => date?.toISOString());
@@ -39,6 +43,10 @@ export class QuestsMapper extends AutomapperProfile {
                 forMember(
                     (readQuestDto) => readQuestDto.finished,
                     mapFrom((quest) => quest.finishDate !== null),
+                ),
+                forMember(
+                    (readQuestDto) => readQuestDto.stages,
+                    mapFrom((quest) => quest.stages?.map((stage) => this.mapper.map(stage, Stage, ReadStageDto))),
                 ),
                 //dateToStringConvertor
             );
@@ -92,6 +100,27 @@ export class QuestsMapper extends AutomapperProfile {
                 ),
                 stringToDateConverter,
             );
+
+            createMap(
+                mapper,
+                Stage,
+                ReadStageDto,
+                forMember(
+                    (readStageDto) => readStageDto.finished,
+                    mapFrom((stage) => stage.finishDate != null),
+                ),
+                forMember(
+                    (readStageDto) => readStageDto.tasks,
+                    mapFrom((stage) =>
+                        stage.tasks.map((task) => {
+                            console.log(this.mapper.map(task, Task, ReadTaskDto));
+                            return this.mapper.map(task, Task, ReadTaskDto);
+                        }),
+                    ),
+                ),
+            );
+
+            createMap(mapper, Task, ReadTaskDto);
         };
     }
 }

@@ -33,6 +33,7 @@ export class Task extends Resource {
     @DeleteDateColumn({ default: null })
     finishDate?: Date;
 
+    @AutoMap()
     @Column({ nullable: true })
-    completed: boolean; // as in, completed / refused
+    completed?: boolean; // as in, completed / refused
 }
