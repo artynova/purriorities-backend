@@ -3,9 +3,11 @@ import { InjectMapper } from '@automapper/nestjs';
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { getCompletedMinutes, getExpBoost, normalizeLevelable, taskFeedReward } from '../../common/helpers/rewards';
+import { subtractTrust } from '../../common/helpers/punishment';
+import { addExperienceProper, getCompletedMinutes, getExpBoost, taskFeedReward } from '../../common/helpers/rewards';
 import { LogicConfigService } from '../../common/processed-config/logic-config.service';
 import { ResourceService } from '../../common/resource-base/resource.service-base';
+import { CatOwnership } from '../cats/entities/cat-ownership.entity';
 import { QuestSkill } from '../quests/entities/quest-skill.entity';
 import { Quest } from '../quests/entities/quest.entity';
 import { Skill } from '../skills/entities/skill.entity';
@@ -29,6 +31,7 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
         @InjectRepository(QuestSkill) private readonly questSkillRepository: Repository<QuestSkill>,
         @InjectRepository(User) private readonly userRepository: Repository<User>,
         @InjectRepository(Skill) private readonly skillRepository: Repository<Skill>,
+        @InjectRepository(CatOwnership) private readonly catOwnershipRepository: Repository<CatOwnership>,
         private readonly logicConfig: LogicConfigService,
     ) {
         super(
@@ -56,9 +59,9 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
         const user = quest.category.user;
         const reward = new RewardDto();
 
-        reward.feedGained = taskFeedReward(task, this.logicConfig);
+        reward.feedGained += taskFeedReward(task, this.logicConfig);
         user.feed += reward.feedGained;
-        reward.trustGained = Math.min(100 - user.trust, this.logicConfig.trustPerTask(quest.priority));
+        reward.trustGained += Math.min(100 - user.trust, this.logicConfig.trustPerTask(quest.priority));
         user.trust += reward.trustGained;
 
         const questCompleted = await this.finish(task);
@@ -71,6 +74,32 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
         return reward;
     }
 
+    async refuse(id: string): Promise<RefuseResponseDto> {
+        const task = await this.findOneWithUser(id);
+        task.completed = false;
+        await this.repository.save(task);
+
+        const quest = task.stage.quest;
+        const user = await this.findUserWithCats(quest.category.userId);
+        const response = new RefuseResponseDto();
+
+        response.punishment.extraTrustLost = this.logicConfig.refuseTaskTrust(quest.lateness);
+        const runaway = subtractTrust(response.punishment.extraTrustLost, user, this.logicConfig);
+        if (runaway) response.punishment.runawayCats.push(runaway);
+
+        const questCompleted = await this.finish(task);
+        if (questCompleted) {
+            await this.processQuestCompletion(quest, response.reward);
+        }
+        user.catnip += response.reward.catnipGained;
+
+        // const catOwnerships = user.catOwnerships;
+        // user.catOwnerships = undefined;
+        await this.userRepository.save(user);
+        // for (const catOwnership of catOwnerships) await this.catOwnershipRepository.save(catOwnership);
+        return response;
+    }
+
     private async processQuestCompletion(questWithUser: Quest, reward: RewardDto) {
         const user = questWithUser.category.user; // acquire reference to the user that is beind modified by the operation
         const fullQuest = await this.findFullQuest(questWithUser.id);
@@ -78,17 +107,22 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
         const completedMinutes = Math.min(getCompletedMinutes(fullQuest), this.logicConfig.valuableMinutesCap);
         const expBoost = getExpBoost(fullQuest.category.user.catOwnerships, this.logicConfig);
         const mainExpPerMinute = this.logicConfig.mainExpPerMinute(fullQuest.priority);
-        reward.mainLevelExpGained = (completedMinutes * mainExpPerMinute * (100 + expBoost)) / 100;
+        reward.mainLevelExpGained += (completedMinutes * mainExpPerMinute * (100 + expBoost)) / 100;
 
-        const oldLevel = user.level;
-        user.levelExp += reward.mainLevelExpGained;
-        normalizeLevelable(user, this.logicConfig.mainExpFormula);
-
-        const levelsGained = user.level - oldLevel;
-        reward.catnipGained = levelsGained * this.logicConfig.catnipPerMainLevel;
+        const levelsGained = addExperienceProper(reward.mainLevelExpGained, user, this.logicConfig.mainExpFormula);
+        reward.catnipGained += levelsGained * this.logicConfig.catnipPerMainLevel;
 
         await this.processQuestSkills(fullQuest.questSkills, completedMinutes, reward);
         await this.tryScheduleNext(fullQuest);
+    }
+
+    private async findUserWithCats(id: string) {
+        return this.userRepository.findOne({
+            where: { id },
+            relations: {
+                catOwnerships: { cat: true },
+            },
+        });
     }
 
     private async findFullQuest(id: string) {
@@ -112,29 +146,20 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
             const skill = questSkill.skill;
             const skillReward = new SkillRewardDto();
             skillReward.id = skill.id;
-            skillReward.levelExpGained =
-                questSkill.index === 0
-                    ? totalSkillReward - minorSkillReward * (questSkills.length - 1)
-                    : minorSkillReward;
+            if (questSkill.index === 0)
+                skillReward.levelExpGained = totalSkillReward - minorSkillReward * (questSkills.length - 1);
+            else skillReward.levelExpGained = minorSkillReward;
             reward.skillRewards.push(skillReward);
 
-            const oldSkillLevel = skill.level;
-            skill.levelExp += skillReward.levelExpGained;
-            normalizeLevelable(skill, this.logicConfig.skillExpFormula);
-
-            const skillLevelsGained = skill.level - oldSkillLevel;
+            const skillLevelsGained = addExperienceProper(
+                skillReward.levelExpGained,
+                skill,
+                this.logicConfig.skillExpFormula,
+            );
             reward.catnipGained += skillLevelsGained * this.logicConfig.catnipPerSkillLevel;
 
             await this.skillRepository.save(skill);
         }
-    }
-
-    async refuse(id: string): Promise<RefuseResponseDto> {
-        const task = await this.findOneWithUser(id);
-        const newQuest = await this.finish(task);
-        // TODO punishments and rewards
-        const response = new RefuseResponseDto();
-        return response;
     }
 
     /**

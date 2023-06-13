@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { ResourceService } from '../../common/resource-base/resource.service-base';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOneOptions, In, IsNull, Not, Repository } from 'typeorm';
@@ -61,8 +61,8 @@ export class QuestsService extends ResourceService<
 
     private async checkAccessToQuest(questId: string, userId: string) {
         const category = await this.categoriesRepository.findOne({
-            relations: {quests: true},
-            where: {quests: {id: questId}}
+            relations: { quests: true },
+            where: { quests: { id: questId } },
         });
 
         // TODO this code allows to get a category of a soft-deleted quest
@@ -87,6 +87,11 @@ export class QuestsService extends ResourceService<
     }
 
     async create(createDto: CreateQuestDto, userId?: string): Promise<ReadQuestDto> {
+        if (!createDto.deadline && createDto.limit)
+            throw new BadRequestException(
+                'Malformed quest information: if limit is specified, deadline should be as well',
+            );
+
         await this.checkAccessToCategory(createDto.category, userId);
 
         for (const skillId of createDto.skills) {
