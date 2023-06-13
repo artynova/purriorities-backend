@@ -171,7 +171,7 @@ export class QuestsService extends ResourceService<
             ReadManyQuestsDto,
         );
 
-        for (const quest of quests.data.filter((quest) => quest.finished)) {
+        for (const quest of quests.data) {
             const stages = await this.stagesRepository.find({
                 relations: { tasks: true },
                 where: { questId: quest.id },
