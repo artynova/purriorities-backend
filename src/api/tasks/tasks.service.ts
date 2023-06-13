@@ -107,7 +107,7 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
         const completedMinutes = Math.min(getCompletedMinutes(fullQuest), this.logicConfig.valuableMinutesCap);
         const expBoost = getExpBoost(fullQuest.category.user.catOwnerships, this.logicConfig);
         const mainExpPerMinute = this.logicConfig.mainExpPerMinute(fullQuest.priority);
-        reward.mainLevelExpGained += (completedMinutes * mainExpPerMinute * (100 + expBoost)) / 100;
+        reward.mainLevelExpGained += Math.round((completedMinutes * mainExpPerMinute * (100 + expBoost)) / 100);
 
         const levelsGained = addExperienceProper(reward.mainLevelExpGained, user, this.logicConfig.mainExpFormula);
         reward.catnipGained += levelsGained * this.logicConfig.catnipPerMainLevel;
@@ -141,7 +141,7 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
         if (questSkills.length === 0) return;
 
         const totalSkillReward = questCompletedMinutes * this.logicConfig.skillExpPerMinute;
-        const minorSkillReward = totalSkillReward * this.logicConfig.minorSkillFactor;
+        const minorSkillReward = Math.round(totalSkillReward * this.logicConfig.minorSkillFactor);
         for (const questSkill of questSkills) {
             const skill = questSkill.skill;
             const skillReward = new SkillRewardDto();
