@@ -35,7 +35,7 @@ export class User extends Resource implements ExperienceLevelable {
      * @example 150
      */
     @AutoMap()
-    @Column({ type: 'double precision', default: 0 })
+    @Column({ default: 0 })
     levelExp: number;
 
     @AutoMap(() => [Category])

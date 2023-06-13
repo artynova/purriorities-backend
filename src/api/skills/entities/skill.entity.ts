@@ -28,6 +28,6 @@ export class Skill extends Resource implements ExperienceLevelable {
     level: number;
 
     @AutoMap()
-    @Column({ type: 'double precision', default: 0 })
+    @Column({ default: 0 })
     levelExp: number;
 }
