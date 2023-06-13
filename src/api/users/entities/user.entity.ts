@@ -55,7 +55,7 @@ export class User extends Resource implements ExperienceLevelable {
     catnip: number;
 
     @AutoMap()
-    @Column({ default: 100 })
+    @Column({ type: 'double precision', default: 100 })
     trust: number;
 
     @Column({ default: () => 'CURRENT_TIMESTAMP' })
