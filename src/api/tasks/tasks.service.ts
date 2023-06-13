@@ -93,10 +93,10 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
         }
         user.catnip += response.reward.catnipGained;
 
-        // const catOwnerships = user.catOwnerships;
-        // user.catOwnerships = undefined;
+        const catOwnerships = user.catOwnerships;
+        user.catOwnerships = undefined;
         await this.userRepository.save(user);
-        // for (const catOwnership of catOwnerships) await this.catOwnershipRepository.save(catOwnership);
+        for (const catOwnership of catOwnerships) await this.catOwnershipRepository.save(catOwnership);
         return response;
     }
 
