@@ -23,6 +23,7 @@ import { SkillsModule } from './api/skills/skills.module';
 import { QuestsModule } from './api/quests/quests.module';
 import { CategoriesModule } from './api/categories/categories.module';
 import { RequestLoggerMiddleware } from './middleware/request-logger.middleware';
+import { StoreModule } from './api/store/store.module';
 
 @Module({
     imports: [
@@ -52,6 +53,7 @@ import { RequestLoggerMiddleware } from './middleware/request-logger.middleware'
         QuestsModule,
         CatsModule,
         CategoriesModule,
+        StoreModule,
     ],
     providers: [
         AuthConfigService,

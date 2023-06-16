@@ -1,0 +1,32 @@
+import { Controller, Post, Req } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiCookieAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { Request } from 'express';
+import { ReadCatOwnershipDto } from '../cats/dtos/read-cat-ownership.dto';
+import { StoreService } from './store.service';
+
+@ApiCookieAuth('session')
+@ApiTags('Store')
+@Controller('api/store')
+export class StoreController {
+    constructor(private readonly service: StoreService) {}
+
+    /**
+     * Spend feed to open a common cat case (lower probabilities for high-rarity cats).
+     */
+    @ApiUnauthorizedResponse()
+    @ApiBadRequestResponse()
+    @Post('case/common')
+    async openCaseCommon(@Req() request: Request): Promise<ReadCatOwnershipDto> {
+        return this.service.gachaCommon(request.user['id']);
+    }
+
+    /**
+     * Spend catnip to open a legendary cat case (higher probabilities for high-rarity cats).
+     */
+    @ApiUnauthorizedResponse()
+    @ApiBadRequestResponse()
+    @Post('case/legendary')
+    async openCaseLegendary(@Req() request: Request): Promise<ReadCatOwnershipDto> {
+        return this.service.gachaLegendary(request.user['id']);
+    }
+}

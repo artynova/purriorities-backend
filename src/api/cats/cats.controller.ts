@@ -1,13 +1,12 @@
-import { Controller, Get, NotFoundException, Param, Post, Req, Res } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, Res } from '@nestjs/common';
 import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { existsSync } from 'fs';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { resolve } from 'path';
 import { NoGlobalAuth } from '../../common/decorators/no-global-auth.decorator';
 import { HttpConfigService } from '../../common/processed-config/http-config.service';
 import { CatsService } from './cats.service';
-import { ReadCatOwnershipDto } from './dtos/read-cat-ownership.dto';
 import { ReadCatDto } from './dtos/read-cat.dto';
 import { ReadManyCatsDto } from './dtos/read-many-cats.dto';
 
@@ -34,23 +33,5 @@ export class CatsController {
         if (!existsSync(resolve(this.configService.catPicturesPath, id + '.webp')))
             throw new NotFoundException('Image not found');
         return res.sendFile(id + '.webp', { root: this.configService.catPicturesPath });
-    }
-
-    /**
-     * Spend feed to open a common cat case (lower probabilities for high-rarity cats).
-     */
-    @ApiCookieAuth('session')
-    @Post('case/common')
-    async openCaseCommon(@Req() request: Request): Promise<ReadCatOwnershipDto> {
-        return this.service.gachaCommon(request.user['id']);
-    }
-
-    /**
-     * Spend catnip to open a legendary cat case (higher probabilities for high-rarity cats).
-     */
-    @ApiCookieAuth('session')
-    @Post('case/legendary')
-    async openCaseLegendary(@Req() request: Request): Promise<ReadCatOwnershipDto> {
-        return this.service.gachaLegendary(request.user['id']);
     }
 }
