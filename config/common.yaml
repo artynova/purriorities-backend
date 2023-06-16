@@ -33,17 +33,17 @@ logic:
         base: 50
         limit: 200
         growthRate: 1.5
-        roundingIncrement: 0.01
+        roundingIncrement: 1
       1:
         base: 100
         limit: 400
         growthRate: 1.5
-        roundingIncrement: 0.01
+        roundingIncrement: 1
       2:
         base: 200
         limit: 800
         growthRate: 1.5
-        roundingIncrement: 0.01
+        roundingIncrement: 1
   store:
     cases:
       common:
