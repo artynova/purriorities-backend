@@ -67,6 +67,25 @@ export class StoreService {
         await this.userRepository.save(user);
     }
 
+    public async returnCat(userId: string, catNameId: string) {
+        const catOwnership: CatOwnership = await this.catOwnershipRepository.findOne({
+            where: { userId, catNameId },
+            relations: { cat: true, user: true },
+        });
+        if (catOwnership === null)
+            throw new BadRequestException('Cannot return a cat that is not owned in the first place');
+        if (!catOwnership.isAway) throw new BadRequestException('Cannot return a cat that is not away');
+        const price = this.logicConfig.catReturnPriceFormula(catOwnership.cat.rarity)(catOwnership.level);
+        if (catOwnership.user.feed < price)
+            throw new BadRequestException(
+                `Cannot return the cat, only ${catOwnership.user.feed} out of ${price} feed units available`,
+            );
+        catOwnership.user.feed -= price;
+        catOwnership.isAway = false;
+        await this.catOwnershipRepository.save(catOwnership);
+        await this.userRepository.save(catOwnership.user);
+    }
+
     public async getPricing(): Promise<StorePricingDto> {
         return {
             commonLootBoxPrice: this.logicConfig.commonCaseSettings.price,

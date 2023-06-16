@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req } from '@nestjs/common';
+import { Controller, Get, Param, Post, Req } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiCookieAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { Request } from 'express';
 import { ReadCatOwnershipDto } from '../cats/dtos/read-cat-ownership.dto';
@@ -36,6 +36,13 @@ export class StoreController {
     @Post('buy-feed')
     async buyFeed(@Req() request: Request) {
         await this.service.buyFeedForCatnip(request.user['id']);
+    }
+
+    @ApiUnauthorizedResponse()
+    @ApiBadRequestResponse()
+    @Post('return-cat/:id')
+    async returnCat(@Req() request: Request, @Param('id') id: string) {
+        await this.service.returnCat(request.user['id'], id);
     }
 
     @ApiUnauthorizedResponse()
