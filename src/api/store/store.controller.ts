@@ -32,6 +32,13 @@ export class StoreController {
     }
 
     @ApiUnauthorizedResponse()
+    @ApiBadRequestResponse()
+    @Post('buy-feed')
+    async buyFeed(@Req() request: Request) {
+        await this.service.buyFeedForCatnip(request.user['id']);
+    }
+
+    @ApiUnauthorizedResponse()
     @Get('pricing')
     async getPricing(): Promise<StorePricingDto> {
         return this.service.getPricing();

@@ -22,8 +22,8 @@ export class StoreService {
         @InjectMapper() private readonly mapper: Mapper,
     ) {}
 
-    async gachaCommon(id: string): Promise<ReadCatOwnershipDto> {
-        const user = await this.userRepository.findOneBy({ id });
+    async gachaCommon(userId: string): Promise<ReadCatOwnershipDto> {
+        const user = await this.userRepository.findOneBy({ id: userId });
         if (user.feed < this.logicConfig.commonCaseSettings.price)
             throw new BadRequestException('Not enough feed to buy a common case');
         user.feed -= this.logicConfig.commonCaseSettings.price;
@@ -33,8 +33,8 @@ export class StoreService {
         return this.rollCatWithRarity(user, rarity);
     }
 
-    async gachaLegendary(id: string): Promise<ReadCatOwnershipDto> {
-        const user = await this.userRepository.findOneBy({ id });
+    async gachaLegendary(userId: string): Promise<ReadCatOwnershipDto> {
+        const user = await this.userRepository.findOneBy({ id: userId });
         if (user.catnip < this.logicConfig.legendaryCaseSettings.price)
             throw new BadRequestException('Not enough catnip to buy a legendary case');
         user.catnip -= this.logicConfig.legendaryCaseSettings.price;
@@ -56,6 +56,15 @@ export class StoreService {
         const savedCatOwnership = await this.catOwnershipRepository.save(catOwnership);
         savedCatOwnership.cat = cat;
         return this.mapper.map(savedCatOwnership, CatOwnership, ReadCatOwnershipDto);
+    }
+
+    public async buyFeedForCatnip(userId: string) {
+        const user = await this.userRepository.findOneBy({ id: userId });
+        if (user.catnip < 1)
+            throw new BadRequestException('Cannot purchase feed for catnip when there is no catnip left');
+        user.catnip--;
+        user.feed += this.logicConfig.feedPerCatnipUnit;
+        await this.userRepository.save(user);
     }
 
     public async getPricing(): Promise<StorePricingDto> {
