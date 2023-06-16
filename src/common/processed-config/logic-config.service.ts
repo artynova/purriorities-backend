@@ -42,11 +42,15 @@ export class LogicConfigService {
     }
 
     get commonCaseSettings(): CaseSettings {
-        return this.configService.get<CaseSettings>('logic.cases.common');
+        return this.configService.get<CaseSettings>('logic.store.cases.common');
     }
 
     get legendaryCaseSettings(): CaseSettings {
-        return this.configService.get<CaseSettings>('logic.cases.legendary');
+        return this.configService.get<CaseSettings>('logic.store.cases.legendary');
+    }
+
+    get feedPerCatnipUnit() {
+        return this.configService.get<number>('logic.store.feedPerCatnipUnit');
     }
 
     commonCaseRandomRarity() {

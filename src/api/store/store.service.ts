@@ -10,6 +10,7 @@ import { ReadCatOwnershipDto } from '../cats/dtos/read-cat-ownership.dto';
 import { CatOwnership } from '../cats/entities/cat-ownership.entity';
 import { Cat } from '../cats/entities/cat.entity';
 import { User } from '../users/entities/user.entity';
+import { StorePricingDto } from './dtos/store-pricing.dto';
 
 @Injectable()
 export class StoreService {
@@ -55,5 +56,13 @@ export class StoreService {
         const savedCatOwnership = await this.catOwnershipRepository.save(catOwnership);
         savedCatOwnership.cat = cat;
         return this.mapper.map(savedCatOwnership, CatOwnership, ReadCatOwnershipDto);
+    }
+
+    public async getPricing(): Promise<StorePricingDto> {
+        return {
+            commonLootBoxPrice: this.logicConfig.commonCaseSettings.price,
+            legendaryLootBoxPrice: this.logicConfig.legendaryCaseSettings.price,
+            catnipToFeedRate: this.logicConfig.feedPerCatnipUnit,
+        };
     }
 }

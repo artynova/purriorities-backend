@@ -1,7 +1,8 @@
-import { Controller, Post, Req } from '@nestjs/common';
+import { Controller, Get, Post, Req } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiCookieAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { Request } from 'express';
 import { ReadCatOwnershipDto } from '../cats/dtos/read-cat-ownership.dto';
+import { StorePricingDto } from './dtos/store-pricing.dto';
 import { StoreService } from './store.service';
 
 @ApiCookieAuth('session')
@@ -28,5 +29,11 @@ export class StoreController {
     @Post('case/legendary')
     async openCaseLegendary(@Req() request: Request): Promise<ReadCatOwnershipDto> {
         return this.service.gachaLegendary(request.user['id']);
+    }
+
+    @ApiUnauthorizedResponse()
+    @Get('pricing')
+    async getPricing(): Promise<StorePricingDto> {
+        return this.service.getPricing();
     }
 }

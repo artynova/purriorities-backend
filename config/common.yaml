@@ -44,15 +44,17 @@ logic:
         limit: 800
         growthRate: 1.5
         roundingIncrement: 0.01
-  cases:
-    common:
-      price: 3000 # in feed
-      rarePercentage: 12
-      legendaryPercentage: 3
-    legendary:
-      price: 20 # in catnip
-      rarePercentage: 50
-      legendaryPercentage: 30
+  store:
+    cases:
+      common:
+        price: 3000 # in feed
+        rarePercentage: 12
+        legendaryPercentage: 3
+      legendary:
+        price: 20 # in catnip
+        rarePercentage: 50
+        legendaryPercentage: 30
+    feedPerCatnipUnit: 1500
   rewards:
     valuableMinutesCap: 600 # 10 hours, adding any more minutes to a single task does not increase its value further
     # ids are quest priority ids
