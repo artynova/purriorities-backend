@@ -38,7 +38,7 @@ export class LogicConfigService {
     }
 
     get questHistoryLimit() {
-        return this.configService.get<number>('logic.historyLimit');
+        return this.configService.get<number>('logic.questHistoryLimit');
     }
 
     get commonCaseSettings(): CaseSettings {
