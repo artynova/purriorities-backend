@@ -87,9 +87,14 @@ export class QuestsService extends ResourceService<
     }
 
     async create(createDto: CreateQuestDto, userId?: string): Promise<ReadQuestDto> {
-        if (!createDto.deadline && createDto.limit)
+        // limit can only be present when interval is, and interval can only be present when deadline is
+        if (createDto.deadline === null && createDto.interval !== null)
             throw new BadRequestException(
-                'Malformed quest information: if limit is specified, deadline should be as well',
+                'Malformed quest information: if repetition interval is specified, specific deadline should be as well',
+            );
+        if (createDto.interval === null && createDto.limit !== null)
+            throw new BadRequestException(
+                'Malformed quest information: if repetition limit is specified, repetition interval should be as well',
             );
 
         await this.checkAccessToCategory(createDto.category, userId);
