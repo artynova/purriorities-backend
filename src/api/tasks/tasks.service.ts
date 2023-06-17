@@ -142,12 +142,17 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
 
         const totalSkillReward = questCompletedMinutes * this.logicConfig.skillExpPerMinute;
         const minorSkillReward = totalSkillReward * this.logicConfig.minorSkillFactor;
+        const minorSkillsNum = Math.min(questSkills.length - 1, this.logicConfig.maxMinorSkills);
+
         for (const questSkill of questSkills) {
+            // primary skill is at 0, so last minor skill has minorSkillsNum index and anything after that is not rewarded
+            if (questSkill.index > minorSkillsNum) continue;
             const skill = questSkill.skill;
             const skillReward = new SkillRewardDto();
-            skillReward.id = skill.id;
+            skillReward.id = questSkill.skillId;
+
             if (questSkill.index === 0)
-                skillReward.levelExpGained = totalSkillReward - minorSkillReward * (questSkills.length - 1);
+                skillReward.levelExpGained = totalSkillReward - minorSkillReward * minorSkillsNum;
             else skillReward.levelExpGained = minorSkillReward;
             reward.skillRewards.push(skillReward);
 

@@ -94,6 +94,10 @@ export class LogicConfigService {
         return this.configService.get<number>('logic.rewards.minorSkillFactor');
     }
 
+    get maxMinorSkills() {
+        return this.configService.get<number>('logic.rewards.maxMinorSkills');
+    }
+
     get catnipPerMainLevel() {
         return this.configService.get<number>('logic.rewards.catnipPerMainLevel');
     }

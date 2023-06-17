@@ -73,6 +73,7 @@ logic:
     catnipPerMainLevel: 3
     skillExpPerMinute: 1
     minorSkillFactor: 0.2 # static, cutting from major skill the more minor skills there are
+    maxMinorSkills: 2
     catnipPerSkillLevel: 1
   punishments:
     # in trust percents; order: for early refuse, for refuse when quest is overdue
