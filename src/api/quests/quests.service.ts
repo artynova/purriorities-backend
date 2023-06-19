@@ -41,8 +41,8 @@ export class QuestsService extends ResourceService<
         super(
             questRepository,
             {
-                maxLimit: 0,
                 defaultLimit: 0,
+                maxLimit: 0,
                 relations: {
                     stages: {
                         tasks: true,
@@ -51,7 +51,7 @@ export class QuestsService extends ResourceService<
                     category: true,
                 },
                 withDeleted: true,
-                sortableColumns: ['id'],
+                sortableColumns: ['deadline', 'finished'],
                 filterableColumns: {
                     categoryId: [FilterOperator.EQ],
                     finishDate: [FilterOperator.NULL],
@@ -156,22 +156,11 @@ export class QuestsService extends ResourceService<
     async readAll(query: PaginateQuery, userId: string): Promise<ReadManyQuestsDto> {
         const queryBuilder = this.repository
             .createQueryBuilder('q')
-            // .addSelect((subQuery) => {
-            //     return subQuery
-            //         .select(
-            //             'CASE WHEN inner_q.deadline IS NULL THEN NULL ELSE AGE(inner_q.deadline, NOW()) END',
-            //             'timeLeft',
-            //         )
-            //         .from(Quest, 'inner_q')
-            //         .where('inner_q.id = q.id');
-            // }, 'time_left')
             .leftJoin('q.category', 'c')
             .where('c.userId = :userId', { userId })
-            //.addOrderBy('"time_left"', 'ASC', 'NULLS LAST');
-
-        // console.log(queryBuilder.getSql());
-        //
-        // console.log(await queryBuilder.getMany());
+            //TODO it should be passed by query params
+            .addOrderBy('q.finished', 'ASC')
+            .addOrderBy('q.deadline', 'ASC', 'NULLS LAST');
 
         query.limit = 0;
 

@@ -40,10 +40,6 @@ export class QuestsMapper extends AutomapperProfile {
                     mapFrom((quest) => quest.category),
                 ),
                 forMember(
-                    (readQuestDto) => readQuestDto.finished,
-                    mapFrom((quest) => quest.finishDate !== null),
-                ),
-                forMember(
                     (readQuestDto) => readQuestDto.stages,
                     mapFrom((quest) => quest.stages?.map((stage) => this.mapper.map(stage, Stage, ReadStageDto))),
                 ),

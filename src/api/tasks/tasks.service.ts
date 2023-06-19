@@ -39,7 +39,7 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
             {
                 sortableColumns: ['id'],
                 defaultSortBy: [['id', 'DESC']],
-                select: ['id', 'name', 'minutes', 'stageId', 'finishDate'],
+                //select: ['id', 'name', 'minutes', 'stageId', 'finishDate'],
             },
             mapper,
             Task,
