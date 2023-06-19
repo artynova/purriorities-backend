@@ -52,5 +52,6 @@ export class ReadQuestDto {
     @AutoMap(() => [ReadStageDto])
     stages: ReadStageDto[];
 
+    @AutoMap()
     finished: boolean;
 }
