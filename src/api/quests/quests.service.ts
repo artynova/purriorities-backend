@@ -2,8 +2,8 @@ import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FilterOperator, PaginateConfig, PaginateQuery, Paginated, paginate } from 'nestjs-paginate';
-import { FindManyOptions, FindOneOptions, In, Repository } from 'typeorm';
+import { FilterOperator, paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
+import { FindOneOptions, Repository } from 'typeorm';
 import { ResourceService } from '../../common/resource-base/resource.service-base';
 import { CategoriesService } from '../categories/categories.service';
 import { Category } from '../categories/entities/category.entity';
@@ -41,9 +41,17 @@ export class QuestsService extends ResourceService<
         super(
             questRepository,
             {
-                relations: { questSkills: true },
-                sortableColumns: ['deadline'],
-                defaultSortBy: [['deadline', 'ASC']],
+                maxLimit: 0,
+                defaultLimit: 0,
+                relations: {
+                    stages: {
+                        tasks: true,
+                    },
+                    questSkills: { skill: true },
+                    category: true,
+                },
+                withDeleted: true,
+                sortableColumns: ['id'],
                 filterableColumns: {
                     categoryId: [FilterOperator.EQ],
                     finishDate: [FilterOperator.NULL],
@@ -146,40 +154,36 @@ export class QuestsService extends ResourceService<
     }
 
     async readAll(query: PaginateQuery, userId: string): Promise<ReadManyQuestsDto> {
-        const categoriesOfCurrentUser = await this.categoriesRepository
-            .createQueryBuilder('c')
-            .where('c.userId=:userId', { userId })
-            .getMany();
+        const queryBuilder = this.repository
+            .createQueryBuilder('q')
+            // .addSelect((subQuery) => {
+            //     return subQuery
+            //         .select(
+            //             'CASE WHEN inner_q.deadline IS NULL THEN NULL ELSE AGE(inner_q.deadline, NOW()) END',
+            //             'timeLeft',
+            //         )
+            //         .from(Quest, 'inner_q')
+            //         .where('inner_q.id = q.id');
+            // }, 'time_left')
+            .leftJoin('q.category', 'c')
+            .where('c.userId = :userId', { userId })
+            //.addOrderBy('"time_left"', 'ASC', 'NULLS LAST');
 
-        const categoryIds = categoriesOfCurrentUser.map((category) => category.id);
+        // console.log(queryBuilder.getSql());
+        //
+        // console.log(await queryBuilder.getMany());
 
-        const queryOptions: FindManyOptions<Quest> = {
-            where: {
-                category: { id: In(categoryIds) },
-            },
-            relations: {
-                stages: {
-                    tasks: true,
-                },
-                questSkills: { skill: true },
-                category: true,
-            },
-            withDeleted: true,
-        };
+        query.limit = 0;
 
-        const quests = this.mapper.map(
-            await paginate(query, this.repository, {
-                ...this.paginateConfig,
-                ...queryOptions,
-            } as PaginateConfig<Quest>),
-            Paginated<Quest>,
-            ReadManyQuestsDto,
-        );
+        const paginatedQuests = await paginate(query, queryBuilder, this.paginateConfig);
+
+        const quests = this.mapper.map(paginatedQuests, Paginated<Quest>, ReadManyQuestsDto);
 
         for (const quest of quests.data) {
             const stages = await this.stagesRepository.find({
                 relations: { tasks: true },
                 where: { questId: quest.id },
+                order: { index: 'ASC' },
                 withDeleted: true,
             });
             // .createQueryBuilder('stage')

@@ -56,6 +56,18 @@ export class Quest extends Resource {
     @DeleteDateColumn({ default: null })
     finishDate?: Date;
 
+    // @Column({nullable: true})
+    //timeLeft?: Date;
+    //
+    // @AfterLoad()
+    // calculateTimeLeft() {
+    //     if (this.deadline) {
+    //         const now = new Date();
+    //         const timeLeftMs = this.deadline.getTime() - now.getTime();
+    //         this.timeLeft = new Date(timeLeftMs);
+    //     }
+    // }
+
     get lateness(): Lateness {
         if (!this.deadline || new Date() <= this.deadline) return Lateness.EARLY;
         return Lateness.OVERDUE;
