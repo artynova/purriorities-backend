@@ -69,17 +69,10 @@ export class QuestsService extends ResourceService<
 
     private async checkAccessToQuest(questId: string, userId: string) {
         const category = await this.categoriesRepository.findOne({
+            withDeleted: true,
             relations: { quests: true },
             where: { quests: { id: questId } },
         });
-
-        // TODO this code allows to get a category of a soft-deleted quest
-        // const queryBuilder = this.categoriesRepository.createQueryBuilder('c')
-        //     .withDeleted()
-        //     .leftJoinAndSelect('c.quests', 'q')
-        //     .where('q.id = :questId', { questId });
-        //
-        // const category = await queryBuilder.getOne();
 
         if (!category) throw new NotFoundException('Such quest does not exist');
 
@@ -113,13 +106,6 @@ export class QuestsService extends ResourceService<
 
         const quest = this.mapper.map(createDto, this.createDtoType, this.entityType);
         const savedQuest = this.mapper.map(await this.repository.save(quest), this.entityType, this.readOneDtoType);
-
-        // //TODO not sure how to access mappers from external services more correctly
-        // savedQuest.category = this.categoriesService.mapper.map(category, Category, ReadCategoryDto);
-        // savedQuest.skills = skills.map(skill =>
-        //     this.skillsService.mapper.map(skill, Skill, ReadSkillDto)
-        // );
-        // savedQuest.stages = [];
 
         for (let i = 0; i < createDto.stages.length; i++) {
             const stage = createDto.stages[i];
@@ -175,11 +161,6 @@ export class QuestsService extends ResourceService<
                 order: { index: 'ASC' },
                 withDeleted: true,
             });
-            // .createQueryBuilder('stage')
-            // .leftJoinAndSelect('stage.tasks', 'task')
-            // .where('stage.questId=:questId', { questId: quest.id })
-            // .withDeleted()
-            // .getMany();
 
             quest.stages = stages.map((stage) => this.mapper.map(stage, Stage, ReadStageDto));
         }
@@ -192,6 +173,7 @@ export class QuestsService extends ResourceService<
 
         const queryOptions: FindOneOptions<Quest> = {
             where: { id },
+            withDeleted: true,
             relations: {
                 stages: {
                     tasks: true,
@@ -199,10 +181,7 @@ export class QuestsService extends ResourceService<
                 questSkills: { skill: true },
                 category: true,
             },
-            //TODO make it work so that finished quests are also returned
-            //withDeleted: true,
         };
-
         return this.mapper.map(await this.repository.findOneOrFail(queryOptions), Quest, ReadQuestDto);
     }
 
