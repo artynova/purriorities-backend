@@ -124,7 +124,7 @@ export class UsersService extends ResourceService<User, CreateUserDto, ReadUserD
         ); // next day after last check
         lastCheckDateEnd.setMilliseconds(lastCheckDateEnd.getMilliseconds() - 1); //last moment of the last check day
         const endCheckDate = new Date();
-        const checkDate = lastCheckDateEnd < endCheckDate ? lastCheckDateEnd : endCheckDate;
+        const checkDate = lastCheckDateEnd < endCheckDate ? new Date(lastCheckDateEnd) : new Date(endCheckDate);
 
         const overdues = {} as Record<string, number>;
         const runaways: RunawayCatDto[] = [];
@@ -181,16 +181,14 @@ export class UsersService extends ResourceService<User, CreateUserDto, ReadUserD
             for (const quest of category.quests) {
                 if (!quest.deadline) continue;
                 if (quest.deadline >= date) continue;
-                const cutoffDate = new Date(
-                    quest.deadline.getFullYear(),
-                    quest.deadline.getMonth(),
-                    quest.deadline.getDate(),
-                    cutoffHours,
-                    cutoffMinutes,
-                    cutoffSeconds,
-                    cutoffMilliseconds,
-                );
-                if (cutoffDate > quest.deadline) continue; // deadline was processed before the cutoff
+
+                if (
+                    cutoffHours > quest.deadline.getHours() ||
+                    cutoffMinutes > quest.deadline.getMinutes() ||
+                    cutoffSeconds > quest.deadline.getSeconds() ||
+                    cutoffMilliseconds > quest.deadline.getMilliseconds()
+                )
+                    continue; // deadline was processed before the cutoff
 
                 overdues[quest.id] = (overdues[quest.id] ?? 0) + this.logicConfig.missDeadlineTrust(quest.priority);
 
