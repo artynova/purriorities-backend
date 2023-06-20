@@ -186,6 +186,7 @@ export class TasksService extends ResourceService<Task, CreateTaskDto, ReadTaskD
         fullQuest.deadline.setDate(fullQuest.deadline.getDate() + fullQuest.interval); // schedule the new copy
         if (fullQuest.limit !== null && fullQuest.limit < fullQuest.deadline) return;
         fullQuest.id = undefined;
+        fullQuest.finished = undefined;
         fullQuest.finishDate = null;
         const questSkills = fullQuest.questSkills;
         fullQuest.questSkills = null;
