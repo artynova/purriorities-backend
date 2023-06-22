@@ -52,8 +52,12 @@ export class UsersController {
     @Patch('me')
     async updateMe(@Req() request: Request, @Body() updateUserDto: UpdateUserDto): Promise<ReadUserDto> {
         const res = await this.service.update(request.user['id'], updateUserDto);
-        if (res.email !== request.user['email']) await this.sessionsService.fullLogout(request.user['email']); // email change => logout for all sessions
-        return res;
+        const previousEmail = request.user['email'];
+
+        if ((updateUserDto.email && res.email !== previousEmail) || updateUserDto.password)
+            await this.sessionsService.fullLogout(previousEmail); // email change or new password => logout for all sessions
+
+        return await this.service.readOne(request.user['id']);
     }
 
     /**
