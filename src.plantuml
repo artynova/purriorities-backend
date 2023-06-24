@@ -1,0 +1,2469 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype polyline
+
+class node180 as "@automapper/.../automapper-nestjs.module.d.ts" {
+   AutomapperModule: 
+}
+class node143 as "@automapper/.../automapper-profile.d.ts" {
+   AutomapperProfile: 
+}
+class node170 as "@automapper/.../classes.d.ts" {
+   classes: 
+}
+class node177 as "@automapper/.../for-member.d.ts" {
+   forMember: 
+}
+class node147 as "@automapper/.../index.d.ts" {
+   createMap: 
+}
+class node188 as "@automapper/.../index.d.ts" {
+   AutoMap: 
+}
+class node183 as "@automapper/.../inject-mapper.d.ts" {
+   InjectMapper: 
+}
+class node130 as "@automapper/.../map-from.d.ts" {
+   mapFrom: 
+}
+class node14 as "@automapper/.../map-with.d.ts" {
+   mapWith: 
+}
+class node6 as "@automapper/.../type-converters.d.ts" {
+   typeConverter: 
+}
+class node154 as "@automapper/.../types.d.ts" {
+   Mapper: 
+}
+class node82 as "@nestjs/.../api-cookie.decorator.d.ts" {
+   ApiCookieAuth: 
+}
+class node208 as "@nestjs/.../api-hide-property.decorator.d.ts" {
+   ApiHideProperty: 
+}
+class node138 as "@nestjs/.../api-response.decorator.d.ts" {
+   ApiBadRequestResponse: 
+   ApiCreatedResponse: 
+   ApiOkResponse: 
+   ApiUnauthorizedResponse: 
+}
+class node200 as "@nestjs/.../api-use-tags.decorator.d.ts" {
+   ApiTags: 
+}
+class node195 as "@nestjs/.../arguments-host.interface.d.ts" {
+   ArgumentsHost: 
+}
+class node27 as "@nestjs/.../auth.guard.d.ts" {
+   AuthGuard: 
+}
+class node83 as "@nestjs/.../bad-request.exception.d.ts" {
+   BadRequestException: 
+}
+class node169 as "@nestjs/.../base-exception-filter.d.ts" {
+   BaseExceptionFilter: 
+}
+class node29 as "@nestjs/.../can-activate.interface.d.ts" {
+   CanActivate: 
+}
+class node56 as "@nestjs/.../catch.decorator.d.ts" {
+   Catch: 
+}
+class node176 as "@nestjs/.../config.module.d.ts" {
+   ConfigModule: 
+}
+class node124 as "@nestjs/.../config.service.d.ts" {
+   ConfigService: 
+}
+class node116 as "@nestjs/.../constants.d.ts" {
+   APP_FILTER: 
+   APP_GUARD: 
+}
+class node106 as "@nestjs/.../cron-expression.enum.d.ts" {
+   CronExpression: 
+}
+class node67 as "@nestjs/.../cron.decorator.d.ts" {
+   Cron: 
+}
+class node9 as "@nestjs/.../document-builder.d.ts" {
+   DocumentBuilder: 
+}
+class node129 as "@nestjs/.../execution-context.interface.d.ts" {
+   ExecutionContext: 
+}
+class node125 as "@nestjs/.../forbidden.exception.d.ts" {
+   ForbiddenException: 
+}
+class node17 as "@nestjs/.../global.decorator.d.ts" {
+   Global: 
+}
+class node41 as "@nestjs/.../index.d.ts" {
+   Body: 
+   Controller: 
+   Param: 
+}
+class node210 as "@nestjs/.../injectable.decorator.d.ts" {
+   Injectable: 
+}
+class node58 as "@nestjs/.../internal-server-error.exception.d.ts" {
+   InternalServerErrorException: 
+}
+class node142 as "@nestjs/.../logger.service.d.ts" {
+   Logger: 
+}
+class node20 as "@nestjs/.../middleware-consumer.interface.d.ts" {
+   MiddlewareConsumer: 
+}
+class node79 as "@nestjs/.../module.decorator.d.ts" {
+   Module: 
+}
+class node51 as "@nestjs/.../nest-application.interface.d.ts" {
+   INestApplication: 
+}
+class node209 as "@nestjs/.../nest-factory.d.ts" {
+   NestFactory: 
+}
+class node111 as "@nestjs/.../nest-middleware.interface.d.ts" {
+   NestMiddleware: 
+}
+class node146 as "@nestjs/.../nest-module.interface.d.ts" {
+   NestModule: 
+}
+class node155 as "@nestjs/.../not-found.exception.d.ts" {
+   NotFoundException: 
+}
+class node123 as "@nestjs/.../passport.module.d.ts" {
+   PassportModule: 
+}
+class node15 as "@nestjs/.../passport.serializer.d.ts" {
+   PassportSerializer: 
+}
+class node105 as "@nestjs/.../passport.strategy.d.ts" {
+   PassportStrategy: 
+}
+class node102 as "@nestjs/.../reflector.service.d.ts" {
+   Reflector: 
+}
+class node76 as "@nestjs/.../request-mapping.decorator.d.ts" {
+   Delete: 
+   Get: 
+   Patch: 
+   Post: 
+}
+class node156 as "@nestjs/.../route-params.decorator.d.ts" {
+   Req: 
+   Res: 
+}
+class node69 as "@nestjs/.../schedule.module.d.ts" {
+   ScheduleModule: 
+}
+class node78 as "@nestjs/.../serve-static.module.d.ts" {
+   ServeStaticModule: 
+}
+class node35 as "@nestjs/.../set-metadata.decorator.d.ts" {
+   SetMetadata: 
+}
+class node42 as "@nestjs/.../swagger-module.d.ts" {
+   SwaggerModule: 
+}
+class node119 as "@nestjs/.../type.interface.d.ts" {
+   Type: 
+}
+class node133 as "@nestjs/.../typeorm.decorators.d.ts" {
+   InjectRepository: 
+}
+class node98 as "@nestjs/.../typeorm.module.d.ts" {
+   TypeOrmModule: 
+}
+class node57 as "@nestjs/.../unauthorized.exception.d.ts" {
+   UnauthorizedException: 
+}
+class node61 as "@nestjs/.../use-guards.decorator.d.ts" {
+   UseGuards: 
+}
+class node43 as "@nestjs/.../validation.pipe.d.ts" {
+   ValidationPipe: 
+}
+class node33 as "@types/.../index.d.ts" {
+   Strategy: 
+}
+class node45 as "@types/.../index.d.ts" {
+   NextFunction: 
+   Request: 
+   Response: 
+}
+class node46 as "@types/.../index.d.ts"
+class node137 as "@types/.../index.d.ts"
+class node161 as "@types/.../index.d.ts"
+class node167 as "@types/.../index.d.ts" {
+   load: 
+}
+class node148 as "auth/accounts.serializer.ts" {
+   AccountDto: 
+   AccountsSerializer: 
+   AuthService: 
+   Injectable: 
+   PassportSerializer: 
+   User: 
+}
+class node7 as "auth/auth.controller.ts" {
+   ApiCookieAuth: 
+   ApiCreatedResponse: 
+   ApiOkResponse: 
+   ApiTags: 
+   ApiUnauthorizedResponse: 
+   AuthController: 
+   AuthService: 
+   Body: 
+   Controller: 
+   Delete: 
+   InternalServerErrorException: 
+   IsNotAuthenticatedGuard: 
+   LocalAuthGuard: 
+   LoginDto: 
+   NoGlobalAuth: 
+   Post: 
+   Req: 
+   Request: 
+   SessionsService: 
+   UseGuards: 
+}
+class node152 as "auth/auth.mapper.ts" {
+   AccountDto: 
+   AuthMapper: 
+   AutomapperProfile: 
+   InjectMapper: 
+   Injectable: 
+   Mapper: 
+   User: 
+   createMap: 
+}
+class node136 as "auth/auth.module.ts" {
+   AccountsSerializer: 
+   AuthController: 
+   AuthMapper: 
+   AuthModule: 
+   AuthService: 
+   LocalStrategy: 
+   Module: 
+   PassportModule: 
+   Session: 
+   SessionsService: 
+   TypeOrmModule: 
+   User: 
+}
+class node184 as "auth/auth.service.ts" {
+   AccountDto: 
+   AuthService: 
+   InjectMapper: 
+   InjectRepository: 
+   Injectable: 
+   Mapper: 
+   Repository: 
+   UnauthorizedException: 
+   User: 
+   bcrypt: 
+}
+class node178 as "auth/local.strategy.ts" {
+   AccountDto: 
+   AuthService: 
+   Injectable: 
+   LocalStrategy: 
+   PassportStrategy: 
+   Strategy: 
+}
+class node149 as "auth/sessions.service.ts" {
+   InjectRepository: 
+   Injectable: 
+   JsonContains: 
+   Repository: 
+   Session: 
+   SessionsService: 
+}
+class node199 as "categories/categories.controller.ts" {
+   ApiTags: 
+   Body: 
+   CategoriesController: 
+   CategoriesService: 
+   Controller: 
+   CreateCategoryDto: 
+   Delete: 
+   Get: 
+   Paginate: 
+   PaginateQuery: 
+   Param: 
+   Patch: 
+   Post: 
+   ReadCategoryDto: 
+   ReadManyCategoriesDto: 
+   Req: 
+   Request: 
+   UpdateCategoryDto: 
+}
+class node181 as "categories/categories.mapper.ts" {
+   AutomapperProfile: 
+   CategoriesMapper: 
+   Category: 
+   CreateCategoryDto: 
+   InjectMapper: 
+   Injectable: 
+   Mapper: 
+   ReadCategoryDto: 
+   ReadManyCategoriesDto: 
+   UpdateCategoryDto: 
+   createMap: 
+   createPaginatedToReadManyMap: 
+}
+class node135 as "categories/categories.module.ts" {
+   CategoriesController: 
+   CategoriesMapper: 
+   CategoriesModule: 
+   CategoriesService: 
+   Category: 
+   Module: 
+   Quest: 
+   QuestsMapper: 
+   TypeOrmModule: 
+   User: 
+   UsersMapper: 
+}
+class node101 as "categories/categories.service.ts" {
+   CategoriesService: 
+   Category: 
+   CreateCategoryDto: 
+   ForbiddenException: 
+   InjectMapper: 
+   InjectRepository: 
+   Injectable: 
+   Mapper: 
+   ReadCategoryDto: 
+   ReadManyCategoriesDto: 
+   Repository: 
+   ResourceService: 
+   UpdateCategoryDto: 
+}
+class node37 as "cats/cats.controller.ts" {
+   ApiCookieAuth: 
+   ApiTags: 
+   CatsController: 
+   CatsService: 
+   Controller: 
+   Get: 
+   HttpConfigService: 
+   NoGlobalAuth: 
+   NotFoundException: 
+   Paginate: 
+   PaginateQuery: 
+   Param: 
+   ReadCatDto: 
+   ReadManyCatsDto: 
+   Res: 
+   Response: 
+   existsSync: 
+   resolve: 
+}
+class node179 as "cats/cats.mapper.ts" {
+   AutomapperProfile: 
+   Cat: 
+   CatOwnership: 
+   CatsMapper: 
+   InjectMapper: 
+   Injectable: 
+   LogicConfigService: 
+   Mapper: 
+   ReadCatDto: 
+   ReadCatOwnershipDto: 
+   ReadManyCatsDto: 
+   createMap: 
+   createPaginatedToReadManyMap: 
+   forMember: 
+   mapFrom: 
+}
+class node44 as "cats/cats.module.ts" {
+   Cat: 
+   CatsController: 
+   CatsMapper: 
+   CatsModule: 
+   CatsService: 
+   Module: 
+   TypeOrmModule: 
+}
+class node190 as "cats/cats.service.ts" {
+   Cat: 
+   CatsService: 
+   InjectMapper: 
+   InjectRepository: 
+   Injectable: 
+   Mapper: 
+   NotFoundException: 
+   PaginateConfig: 
+   PaginateQuery: 
+   Paginated: 
+   ReadCatDto: 
+   ReadManyCatsDto: 
+   Repository: 
+   paginate: 
+}
+class node28 as "class-transformer/.../type.decorator.d.ts" {
+   Type: 
+}
+class node212 as "class-validator/.../IsArray.d.ts" {
+   IsArray: 
+}
+class node202 as "class-validator/.../IsDateString.d.ts" {
+   IsDateString: 
+}
+class node113 as "class-validator/.../IsEmail.d.ts" {
+   IsEmail: 
+}
+class node77 as "class-validator/.../IsEnum.d.ts" {
+   IsEnum: 
+}
+class node114 as "class-validator/.../IsInt.d.ts" {
+   IsInt: 
+}
+class node196 as "class-validator/.../IsNotEmpty.d.ts" {
+   IsNotEmpty: 
+}
+class node166 as "class-validator/.../IsOptional.d.ts" {
+   IsOptional: 
+}
+class node39 as "class-validator/.../IsPositive.d.ts" {
+   IsPositive: 
+}
+class node16 as "class-validator/.../IsUUID.d.ts" {
+   IsUUID: 
+}
+class node92 as "class-validator/.../Min.d.ts" {
+   Min: 
+}
+class node13 as "class-validator/.../MinLength.d.ts" {
+   MinLength: 
+}
+class node94 as "class-validator/.../ValidateNested.d.ts" {
+   ValidateNested: 
+}
+class node140 as "class-validator/.../ValidationError.d.ts" {
+   ValidationError: 
+}
+class node182 as "class-validator/.../index.d.ts" {
+   validateOrReject: 
+}
+class node189 as "cleanup/cleanup.module.ts" {
+   CleanupModule: 
+   CleanupService: 
+   Module: 
+   Quest: 
+   TypeOrmModule: 
+}
+class node185 as "cleanup/cleanup.service.ts" {
+   CleanupService: 
+   Cron: 
+   CronExpression: 
+   InjectRepository: 
+   Injectable: 
+   LogicConfigService: 
+   Quest: 
+   Repository: 
+}
+class node90 as "connect-typeorm/.../ISession.d.ts" {
+   ISession: 
+}
+class node112 as "connect-typeorm/.../TypeormStore.d.ts" {
+   TypeormStore: 
+}
+class node134 as "decorators/no-global-auth.decorator.ts" {
+   IS_PUBLIC_KEY: 
+   NoGlobalAuth: 
+   SetMetadata: 
+}
+class node74 as "dtos/account.dto.ts" {
+   AccountDto: 
+   AutoMap: 
+}
+class node70 as "dtos/create-category.dto.ts" {
+   ApiHideProperty: 
+   AutoMap: 
+   CreateCategoryDto: 
+   IsNotEmpty: 
+}
+class node141 as "dtos/create-quest.dto.ts" {
+   AutoMap: 
+   CreateQuestDto: 
+   CreateStageDto: 
+   IsArray: 
+   IsDateString: 
+   IsEnum: 
+   IsInt: 
+   IsNotEmpty: 
+   IsOptional: 
+   IsUUID: 
+   Min: 
+   Priority: 
+   Type: 
+   ValidateNested: 
+}
+class node118 as "dtos/create-skill.dto.ts" {
+   ApiHideProperty: 
+   AutoMap: 
+   CreateSkillDto: 
+   IsNotEmpty: 
+}
+class node52 as "dtos/create-stage.dto.ts" {
+   AutoMap: 
+   CreateStageDto: 
+   CreateTaskDto: 
+   IsArray: 
+   IsInt: 
+   IsNotEmpty: 
+   IsOptional: 
+   Type: 
+   ValidateNested: 
+}
+class node191 as "dtos/create-task.dto.ts" {
+   AutoMap: 
+   CreateTaskDto: 
+   IsInt: 
+   IsNotEmpty: 
+   Min: 
+}
+class node160 as "dtos/create-user.dto.ts" {
+   AutoMap: 
+   CreateUserDto: 
+   IsEmail: 
+   IsNotEmpty: 
+   MinLength: 
+}
+class node150 as "dtos/login.dto.ts" {
+   IsNotEmpty: 
+   LoginDto: 
+}
+class node25 as "dtos/punishment.dto.ts" {
+   PunishmentDto: 
+   RunawayCatDto: 
+}
+class node145 as "dtos/read-cat-ownership.dto.ts" {
+   AutoMap: 
+   ReadCatOwnershipDto: 
+}
+class node72 as "dtos/read-cat.dto.ts" {
+   AutoMap: 
+   Rarity: 
+   ReadCatDto: 
+}
+class node93 as "dtos/read-category.dto.ts" {
+   AutoMap: 
+   ReadCategoryDto: 
+}
+class node12 as "dtos/read-many-categories.dto.ts" {
+   ReadCategoryDto: 
+   ReadManyCategoriesDto: 
+   ReadManyDtoBase: 
+}
+class node34 as "dtos/read-many-cats.dto.ts" {
+   ReadCatDto: 
+   ReadManyCatsDto: 
+   ReadManyDtoBase: 
+}
+class node174 as "dtos/read-many-quests.dto.ts" {
+   ReadManyDtoBase: 
+   ReadManyQuestsDto: 
+   ReadQuestDto: 
+}
+class node55 as "dtos/read-many-skills.dto.ts" {
+   ReadManyDtoBase: 
+   ReadManySkillsDto: 
+   ReadSkillDto: 
+}
+class node201 as "dtos/read-many-stages.dto.ts" {
+   ReadManyDtoBase: 
+   ReadManyStagesDto: 
+   ReadStageDto: 
+}
+class node10 as "dtos/read-many-tasks.dto.ts" {
+   ReadManyDtoBase: 
+   ReadManyTasksDto: 
+   ReadTaskDto: 
+}
+class node22 as "dtos/read-many-users.ts" {
+   ReadManyDtoBase: 
+   ReadManyUsersDto: 
+   ReadUserDto: 
+}
+class node207 as "dtos/read-quest.dto.ts" {
+   AutoMap: 
+   Priority: 
+   ReadCategoryDto: 
+   ReadQuestDto: 
+   ReadSkillDto: 
+   ReadStageDto: 
+}
+class node47 as "dtos/read-short-skill.dto.ts" {
+   AutoMap: 
+   ReadShortSkillDto: 
+}
+class node31 as "dtos/read-skill.dto.ts" {
+   AutoMap: 
+   ReadShortSkillDto: 
+   ReadSkillDto: 
+}
+class node144 as "dtos/read-stage.dto.ts" {
+   AutoMap: 
+   ReadStageDto: 
+   ReadTaskDto: 
+}
+class node84 as "dtos/read-task.dto.ts" {
+   AutoMap: 
+   ReadTaskDto: 
+}
+class node48 as "dtos/read-user.dto.ts" {
+   AutoMap: 
+   ReadCatOwnershipDto: 
+   ReadUserDto: 
+}
+class node21 as "dtos/refuse-response.dto.ts" {
+   PunishmentDto: 
+   RefuseResponseDto: 
+   RewardDto: 
+}
+class node8 as "dtos/reward.dto.ts" {
+   RewardDto: 
+   SkillRewardDto: 
+}
+class node193 as "dtos/store-pricing.dto.ts" {
+   StorePricingDto: 
+}
+class node18 as "dtos/sync-user.dto.ts" {
+   AutoMap: 
+   ReadCategoryDto: 
+   ReadSkillDto: 
+   ReadUserDto: 
+   SyncUserDto: 
+}
+class node204 as "dtos/update-category.dto.ts" {
+   AutoMap: 
+   IsNotEmpty: 
+   IsOptional: 
+   UpdateCategoryDto: 
+}
+class node153 as "dtos/update-quest.dto.ts" {
+   AutoMap: 
+   IsArray: 
+   IsDateString: 
+   IsEnum: 
+   IsInt: 
+   IsNotEmpty: 
+   IsOptional: 
+   IsUUID: 
+   Min: 
+   Priority: 
+   Type: 
+   UpdateQuestDto: 
+   UpdateStageDto: 
+   ValidateNested: 
+}
+class node173 as "dtos/update-skill.dto.ts" {
+   AutoMap: 
+   IsNotEmpty: 
+   IsUUID: 
+   UpdateSkillDto: 
+}
+class node100 as "dtos/update-stage.dto.ts" {
+   AutoMap: 
+   IsArray: 
+   IsInt: 
+   IsNotEmpty: 
+   IsOptional: 
+   Type: 
+   UpdateStageDto: 
+   UpdateTaskDto: 
+   ValidateNested: 
+}
+class node168 as "dtos/update-task.dto.ts" {
+   AutoMap: 
+   IsInt: 
+   IsNotEmpty: 
+   IsOptional: 
+   Min: 
+   UpdateTaskDto: 
+}
+class node163 as "dtos/update-user.dto.ts" {
+   AutoMap: 
+   IsEmail: 
+   IsNotEmpty: 
+   IsOptional: 
+   MinLength: 
+   UpdateUserDto: 
+}
+class node4 as "entities/cat-ownership.entity.ts" {
+   AutoMap: 
+   Cat: 
+   CatOwnership: 
+   Column: 
+   CreateDateColumn: 
+   Entity: 
+   IsInt: 
+   IsPositive: 
+   JoinColumn: 
+   ManyToOne: 
+   PrimaryColumn: 
+   User: 
+}
+class node122 as "entities/cat.entity.ts" {
+   AutoMap: 
+   Cat: 
+   Column: 
+   Entity: 
+   PrimaryColumn: 
+   Rarity: 
+}
+class node40 as "entities/category.entity.ts" {
+   AutoMap: 
+   Category: 
+   Column: 
+   Entity: 
+   JoinColumn: 
+   ManyToOne: 
+   OneToMany: 
+   Quest: 
+   Resource: 
+   Unique: 
+   User: 
+}
+class node53 as "entities/quest-skill.entity.ts" {
+   AutoMap: 
+   Column: 
+   Entity: 
+   JoinColumn: 
+   ManyToOne: 
+   PrimaryColumn: 
+   Quest: 
+   QuestSkill: 
+   Skill: 
+}
+class node64 as "entities/quest.entity.ts" {
+   AutoMap: 
+   Category: 
+   Column: 
+   DeleteDateColumn: 
+   Entity: 
+   JoinColumn: 
+   Lateness: 
+   ManyToOne: 
+   OneToMany: 
+   Priority: 
+   Quest: 
+   QuestSkill: 
+   Resource: 
+   Stage: 
+}
+class node50 as "entities/session.entity.ts" {
+   Column: 
+   DeleteDateColumn: 
+   Entity: 
+   ISession: 
+   Index: 
+   PrimaryColumn: 
+   Session: 
+}
+class node139 as "entities/skill.entity.ts" {
+   AutoMap: 
+   Column: 
+   Entity: 
+   ExperienceLevelable: 
+   JoinColumn: 
+   ManyToOne: 
+   Resource: 
+   Skill: 
+   Unique: 
+   User: 
+}
+class node197 as "entities/stage.entity.ts" {
+   AutoMap: 
+   Column: 
+   DeleteDateColumn: 
+   Entity: 
+   JoinColumn: 
+   ManyToOne: 
+   OneToMany: 
+   Quest: 
+   Resource: 
+   Stage: 
+   Task: 
+}
+class node1 as "entities/task.entity.ts" {
+   AutoMap: 
+   Column: 
+   CreateDateColumn: 
+   DeleteDateColumn: 
+   Entity: 
+   JoinColumn: 
+   ManyToOne: 
+   Resource: 
+   Stage: 
+   Task: 
+}
+class node128 as "entities/user.entity.ts" {
+   AutoMap: 
+   CatOwnership: 
+   Category: 
+   Column: 
+   CreateDateColumn: 
+   Entity: 
+   ExperienceLevelable: 
+   OneToMany: 
+   Resource: 
+   Skill: 
+   User: 
+}
+class node91 as "filters/all-exceptions.filter.ts" {
+   AllExceptionsFilter: 
+   ArgumentsHost: 
+   BadRequestException: 
+   BaseExceptionFilter: 
+   Catch: 
+   QueryFailedError: 
+}
+class fs {
+   existsSync: 
+   readFileSync: 
+   readdirSync: 
+   statSync: 
+}
+class node60 as "guards/is-authenticated.guard.ts" {
+   CanActivate: 
+   ExecutionContext: 
+   IS_PUBLIC_KEY: 
+   Injectable: 
+   IsAuthenticatedGuard: 
+   Reflector: 
+   Request: 
+   UnauthorizedException: 
+}
+class node132 as "guards/is-not-authenticated.guard.ts" {
+   BadRequestException: 
+   CanActivate: 
+   ExecutionContext: 
+   Injectable: 
+   IsNotAuthenticatedGuard: 
+   Request: 
+}
+class node49 as "guards/local-auth.guard.ts" {
+   AuthGuard: 
+   ExecutionContext: 
+   LocalAuthGuard: 
+   Request: 
+}
+class node38 as "helpers/database.ts" {
+   DataSourceOptions: 
+   DatabaseSettings: 
+   dataSourceOptions: 
+}
+class node104 as "helpers/formulas.ts" {
+   ExpFormula: 
+   boundedProgression: 
+   exponentialProgression: 
+   getLevelCap: 
+   roundForIncrement: 
+}
+class node62 as "helpers/mapping.ts" {
+   Mapper: 
+   Paginated: 
+   ReadManyDtoBase: 
+   ReadManyMeta: 
+   Type: 
+   createMap: 
+   createPaginatedToReadManyMap: 
+   forMember: 
+   mapFrom: 
+   mapWith: 
+}
+class node54 as "helpers/punishment.ts" {
+   CatOwnership: 
+   LogicConfigService: 
+   Rarity: 
+   RunawayCatDto: 
+   User: 
+   randomFromArray: 
+   subtractTrust: 
+   subtractTrustToday: 
+}
+class node165 as "helpers/random.ts" {
+   WeightedOption: 
+   randomFromArray: 
+   weightedRandom: 
+}
+class node171 as "helpers/rewards.ts" {
+   CatOwnership: 
+   ExpFormula: 
+   ExperienceLevelable: 
+   LogicConfigService: 
+   Quest: 
+   Task: 
+   addExperienceProper: 
+   getCompletedMinutes: 
+   getExpBoost: 
+   getLevelCap: 
+   roundForIncrement: 
+   taskFeedReward: 
+}
+class node203 as "helpers/validation.ts" {
+   ValidationError: 
+   buildErrorsString: 
+}
+class node126 as "helpers/yaml.ts" {
+   load: 
+   loadObject: 
+   readFileSync: 
+}
+class node73 as "middleware/request-logger.middleware.ts" {
+   Injectable: 
+   Logger: 
+   NestMiddleware: 
+   NextFunction: 
+   Request: 
+   RequestLoggerMiddleware: 
+   Response: 
+}
+class node36 as "nestjs-paginate/.../decorator.d.ts" {
+   Paginate: 
+   PaginateQuery: 
+}
+class node66 as "nestjs-paginate/.../filter.d.ts" {
+   FilterOperator: 
+}
+class node159 as "nestjs-paginate/.../paginate.d.ts" {
+   PaginateConfig: 
+   Paginated: 
+   paginate: 
+}
+class path {
+   resolve: 
+}
+class node198 as "processed-config/auth-config.service.ts" {
+   AuthConfigService: 
+   ConfigService: 
+   Injectable: 
+}
+class node110 as "processed-config/core-config.service.ts" {
+   ConfigService: 
+   CoreConfigService: 
+   Injectable: 
+}
+class node117 as "processed-config/database-config.service.ts" {
+   ConfigService: 
+   DataSourceOptions: 
+   DatabaseConfigService: 
+   DatabaseSettings: 
+   Injectable: 
+   dataSourceOptions: 
+}
+class node157 as "processed-config/http-config.service.ts" {
+   ConfigService: 
+   HttpConfigService: 
+   Injectable: 
+}
+class node80 as "processed-config/logic-config.service.ts" {
+   BoostFormula: 
+   BoostFormulaSettings: 
+   CaseSettings: 
+   ConfigService: 
+   ExpFormula: 
+   ExpFormulaSettings: 
+   Injectable: 
+   Lateness: 
+   LogicConfigService: 
+   PriceFormula: 
+   PriceFormulaSettings: 
+   Priority: 
+   Rarity: 
+   boundedProgression: 
+   exponentialProgression: 
+   weightedRandom: 
+}
+class node115 as "processed-config/openapi-config.service.ts" {
+   ConfigService: 
+   DocumentBuilder: 
+   Injectable: 
+   OpenApiConfigService: 
+}
+class node127 as "processed-config/processed-config.module.ts" {
+   AuthConfigService: 
+   ConfigModule: 
+   CoreConfigService: 
+   DatabaseConfigService: 
+   Global: 
+   HttpConfigService: 
+   LogicConfigService: 
+   Module: 
+   OpenApiConfigService: 
+   ProcessedConfigModule: 
+   commonSource: 
+   environmentSource: 
+}
+class node107 as "processed-config/sources.ts" {
+   commonSource: 
+   environmentSource: 
+   load: 
+   readFileSync: 
+   resolve: 
+}
+class node30 as "quests/quests.controller.ts" {
+   ApiCookieAuth: 
+   ApiTags: 
+   Body: 
+   Controller: 
+   CreateQuestDto: 
+   Delete: 
+   Get: 
+   Paginate: 
+   PaginateQuery: 
+   Param: 
+   Post: 
+   QuestsController: 
+   QuestsService: 
+   ReadManyQuestsDto: 
+   ReadQuestDto: 
+   Req: 
+   Request: 
+}
+class node65 as "quests/quests.mapper.ts" {
+   AutomapperProfile: 
+   CreateQuestDto: 
+   InjectMapper: 
+   Injectable: 
+   LogicConfigService: 
+   Mapper: 
+   Quest: 
+   QuestSkill: 
+   QuestsMapper: 
+   ReadCategoryDto: 
+   ReadManyQuestsDto: 
+   ReadQuestDto: 
+   ReadSkillDto: 
+   ReadStageDto: 
+   ReadTaskDto: 
+   Stage: 
+   Task: 
+   createMap: 
+   createPaginatedToReadManyMap: 
+   forMember: 
+   getLevelCap: 
+   mapFrom: 
+   typeConverter: 
+}
+class node205 as "quests/quests.module.ts" {
+   Cat: 
+   CatOwnership: 
+   CategoriesMapper: 
+   CategoriesService: 
+   Category: 
+   LogicConfigService: 
+   Module: 
+   Quest: 
+   QuestSkill: 
+   QuestsController: 
+   QuestsMapper: 
+   QuestsModule: 
+   QuestsService: 
+   Skill: 
+   SkillsMapper: 
+   SkillsService: 
+   Stage: 
+   StagesMapper: 
+   StagesModule: 
+   Task: 
+   TasksMapper: 
+   TasksService: 
+   TypeOrmModule: 
+   User: 
+}
+class node0 as "quests/quests.service.ts" {
+   BadRequestException: 
+   CategoriesService: 
+   Category: 
+   CreateQuestDto: 
+   FilterOperator: 
+   FindOneOptions: 
+   InjectMapper: 
+   InjectRepository: 
+   Injectable: 
+   Mapper: 
+   NotFoundException: 
+   PaginateQuery: 
+   Paginated: 
+   Quest: 
+   QuestSkill: 
+   QuestsService: 
+   ReadManyQuestsDto: 
+   ReadQuestDto: 
+   ReadStageDto: 
+   Repository: 
+   ResourceService: 
+   Skill: 
+   SkillsService: 
+   Stage: 
+   Task: 
+   UpdateQuestDto: 
+   paginate: 
+}
+class node59 as "resource-base/read-many-meta.dto.ts" {
+   ReadManyMeta: 
+}
+class node86 as "resource-base/read-many.dto-base.ts" {
+   ReadManyDtoBase: 
+   ReadManyMeta: 
+}
+class node85 as "resource-base/resource.entity-base.ts" {
+   AutoMap: 
+   PrimaryGeneratedColumn: 
+   Resource: 
+}
+class node87 as "resource-base/resource.service-base.ts" {
+   BadRequestException: 
+   FindManyOptions: 
+   FindOptionsWhere: 
+   ForbiddenException: 
+   Mapper: 
+   NotFoundException: 
+   PaginateConfig: 
+   PaginateQuery: 
+   Paginated: 
+   ReadManyDtoBase: 
+   Repository: 
+   Resource: 
+   ResourceService: 
+   Type: 
+   buildErrorsString: 
+   paginate: 
+   validateOrReject: 
+}
+class node194 as "scripts/seed.ts" {
+   Cat: 
+   DataSource: 
+   DatabaseSettings: 
+   dataSourceOptions: 
+   load: 
+   loadObject: 
+   readFileSync: 
+   readdirSync: 
+   resolve: 
+   statSync: 
+}
+class node11 as "skills/skills.controller.ts" {
+   ApiCookieAuth: 
+   ApiTags: 
+   Body: 
+   Controller: 
+   CreateSkillDto: 
+   Delete: 
+   Get: 
+   Paginate: 
+   PaginateQuery: 
+   Param: 
+   Patch: 
+   Post: 
+   ReadManySkillsDto: 
+   ReadSkillDto: 
+   Req: 
+   Request: 
+   SkillsController: 
+   SkillsService: 
+   UpdateSkillDto: 
+}
+class node151 as "skills/skills.mapper.ts" {
+   AutomapperProfile: 
+   CreateSkillDto: 
+   InjectMapper: 
+   Injectable: 
+   LogicConfigService: 
+   Mapper: 
+   ReadManySkillsDto: 
+   ReadShortSkillDto: 
+   ReadSkillDto: 
+   Skill: 
+   SkillsMapper: 
+   UpdateSkillDto: 
+   createMap: 
+   createPaginatedToReadManyMap: 
+   forMember: 
+   getLevelCap: 
+   mapFrom: 
+}
+class node81 as "skills/skills.module.ts" {
+   Module: 
+   Skill: 
+   SkillsController: 
+   SkillsMapper: 
+   SkillsModule: 
+   SkillsService: 
+   TypeOrmModule: 
+}
+class node162 as "skills/skills.service.ts" {
+   CreateSkillDto: 
+   InjectMapper: 
+   InjectRepository: 
+   Injectable: 
+   Mapper: 
+   ReadManySkillsDto: 
+   ReadSkillDto: 
+   Repository: 
+   ResourceService: 
+   Skill: 
+   SkillsService: 
+   UpdateSkillDto: 
+}
+class node23 as "src/app.module.ts" {
+   APP_FILTER: 
+   APP_GUARD: 
+   AllExceptionsFilter: 
+   AppModule: 
+   AuthConfigService: 
+   AuthModule: 
+   AutomapperModule: 
+   CategoriesModule: 
+   CatsModule: 
+   CleanupModule: 
+   CoreConfigService: 
+   DatabaseConfigService: 
+   HttpConfigService: 
+   IsAuthenticatedGuard: 
+   MiddlewareConsumer: 
+   Module: 
+   NestModule: 
+   OpenApiConfigService: 
+   ProcessedConfigModule: 
+   QuestsModule: 
+   RequestLoggerMiddleware: 
+   ScheduleModule: 
+   ServeStaticModule: 
+   SkillsModule: 
+   StagesModule: 
+   StoreModule: 
+   TasksModule: 
+   TypeOrmModule: 
+   UsersModule: 
+   classes: 
+}
+class node71 as "src/main.ts" {
+   AppModule: 
+   AuthConfigService: 
+   CoreConfigService: 
+   DataSource: 
+   DatabaseConfigService: 
+   HttpConfigService: 
+   INestApplication: 
+   NestFactory: 
+   OpenApiConfigService: 
+   Session: 
+   SwaggerModule: 
+   TypeormStore: 
+   ValidationPipe: 
+   passport: 
+   session: 
+}
+class node3 as "stages/stages.mapper.ts" {
+   AutomapperProfile: 
+   CreateStageDto: 
+   InjectMapper: 
+   Injectable: 
+   Mapper: 
+   ReadManyStagesDto: 
+   ReadStageDto: 
+   Stage: 
+   StagesMapper: 
+   UpdateStageDto: 
+   createMap: 
+   createPaginatedToReadManyMap: 
+   forMember: 
+   mapFrom: 
+}
+class node24 as "stages/stages.module.ts" {
+   Cat: 
+   CatOwnership: 
+   Module: 
+   Quest: 
+   QuestSkill: 
+   Skill: 
+   Stage: 
+   StagesMapper: 
+   StagesModule: 
+   Task: 
+   TasksMapper: 
+   TasksModule: 
+   TasksService: 
+   TypeOrmModule: 
+   User: 
+}
+class node211 as "store/store.controller.ts" {
+   ApiBadRequestResponse: 
+   ApiCookieAuth: 
+   ApiTags: 
+   ApiUnauthorizedResponse: 
+   Controller: 
+   Get: 
+   Param: 
+   Post: 
+   ReadCatOwnershipDto: 
+   Req: 
+   Request: 
+   StoreController: 
+   StorePricingDto: 
+   StoreService: 
+}
+class node120 as "store/store.module.ts" {
+   Cat: 
+   CatOwnership: 
+   CatsMapper: 
+   Module: 
+   StoreController: 
+   StoreModule: 
+   StoreService: 
+   TypeOrmModule: 
+   User: 
+}
+class node88 as "store/store.service.ts" {
+   BadRequestException: 
+   Cat: 
+   CatOwnership: 
+   InjectMapper: 
+   InjectRepository: 
+   Injectable: 
+   LogicConfigService: 
+   Mapper: 
+   Rarity: 
+   ReadCatOwnershipDto: 
+   Repository: 
+   StorePricingDto: 
+   StoreService: 
+   User: 
+   randomFromArray: 
+}
+class node99 as "tasks/tasks.controller.ts" {
+   ApiCookieAuth: 
+   ApiTags: 
+   Controller: 
+   Param: 
+   Post: 
+   RefuseResponseDto: 
+   Req: 
+   Request: 
+   RewardDto: 
+   TasksController: 
+   TasksService: 
+}
+class node26 as "tasks/tasks.mapper.ts" {
+   AutomapperProfile: 
+   CreateTaskDto: 
+   InjectMapper: 
+   Injectable: 
+   Mapper: 
+   ReadManyTasksDto: 
+   ReadTaskDto: 
+   Task: 
+   TasksMapper: 
+   UpdateTaskDto: 
+   createMap: 
+   createPaginatedToReadManyMap: 
+}
+class node187 as "tasks/tasks.module.ts" {
+   Cat: 
+   CatOwnership: 
+   Module: 
+   Quest: 
+   QuestSkill: 
+   QuestsMapper: 
+   Skill: 
+   Stage: 
+   Task: 
+   TasksController: 
+   TasksMapper: 
+   TasksModule: 
+   TasksService: 
+   TypeOrmModule: 
+   User: 
+}
+class node121 as "tasks/tasks.service.ts" {
+   CatOwnership: 
+   CreateTaskDto: 
+   ForbiddenException: 
+   InjectMapper: 
+   InjectRepository: 
+   Injectable: 
+   LogicConfigService: 
+   Mapper: 
+   NotFoundException: 
+   Quest: 
+   QuestSkill: 
+   ReadManyTasksDto: 
+   ReadTaskDto: 
+   RefuseResponseDto: 
+   Repository: 
+   ResourceService: 
+   RewardDto: 
+   Skill: 
+   SkillRewardDto: 
+   Stage: 
+   Task: 
+   TasksService: 
+   UpdateTaskDto: 
+   User: 
+   addExperienceProper: 
+   getCompletedMinutes: 
+   getExpBoost: 
+   subtractTrustToday: 
+   taskFeedReward: 
+}
+class node2 as "typeorm/.../CreateDateColumn.d.ts" {
+   CreateDateColumn: 
+}
+class node89 as "typeorm/.../DataSource.d.ts" {
+   DataSource: 
+}
+class node5 as "typeorm/.../DataSourceOptions.d.ts" {
+   DataSourceOptions: 
+}
+class node192 as "typeorm/.../DeleteDateColumn.d.ts" {
+   DeleteDateColumn: 
+}
+class node63 as "typeorm/.../FindManyOptions.d.ts" {
+   FindManyOptions: 
+}
+class node96 as "typeorm/.../FindOneOptions.d.ts" {
+   FindOneOptions: 
+}
+class node19 as "typeorm/.../FindOptionsWhere.d.ts" {
+   FindOptionsWhere: 
+}
+class node68 as "typeorm/.../JsonContains.d.ts" {
+   JsonContains: 
+}
+class node186 as "typeorm/.../OneToMany.d.ts" {
+   OneToMany: 
+}
+class node175 as "typeorm/.../QueryFailedError.d.ts" {
+   QueryFailedError: 
+}
+class node32 as "typeorm/.../Repository.d.ts" {
+   Repository: 
+}
+class node103 as "typeorm/index.d.ts" {
+   Column: 
+   Entity: 
+   Index: 
+   JoinColumn: 
+   ManyToOne: 
+   PrimaryColumn: 
+   PrimaryGeneratedColumn: 
+   Unique: 
+}
+class node131 as "types/database.ts" {
+   DatabaseSettings: 
+}
+class node97 as "types/enums.ts" {
+   Lateness: 
+   Priority: 
+   Rarity: 
+}
+class node95 as "types/formulas.ts" {
+   BoostFormula: 
+   BoostFormulaSettings: 
+   ExpFormula: 
+   ExpFormulaSettings: 
+   PriceFormula: 
+   PriceFormulaSettings: 
+}
+class node164 as "types/random.ts" {
+   CaseSettings: 
+   WeightedOption: 
+}
+class node206 as "users/users.controller.ts" {
+   ApiCookieAuth: 
+   ApiCreatedResponse: 
+   ApiTags: 
+   ApiUnauthorizedResponse: 
+   Body: 
+   Controller: 
+   CreateUserDto: 
+   Delete: 
+   Get: 
+   IsNotAuthenticatedGuard: 
+   NoGlobalAuth: 
+   Patch: 
+   Post: 
+   PunishmentDto: 
+   ReadUserDto: 
+   Req: 
+   Request: 
+   SessionsService: 
+   SyncUserDto: 
+   UpdateUserDto: 
+   UseGuards: 
+   UsersController: 
+   UsersService: 
+}
+class node158 as "users/users.mapper.ts" {
+   AuthConfigService: 
+   AutomapperProfile: 
+   CreateUserDto: 
+   InjectMapper: 
+   Injectable: 
+   LogicConfigService: 
+   Mapper: 
+   Paginated: 
+   ReadManyUsersDto: 
+   ReadUserDto: 
+   SyncUserDto: 
+   UpdateUserDto: 
+   User: 
+   UsersMapper: 
+   bcrypt: 
+   createMap: 
+   forMember: 
+   getLevelCap: 
+   mapFrom: 
+}
+class node75 as "users/users.module.ts" {
+   AuthModule: 
+   Cat: 
+   CatOwnership: 
+   CategoriesMapper: 
+   Category: 
+   CatsMapper: 
+   Module: 
+   Quest: 
+   QuestSkill: 
+   QuestsMapper: 
+   Skill: 
+   SkillsMapper: 
+   Stage: 
+   StagesMapper: 
+   Task: 
+   TypeOrmModule: 
+   User: 
+   UsersController: 
+   UsersMapper: 
+   UsersModule: 
+   UsersService: 
+}
+class node172 as "users/users.service.ts" {
+   CatOwnership: 
+   Category: 
+   CreateUserDto: 
+   InjectMapper: 
+   InjectRepository: 
+   Injectable: 
+   LogicConfigService: 
+   Mapper: 
+   NotFoundException: 
+   PunishmentDto: 
+   Quest: 
+   QuestSkill: 
+   ReadManyUsersDto: 
+   ReadUserDto: 
+   Repository: 
+   ResourceService: 
+   RunawayCatDto: 
+   SyncUserDto: 
+   UpdateUserDto: 
+   User: 
+   UsersService: 
+   loadObject: 
+   resolve: 
+   subtractTrust: 
+}
+
+node148  <-[#595959,plain]-  node210 
+node148  <-[#595959,plain]-  node15  
+node148  <-[#595959,plain]-  node184 
+node148  <-[#595959,plain]-  node74  
+node148  <-[#595959,plain]-  node128 
+node7    <-[#595959,plain]-  node82  
+node7    <-[#595959,plain]-  node138 
+node7    <-[#595959,plain]-  node138 
+node7    <-[#595959,plain]-  node138 
+node7    <-[#595959,plain]-  node200 
+node7    <-[#595959,plain]-  node41  
+node7    <-[#595959,plain]-  node41  
+node7    <-[#595959,plain]-  node58  
+node7    <-[#595959,plain]-  node76  
+node7    <-[#595959,plain]-  node76  
+node7    <-[#595959,plain]-  node156 
+node7    <-[#595959,plain]-  node61  
+node7    <-[#595959,plain]-  node45  
+node7    <-[#595959,plain]-  node184 
+node7    <-[#595959,plain]-  node149 
+node7    <-[#595959,plain]-  node134 
+node7    <-[#595959,plain]-  node150 
+node7    <-[#595959,plain]-  node132 
+node7    <-[#595959,plain]-  node49  
+node152  <-[#595959,plain]-  node143 
+node152  <-[#595959,plain]-  node147 
+node152  <-[#595959,plain]-  node183 
+node152  <-[#595959,plain]-  node154 
+node152  <-[#595959,plain]-  node210 
+node152  <-[#595959,plain]-  node74  
+node152  <-[#595959,plain]-  node128 
+node136  <-[#595959,plain]-  node79  
+node136  <-[#595959,plain]-  node123 
+node136  <-[#595959,plain]-  node98  
+node136  <-[#595959,plain]-  node148 
+node136  <-[#595959,plain]-  node7   
+node136  <-[#595959,plain]-  node152 
+node136  <-[#595959,plain]-  node184 
+node136  <-[#595959,plain]-  node178 
+node136  <-[#595959,plain]-  node149 
+node136  <-[#595959,plain]-  node50  
+node136  <-[#595959,plain]-  node128 
+node184  <-[#595959,plain]-  node183 
+node184  <-[#595959,plain]-  node154 
+node184  <-[#595959,plain]-  node210 
+node184  <-[#595959,plain]-  node133 
+node184  <-[#595959,plain]-  node57  
+node184  <-[#595959,plain]-  node137 
+node184  <-[#595959,plain]-  node74  
+node184  <-[#595959,plain]-  node128 
+node184  <-[#595959,plain]-  node32  
+node178  <-[#595959,plain]-  node210 
+node178  <-[#595959,plain]-  node105 
+node178  <-[#595959,plain]-  node33  
+node178  <-[#595959,plain]-  node184 
+node178  <-[#595959,plain]-  node74  
+node149  <-[#595959,plain]-  node210 
+node149  <-[#595959,plain]-  node133 
+node149  <-[#595959,plain]-  node50  
+node149  <-[#595959,plain]-  node68  
+node149  <-[#595959,plain]-  node32  
+node199  <-[#595959,plain]-  node200 
+node199  <-[#595959,plain]-  node41  
+node199  <-[#595959,plain]-  node41  
+node199  <-[#595959,plain]-  node41  
+node199  <-[#595959,plain]-  node76  
+node199  <-[#595959,plain]-  node76  
+node199  <-[#595959,plain]-  node76  
+node199  <-[#595959,plain]-  node76  
+node199  <-[#595959,plain]-  node156 
+node199  <-[#595959,plain]-  node45  
+node199  <-[#595959,plain]-  node101 
+node199  <-[#595959,plain]-  node70  
+node199  <-[#595959,plain]-  node93  
+node199  <-[#595959,plain]-  node12  
+node199  <-[#595959,plain]-  node204 
+node199  <-[#595959,plain]-  node36  
+node199  <-[#595959,plain]-  node36  
+node181  <-[#595959,plain]-  node143 
+node181  <-[#595959,plain]-  node147 
+node181  <-[#595959,plain]-  node183 
+node181  <-[#595959,plain]-  node154 
+node181  <-[#595959,plain]-  node210 
+node181  <-[#595959,plain]-  node70  
+node181  <-[#595959,plain]-  node93  
+node181  <-[#595959,plain]-  node12  
+node181  <-[#595959,plain]-  node204 
+node181  <-[#595959,plain]-  node40  
+node181  <-[#595959,plain]-  node62  
+node135  <-[#595959,plain]-  node79  
+node135  <-[#595959,plain]-  node98  
+node135  <-[#595959,plain]-  node199 
+node135  <-[#595959,plain]-  node181 
+node135  <-[#595959,plain]-  node101 
+node135  <-[#595959,plain]-  node40  
+node135  <-[#595959,plain]-  node64  
+node135  <-[#595959,plain]-  node128 
+node135  <-[#595959,plain]-  node65  
+node135  <-[#595959,plain]-  node158 
+node101  <-[#595959,plain]-  node183 
+node101  <-[#595959,plain]-  node154 
+node101  <-[#595959,plain]-  node125 
+node101  <-[#595959,plain]-  node210 
+node101  <-[#595959,plain]-  node133 
+node101  <-[#595959,plain]-  node70  
+node101  <-[#595959,plain]-  node93  
+node101  <-[#595959,plain]-  node12  
+node101  <-[#595959,plain]-  node204 
+node101  <-[#595959,plain]-  node40  
+node101  <-[#595959,plain]-  node87  
+node101  <-[#595959,plain]-  node32  
+node37   <-[#595959,plain]-  node82  
+node37   <-[#595959,plain]-  node200 
+node37   <-[#595959,plain]-  node41  
+node37   <-[#595959,plain]-  node41  
+node37   <-[#595959,plain]-  node155 
+node37   <-[#595959,plain]-  node76  
+node37   <-[#595959,plain]-  node156 
+node37   <-[#595959,plain]-  node45  
+node37   <-[#595959,plain]-  node190 
+node37   <-[#595959,plain]-  node134 
+node37   <-[#595959,plain]-  node72  
+node37   <-[#595959,plain]-  node34  
+node37   <-[#595959,plain]-  fs      
+node37   <-[#595959,plain]-  node36  
+node37   <-[#595959,plain]-  node36  
+node37   <-[#595959,plain]-  path    
+node37   <-[#595959,plain]-  node157 
+node179  <-[#595959,plain]-  node143 
+node179  <-[#595959,plain]-  node177 
+node179  <-[#595959,plain]-  node147 
+node179  <-[#595959,plain]-  node183 
+node179  <-[#595959,plain]-  node130 
+node179  <-[#595959,plain]-  node154 
+node179  <-[#595959,plain]-  node210 
+node179  <-[#595959,plain]-  node145 
+node179  <-[#595959,plain]-  node72  
+node179  <-[#595959,plain]-  node34  
+node179  <-[#595959,plain]-  node4   
+node179  <-[#595959,plain]-  node122 
+node179  <-[#595959,plain]-  node62  
+node179  <-[#595959,plain]-  node80  
+node44   <-[#595959,plain]-  node79  
+node44   <-[#595959,plain]-  node98  
+node44   <-[#595959,plain]-  node37  
+node44   <-[#595959,plain]-  node179 
+node44   <-[#595959,plain]-  node190 
+node44   <-[#595959,plain]-  node122 
+node190  <-[#595959,plain]-  node183 
+node190  <-[#595959,plain]-  node154 
+node190  <-[#595959,plain]-  node210 
+node190  <-[#595959,plain]-  node155 
+node190  <-[#595959,plain]-  node133 
+node190  <-[#595959,plain]-  node72  
+node190  <-[#595959,plain]-  node34  
+node190  <-[#595959,plain]-  node122 
+node190  <-[#595959,plain]-  node36  
+node190  <-[#595959,plain]-  node159 
+node190  <-[#595959,plain]-  node159 
+node190  <-[#595959,plain]-  node159 
+node190  <-[#595959,plain]-  node32  
+node189  <-[#595959,plain]-  node79  
+node189  <-[#595959,plain]-  node98  
+node189  <-[#595959,plain]-  node185 
+node189  <-[#595959,plain]-  node64  
+node185  <-[#595959,plain]-  node106 
+node185  <-[#595959,plain]-  node67  
+node185  <-[#595959,plain]-  node210 
+node185  <-[#595959,plain]-  node133 
+node185  <-[#595959,plain]-  node64  
+node185  <-[#595959,plain]-  node80  
+node185  <-[#595959,plain]-  node32  
+node134  <-[#595959,plain]-  node35  
+node74   <-[#595959,plain]-  node188 
+node70   <-[#595959,plain]-  node188 
+node70   <-[#595959,plain]-  node208 
+node70   <-[#595959,plain]-  node196 
+node141  <-[#595959,plain]-  node188 
+node141  <-[#595959,plain]-  node28  
+node141  <-[#595959,plain]-  node212 
+node141  <-[#595959,plain]-  node202 
+node141  <-[#595959,plain]-  node77  
+node141  <-[#595959,plain]-  node114 
+node141  <-[#595959,plain]-  node196 
+node141  <-[#595959,plain]-  node166 
+node141  <-[#595959,plain]-  node16  
+node141  <-[#595959,plain]-  node92  
+node141  <-[#595959,plain]-  node94  
+node141  <-[#595959,plain]-  node52  
+node141  <-[#595959,plain]-  node97  
+node118  <-[#595959,plain]-  node188 
+node118  <-[#595959,plain]-  node208 
+node118  <-[#595959,plain]-  node196 
+node52   <-[#595959,plain]-  node188 
+node52   <-[#595959,plain]-  node28  
+node52   <-[#595959,plain]-  node212 
+node52   <-[#595959,plain]-  node114 
+node52   <-[#595959,plain]-  node196 
+node52   <-[#595959,plain]-  node166 
+node52   <-[#595959,plain]-  node94  
+node52   <-[#595959,plain]-  node191 
+node191  <-[#595959,plain]-  node188 
+node191  <-[#595959,plain]-  node114 
+node191  <-[#595959,plain]-  node196 
+node191  <-[#595959,plain]-  node92  
+node160  <-[#595959,plain]-  node188 
+node160  <-[#595959,plain]-  node113 
+node160  <-[#595959,plain]-  node196 
+node160  <-[#595959,plain]-  node13  
+node150  <-[#595959,plain]-  node196 
+node145  <-[#595959,plain]-  node188 
+node72   <-[#595959,plain]-  node188 
+node72   <-[#595959,plain]-  node97  
+node93   <-[#595959,plain]-  node188 
+node12   <-[#595959,plain]-  node93  
+node12   <-[#595959,plain]-  node86  
+node34   <-[#595959,plain]-  node72  
+node34   <-[#595959,plain]-  node86  
+node174  <-[#595959,plain]-  node207 
+node174  <-[#595959,plain]-  node86  
+node55   <-[#595959,plain]-  node31  
+node55   <-[#595959,plain]-  node86  
+node201  <-[#595959,plain]-  node144 
+node201  <-[#595959,plain]-  node86  
+node10   <-[#595959,plain]-  node84  
+node10   <-[#595959,plain]-  node86  
+node22   <-[#595959,plain]-  node48  
+node22   <-[#595959,plain]-  node86  
+node207  <-[#595959,plain]-  node188 
+node207  <-[#595959,plain]-  node93  
+node207  <-[#595959,plain]-  node31  
+node207  <-[#595959,plain]-  node144 
+node207  <-[#595959,plain]-  node97  
+node47   <-[#595959,plain]-  node188 
+node31   <-[#595959,plain]-  node188 
+node31   <-[#595959,plain]-  node47  
+node144  <-[#595959,plain]-  node188 
+node144  <-[#595959,plain]-  node84  
+node84   <-[#595959,plain]-  node188 
+node48   <-[#595959,plain]-  node188 
+node48   <-[#595959,plain]-  node145 
+node21   <-[#595959,plain]-  node25  
+node21   <-[#595959,plain]-  node8   
+node18   <-[#595959,plain]-  node188 
+node18   <-[#595959,plain]-  node93  
+node18   <-[#595959,plain]-  node31  
+node18   <-[#595959,plain]-  node48  
+node204  <-[#595959,plain]-  node188 
+node204  <-[#595959,plain]-  node196 
+node204  <-[#595959,plain]-  node166 
+node153  <-[#595959,plain]-  node188 
+node153  <-[#595959,plain]-  node28  
+node153  <-[#595959,plain]-  node212 
+node153  <-[#595959,plain]-  node202 
+node153  <-[#595959,plain]-  node77  
+node153  <-[#595959,plain]-  node114 
+node153  <-[#595959,plain]-  node196 
+node153  <-[#595959,plain]-  node166 
+node153  <-[#595959,plain]-  node16  
+node153  <-[#595959,plain]-  node92  
+node153  <-[#595959,plain]-  node94  
+node153  <-[#595959,plain]-  node100 
+node153  <-[#595959,plain]-  node97  
+node173  <-[#595959,plain]-  node188 
+node173  <-[#595959,plain]-  node196 
+node173  <-[#595959,plain]-  node16  
+node100  <-[#595959,plain]-  node188 
+node100  <-[#595959,plain]-  node28  
+node100  <-[#595959,plain]-  node212 
+node100  <-[#595959,plain]-  node114 
+node100  <-[#595959,plain]-  node196 
+node100  <-[#595959,plain]-  node166 
+node100  <-[#595959,plain]-  node94  
+node100  <-[#595959,plain]-  node168 
+node168  <-[#595959,plain]-  node188 
+node168  <-[#595959,plain]-  node114 
+node168  <-[#595959,plain]-  node196 
+node168  <-[#595959,plain]-  node166 
+node168  <-[#595959,plain]-  node92  
+node163  <-[#595959,plain]-  node188 
+node163  <-[#595959,plain]-  node113 
+node163  <-[#595959,plain]-  node196 
+node163  <-[#595959,plain]-  node166 
+node163  <-[#595959,plain]-  node13  
+node4    <-[#595959,plain]-  node188 
+node4    <-[#595959,plain]-  node114 
+node4    <-[#595959,plain]-  node39  
+node4    <-[#595959,plain]-  node122 
+node4    <-[#595959,plain]-  node128 
+node4    <-[#595959,plain]-  node2   
+node4    <-[#595959,plain]-  node103 
+node4    <-[#595959,plain]-  node103 
+node4    <-[#595959,plain]-  node103 
+node4    <-[#595959,plain]-  node103 
+node4    <-[#595959,plain]-  node103 
+node122  <-[#595959,plain]-  node188 
+node122  <-[#595959,plain]-  node103 
+node122  <-[#595959,plain]-  node103 
+node122  <-[#595959,plain]-  node103 
+node122  <-[#595959,plain]-  node97  
+node40   <-[#595959,plain]-  node188 
+node40   <-[#595959,plain]-  node64  
+node40   <-[#595959,plain]-  node128 
+node40   <-[#595959,plain]-  node85  
+node40   <-[#595959,plain]-  node186 
+node40   <-[#595959,plain]-  node103 
+node40   <-[#595959,plain]-  node103 
+node40   <-[#595959,plain]-  node103 
+node40   <-[#595959,plain]-  node103 
+node40   <-[#595959,plain]-  node103 
+node53   <-[#595959,plain]-  node188 
+node53   <-[#595959,plain]-  node64  
+node53   <-[#595959,plain]-  node139 
+node53   <-[#595959,plain]-  node103 
+node53   <-[#595959,plain]-  node103 
+node53   <-[#595959,plain]-  node103 
+node53   <-[#595959,plain]-  node103 
+node53   <-[#595959,plain]-  node103 
+node64   <-[#595959,plain]-  node188 
+node64   <-[#595959,plain]-  node40  
+node64   <-[#595959,plain]-  node53  
+node64   <-[#595959,plain]-  node197 
+node64   <-[#595959,plain]-  node85  
+node64   <-[#595959,plain]-  node192 
+node64   <-[#595959,plain]-  node186 
+node64   <-[#595959,plain]-  node103 
+node64   <-[#595959,plain]-  node103 
+node64   <-[#595959,plain]-  node103 
+node64   <-[#595959,plain]-  node103 
+node64   <-[#595959,plain]-  node97  
+node64   <-[#595959,plain]-  node97  
+node50   <-[#595959,plain]-  node90  
+node50   <-[#595959,plain]-  node192 
+node50   <-[#595959,plain]-  node103 
+node50   <-[#595959,plain]-  node103 
+node50   <-[#595959,plain]-  node103 
+node50   <-[#595959,plain]-  node103 
+node139  <-[#595959,plain]-  node188 
+node139  <-[#595959,plain]-  node128 
+node139  <-[#595959,plain]-  node171 
+node139  <-[#595959,plain]-  node85  
+node139  <-[#595959,plain]-  node103 
+node139  <-[#595959,plain]-  node103 
+node139  <-[#595959,plain]-  node103 
+node139  <-[#595959,plain]-  node103 
+node139  <-[#595959,plain]-  node103 
+node197  <-[#595959,plain]-  node188 
+node197  <-[#595959,plain]-  node64  
+node197  <-[#595959,plain]-  node1   
+node197  <-[#595959,plain]-  node85  
+node197  <-[#595959,plain]-  node192 
+node197  <-[#595959,plain]-  node186 
+node197  <-[#595959,plain]-  node103 
+node197  <-[#595959,plain]-  node103 
+node197  <-[#595959,plain]-  node103 
+node197  <-[#595959,plain]-  node103 
+node1    <-[#595959,plain]-  node188 
+node1    <-[#595959,plain]-  node197 
+node1    <-[#595959,plain]-  node85  
+node1    <-[#595959,plain]-  node2   
+node1    <-[#595959,plain]-  node192 
+node1    <-[#595959,plain]-  node103 
+node1    <-[#595959,plain]-  node103 
+node1    <-[#595959,plain]-  node103 
+node1    <-[#595959,plain]-  node103 
+node128  <-[#595959,plain]-  node188 
+node128  <-[#595959,plain]-  node4   
+node128  <-[#595959,plain]-  node40  
+node128  <-[#595959,plain]-  node139 
+node128  <-[#595959,plain]-  node171 
+node128  <-[#595959,plain]-  node85  
+node128  <-[#595959,plain]-  node2   
+node128  <-[#595959,plain]-  node186 
+node128  <-[#595959,plain]-  node103 
+node128  <-[#595959,plain]-  node103 
+node91   <-[#595959,plain]-  node195 
+node91   <-[#595959,plain]-  node83  
+node91   <-[#595959,plain]-  node169 
+node91   <-[#595959,plain]-  node56  
+node91   <-[#595959,plain]-  node175 
+node60   <-[#595959,plain]-  node29  
+node60   <-[#595959,plain]-  node129 
+node60   <-[#595959,plain]-  node210 
+node60   <-[#595959,plain]-  node102 
+node60   <-[#595959,plain]-  node57  
+node60   <-[#595959,plain]-  node45  
+node60   <-[#595959,plain]-  node134 
+node132  <-[#595959,plain]-  node83  
+node132  <-[#595959,plain]-  node29  
+node132  <-[#595959,plain]-  node129 
+node132  <-[#595959,plain]-  node210 
+node132  <-[#595959,plain]-  node45  
+node49   <-[#595959,plain]-  node27  
+node49   <-[#595959,plain]-  node129 
+node49   <-[#595959,plain]-  node45  
+node38   <-[#595959,plain]-  node5   
+node38   <-[#595959,plain]-  node131 
+node104  <-[#595959,plain]-  node95  
+node62   <-[#595959,plain]-  node177 
+node62   <-[#595959,plain]-  node147 
+node62   <-[#595959,plain]-  node130 
+node62   <-[#595959,plain]-  node14  
+node62   <-[#595959,plain]-  node154 
+node62   <-[#595959,plain]-  node119 
+node62   <-[#595959,plain]-  node159 
+node62   <-[#595959,plain]-  node59  
+node62   <-[#595959,plain]-  node86  
+node54   <-[#595959,plain]-  node25  
+node54   <-[#595959,plain]-  node4   
+node54   <-[#595959,plain]-  node128 
+node54   <-[#595959,plain]-  node165 
+node54   <-[#595959,plain]-  node80  
+node54   <-[#595959,plain]-  node97  
+node165  <-[#595959,plain]-  node164 
+node171  <-[#595959,plain]-  node4   
+node171  <-[#595959,plain]-  node64  
+node171  <-[#595959,plain]-  node1   
+node171  <-[#595959,plain]-  node104 
+node171  <-[#595959,plain]-  node104 
+node171  <-[#595959,plain]-  node80  
+node171  <-[#595959,plain]-  node95  
+node203  <-[#595959,plain]-  node140 
+node126  <-[#595959,plain]-  node167 
+node126  <-[#595959,plain]-  fs      
+node73   <-[#595959,plain]-  node210 
+node73   <-[#595959,plain]-  node142 
+node73   <-[#595959,plain]-  node111 
+node73   <-[#595959,plain]-  node45  
+node73   <-[#595959,plain]-  node45  
+node73   <-[#595959,plain]-  node45  
+node198  <-[#595959,plain]-  node124 
+node198  <-[#595959,plain]-  node210 
+node110  <-[#595959,plain]-  node124 
+node110  <-[#595959,plain]-  node210 
+node117  <-[#595959,plain]-  node124 
+node117  <-[#595959,plain]-  node210 
+node117  <-[#595959,plain]-  node38  
+node117  <-[#595959,plain]-  node5   
+node117  <-[#595959,plain]-  node131 
+node157  <-[#595959,plain]-  node124 
+node157  <-[#595959,plain]-  node210 
+node80   <-[#595959,plain]-  node124 
+node80   <-[#595959,plain]-  node210 
+node80   <-[#595959,plain]-  node104 
+node80   <-[#595959,plain]-  node104 
+node80   <-[#595959,plain]-  node165 
+node80   <-[#595959,plain]-  node97  
+node80   <-[#595959,plain]-  node97  
+node80   <-[#595959,plain]-  node97  
+node80   <-[#595959,plain]-  node95  
+node80   <-[#595959,plain]-  node95  
+node80   <-[#595959,plain]-  node95  
+node80   <-[#595959,plain]-  node95  
+node80   <-[#595959,plain]-  node95  
+node80   <-[#595959,plain]-  node95  
+node80   <-[#595959,plain]-  node164 
+node115  <-[#595959,plain]-  node124 
+node115  <-[#595959,plain]-  node9   
+node115  <-[#595959,plain]-  node210 
+node127  <-[#595959,plain]-  node176 
+node127  <-[#595959,plain]-  node17  
+node127  <-[#595959,plain]-  node79  
+node127  <-[#595959,plain]-  node198 
+node127  <-[#595959,plain]-  node110 
+node127  <-[#595959,plain]-  node117 
+node127  <-[#595959,plain]-  node157 
+node127  <-[#595959,plain]-  node80  
+node127  <-[#595959,plain]-  node115 
+node127  <-[#595959,plain]-  node107 
+node127  <-[#595959,plain]-  node107 
+node107  <-[#595959,plain]-  node167 
+node107  <-[#595959,plain]-  fs      
+node107  <-[#595959,plain]-  path    
+node30   <-[#595959,plain]-  node82  
+node30   <-[#595959,plain]-  node200 
+node30   <-[#595959,plain]-  node41  
+node30   <-[#595959,plain]-  node41  
+node30   <-[#595959,plain]-  node41  
+node30   <-[#595959,plain]-  node76  
+node30   <-[#595959,plain]-  node76  
+node30   <-[#595959,plain]-  node76  
+node30   <-[#595959,plain]-  node156 
+node30   <-[#595959,plain]-  node45  
+node30   <-[#595959,plain]-  node141 
+node30   <-[#595959,plain]-  node174 
+node30   <-[#595959,plain]-  node207 
+node30   <-[#595959,plain]-  node36  
+node30   <-[#595959,plain]-  node36  
+node30   <-[#595959,plain]-  node0   
+node65   <-[#595959,plain]-  node143 
+node65   <-[#595959,plain]-  node177 
+node65   <-[#595959,plain]-  node147 
+node65   <-[#595959,plain]-  node183 
+node65   <-[#595959,plain]-  node130 
+node65   <-[#595959,plain]-  node6   
+node65   <-[#595959,plain]-  node154 
+node65   <-[#595959,plain]-  node210 
+node65   <-[#595959,plain]-  node141 
+node65   <-[#595959,plain]-  node93  
+node65   <-[#595959,plain]-  node174 
+node65   <-[#595959,plain]-  node207 
+node65   <-[#595959,plain]-  node31  
+node65   <-[#595959,plain]-  node144 
+node65   <-[#595959,plain]-  node84  
+node65   <-[#595959,plain]-  node53  
+node65   <-[#595959,plain]-  node64  
+node65   <-[#595959,plain]-  node197 
+node65   <-[#595959,plain]-  node1   
+node65   <-[#595959,plain]-  node104 
+node65   <-[#595959,plain]-  node62  
+node65   <-[#595959,plain]-  node80  
+node205  <-[#595959,plain]-  node79  
+node205  <-[#595959,plain]-  node98  
+node205  <-[#595959,plain]-  node181 
+node205  <-[#595959,plain]-  node101 
+node205  <-[#595959,plain]-  node4   
+node205  <-[#595959,plain]-  node122 
+node205  <-[#595959,plain]-  node40  
+node205  <-[#595959,plain]-  node53  
+node205  <-[#595959,plain]-  node64  
+node205  <-[#595959,plain]-  node139 
+node205  <-[#595959,plain]-  node197 
+node205  <-[#595959,plain]-  node1   
+node205  <-[#595959,plain]-  node128 
+node205  <-[#595959,plain]-  node80  
+node205  <-[#595959,plain]-  node30  
+node205  <-[#595959,plain]-  node65  
+node205  <-[#595959,plain]-  node0   
+node205  <-[#595959,plain]-  node151 
+node205  <-[#595959,plain]-  node162 
+node205  <-[#595959,plain]-  node3   
+node205  <-[#595959,plain]-  node24  
+node205  <-[#595959,plain]-  node26  
+node205  <-[#595959,plain]-  node121 
+node0    <-[#595959,plain]-  node183 
+node0    <-[#595959,plain]-  node154 
+node0    <-[#595959,plain]-  node83  
+node0    <-[#595959,plain]-  node210 
+node0    <-[#595959,plain]-  node155 
+node0    <-[#595959,plain]-  node133 
+node0    <-[#595959,plain]-  node101 
+node0    <-[#595959,plain]-  node141 
+node0    <-[#595959,plain]-  node174 
+node0    <-[#595959,plain]-  node207 
+node0    <-[#595959,plain]-  node144 
+node0    <-[#595959,plain]-  node153 
+node0    <-[#595959,plain]-  node40  
+node0    <-[#595959,plain]-  node53  
+node0    <-[#595959,plain]-  node64  
+node0    <-[#595959,plain]-  node139 
+node0    <-[#595959,plain]-  node197 
+node0    <-[#595959,plain]-  node1   
+node0    <-[#595959,plain]-  node36  
+node0    <-[#595959,plain]-  node66  
+node0    <-[#595959,plain]-  node159 
+node0    <-[#595959,plain]-  node159 
+node0    <-[#595959,plain]-  node87  
+node0    <-[#595959,plain]-  node162 
+node0    <-[#595959,plain]-  node96  
+node0    <-[#595959,plain]-  node32  
+node86   <-[#595959,plain]-  node59  
+node85   <-[#595959,plain]-  node188 
+node85   <-[#595959,plain]-  node103 
+node87   <-[#595959,plain]-  node154 
+node87   <-[#595959,plain]-  node83  
+node87   <-[#595959,plain]-  node125 
+node87   <-[#595959,plain]-  node155 
+node87   <-[#595959,plain]-  node119 
+node87   <-[#595959,plain]-  node182 
+node87   <-[#595959,plain]-  node203 
+node87   <-[#595959,plain]-  node36  
+node87   <-[#595959,plain]-  node159 
+node87   <-[#595959,plain]-  node159 
+node87   <-[#595959,plain]-  node159 
+node87   <-[#595959,plain]-  node86  
+node87   <-[#595959,plain]-  node85  
+node87   <-[#595959,plain]-  node63  
+node87   <-[#595959,plain]-  node19  
+node87   <-[#595959,plain]-  node32  
+node194  <-[#595959,plain]-  node167 
+node194  <-[#595959,plain]-  node122 
+node194  <-[#595959,plain]-  fs      
+node194  <-[#595959,plain]-  fs      
+node194  <-[#595959,plain]-  fs      
+node194  <-[#595959,plain]-  node38  
+node194  <-[#595959,plain]-  node126 
+node194  <-[#595959,plain]-  path    
+node194  <-[#595959,plain]-  node89  
+node194  <-[#595959,plain]-  node131 
+node11   <-[#595959,plain]-  node82  
+node11   <-[#595959,plain]-  node200 
+node11   <-[#595959,plain]-  node41  
+node11   <-[#595959,plain]-  node41  
+node11   <-[#595959,plain]-  node41  
+node11   <-[#595959,plain]-  node76  
+node11   <-[#595959,plain]-  node76  
+node11   <-[#595959,plain]-  node76  
+node11   <-[#595959,plain]-  node76  
+node11   <-[#595959,plain]-  node156 
+node11   <-[#595959,plain]-  node45  
+node11   <-[#595959,plain]-  node118 
+node11   <-[#595959,plain]-  node55  
+node11   <-[#595959,plain]-  node31  
+node11   <-[#595959,plain]-  node173 
+node11   <-[#595959,plain]-  node36  
+node11   <-[#595959,plain]-  node36  
+node11   <-[#595959,plain]-  node162 
+node151  <-[#595959,plain]-  node143 
+node151  <-[#595959,plain]-  node177 
+node151  <-[#595959,plain]-  node147 
+node151  <-[#595959,plain]-  node183 
+node151  <-[#595959,plain]-  node130 
+node151  <-[#595959,plain]-  node154 
+node151  <-[#595959,plain]-  node210 
+node151  <-[#595959,plain]-  node118 
+node151  <-[#595959,plain]-  node55  
+node151  <-[#595959,plain]-  node47  
+node151  <-[#595959,plain]-  node31  
+node151  <-[#595959,plain]-  node173 
+node151  <-[#595959,plain]-  node139 
+node151  <-[#595959,plain]-  node104 
+node151  <-[#595959,plain]-  node62  
+node151  <-[#595959,plain]-  node80  
+node81   <-[#595959,plain]-  node79  
+node81   <-[#595959,plain]-  node98  
+node81   <-[#595959,plain]-  node139 
+node81   <-[#595959,plain]-  node11  
+node81   <-[#595959,plain]-  node151 
+node81   <-[#595959,plain]-  node162 
+node162  <-[#595959,plain]-  node183 
+node162  <-[#595959,plain]-  node154 
+node162  <-[#595959,plain]-  node210 
+node162  <-[#595959,plain]-  node133 
+node162  <-[#595959,plain]-  node118 
+node162  <-[#595959,plain]-  node55  
+node162  <-[#595959,plain]-  node31  
+node162  <-[#595959,plain]-  node173 
+node162  <-[#595959,plain]-  node139 
+node162  <-[#595959,plain]-  node87  
+node162  <-[#595959,plain]-  node32  
+node23   <-[#595959,plain]-  node180 
+node23   <-[#595959,plain]-  node170 
+node23   <-[#595959,plain]-  node116 
+node23   <-[#595959,plain]-  node116 
+node23   <-[#595959,plain]-  node20  
+node23   <-[#595959,plain]-  node79  
+node23   <-[#595959,plain]-  node146 
+node23   <-[#595959,plain]-  node69  
+node23   <-[#595959,plain]-  node78  
+node23   <-[#595959,plain]-  node98  
+node23   <-[#595959,plain]-  node136 
+node23   <-[#595959,plain]-  node135 
+node23   <-[#595959,plain]-  node44  
+node23   <-[#595959,plain]-  node189 
+node23   <-[#595959,plain]-  node91  
+node23   <-[#595959,plain]-  node60  
+node23   <-[#595959,plain]-  node73  
+node23   <-[#595959,plain]-  node198 
+node23   <-[#595959,plain]-  node110 
+node23   <-[#595959,plain]-  node117 
+node23   <-[#595959,plain]-  node157 
+node23   <-[#595959,plain]-  node115 
+node23   <-[#595959,plain]-  node127 
+node23   <-[#595959,plain]-  node205 
+node23   <-[#595959,plain]-  node81  
+node23   <-[#595959,plain]-  node24  
+node23   <-[#595959,plain]-  node120 
+node23   <-[#595959,plain]-  node187 
+node23   <-[#595959,plain]-  node75  
+node71   <-[#595959,plain]-  node51  
+node71   <-[#595959,plain]-  node209 
+node71   <-[#595959,plain]-  node42  
+node71   <-[#595959,plain]-  node43  
+node71   <-[#595959,plain]-  node161 
+node71   <-[#595959,plain]-  node46  
+node71   <-[#595959,plain]-  node112 
+node71   <-[#595959,plain]-  node50  
+node71   <-[#595959,plain]-  node198 
+node71   <-[#595959,plain]-  node110 
+node71   <-[#595959,plain]-  node117 
+node71   <-[#595959,plain]-  node157 
+node71   <-[#595959,plain]-  node115 
+node71   <-[#595959,plain]-  node23  
+node71   <-[#595959,plain]-  node89  
+node3    <-[#595959,plain]-  node143 
+node3    <-[#595959,plain]-  node177 
+node3    <-[#595959,plain]-  node147 
+node3    <-[#595959,plain]-  node183 
+node3    <-[#595959,plain]-  node130 
+node3    <-[#595959,plain]-  node154 
+node3    <-[#595959,plain]-  node210 
+node3    <-[#595959,plain]-  node52  
+node3    <-[#595959,plain]-  node201 
+node3    <-[#595959,plain]-  node144 
+node3    <-[#595959,plain]-  node100 
+node3    <-[#595959,plain]-  node197 
+node3    <-[#595959,plain]-  node62  
+node24   <-[#595959,plain]-  node79  
+node24   <-[#595959,plain]-  node98  
+node24   <-[#595959,plain]-  node4   
+node24   <-[#595959,plain]-  node122 
+node24   <-[#595959,plain]-  node53  
+node24   <-[#595959,plain]-  node64  
+node24   <-[#595959,plain]-  node139 
+node24   <-[#595959,plain]-  node197 
+node24   <-[#595959,plain]-  node1   
+node24   <-[#595959,plain]-  node128 
+node24   <-[#595959,plain]-  node3   
+node24   <-[#595959,plain]-  node26  
+node24   <-[#595959,plain]-  node187 
+node24   <-[#595959,plain]-  node121 
+node211  <-[#595959,plain]-  node82  
+node211  <-[#595959,plain]-  node138 
+node211  <-[#595959,plain]-  node138 
+node211  <-[#595959,plain]-  node200 
+node211  <-[#595959,plain]-  node41  
+node211  <-[#595959,plain]-  node41  
+node211  <-[#595959,plain]-  node76  
+node211  <-[#595959,plain]-  node76  
+node211  <-[#595959,plain]-  node156 
+node211  <-[#595959,plain]-  node45  
+node211  <-[#595959,plain]-  node145 
+node211  <-[#595959,plain]-  node193 
+node211  <-[#595959,plain]-  node88  
+node120  <-[#595959,plain]-  node79  
+node120  <-[#595959,plain]-  node98  
+node120  <-[#595959,plain]-  node179 
+node120  <-[#595959,plain]-  node4   
+node120  <-[#595959,plain]-  node122 
+node120  <-[#595959,plain]-  node128 
+node120  <-[#595959,plain]-  node211 
+node120  <-[#595959,plain]-  node88  
+node88   <-[#595959,plain]-  node183 
+node88   <-[#595959,plain]-  node154 
+node88   <-[#595959,plain]-  node83  
+node88   <-[#595959,plain]-  node210 
+node88   <-[#595959,plain]-  node133 
+node88   <-[#595959,plain]-  node145 
+node88   <-[#595959,plain]-  node193 
+node88   <-[#595959,plain]-  node4   
+node88   <-[#595959,plain]-  node122 
+node88   <-[#595959,plain]-  node128 
+node88   <-[#595959,plain]-  node165 
+node88   <-[#595959,plain]-  node80  
+node88   <-[#595959,plain]-  node32  
+node88   <-[#595959,plain]-  node97  
+node99   <-[#595959,plain]-  node82  
+node99   <-[#595959,plain]-  node200 
+node99   <-[#595959,plain]-  node41  
+node99   <-[#595959,plain]-  node41  
+node99   <-[#595959,plain]-  node76  
+node99   <-[#595959,plain]-  node156 
+node99   <-[#595959,plain]-  node45  
+node99   <-[#595959,plain]-  node21  
+node99   <-[#595959,plain]-  node8   
+node99   <-[#595959,plain]-  node121 
+node26   <-[#595959,plain]-  node143 
+node26   <-[#595959,plain]-  node147 
+node26   <-[#595959,plain]-  node183 
+node26   <-[#595959,plain]-  node154 
+node26   <-[#595959,plain]-  node210 
+node26   <-[#595959,plain]-  node191 
+node26   <-[#595959,plain]-  node10  
+node26   <-[#595959,plain]-  node84  
+node26   <-[#595959,plain]-  node168 
+node26   <-[#595959,plain]-  node1   
+node26   <-[#595959,plain]-  node62  
+node187  <-[#595959,plain]-  node79  
+node187  <-[#595959,plain]-  node98  
+node187  <-[#595959,plain]-  node4   
+node187  <-[#595959,plain]-  node122 
+node187  <-[#595959,plain]-  node53  
+node187  <-[#595959,plain]-  node64  
+node187  <-[#595959,plain]-  node139 
+node187  <-[#595959,plain]-  node197 
+node187  <-[#595959,plain]-  node1   
+node187  <-[#595959,plain]-  node128 
+node187  <-[#595959,plain]-  node65  
+node187  <-[#595959,plain]-  node99  
+node187  <-[#595959,plain]-  node26  
+node187  <-[#595959,plain]-  node121 
+node121  <-[#595959,plain]-  node183 
+node121  <-[#595959,plain]-  node154 
+node121  <-[#595959,plain]-  node125 
+node121  <-[#595959,plain]-  node210 
+node121  <-[#595959,plain]-  node155 
+node121  <-[#595959,plain]-  node133 
+node121  <-[#595959,plain]-  node191 
+node121  <-[#595959,plain]-  node10  
+node121  <-[#595959,plain]-  node84  
+node121  <-[#595959,plain]-  node21  
+node121  <-[#595959,plain]-  node8   
+node121  <-[#595959,plain]-  node8   
+node121  <-[#595959,plain]-  node168 
+node121  <-[#595959,plain]-  node4   
+node121  <-[#595959,plain]-  node53  
+node121  <-[#595959,plain]-  node64  
+node121  <-[#595959,plain]-  node139 
+node121  <-[#595959,plain]-  node197 
+node121  <-[#595959,plain]-  node1   
+node121  <-[#595959,plain]-  node128 
+node121  <-[#595959,plain]-  node54  
+node121  <-[#595959,plain]-  node171 
+node121  <-[#595959,plain]-  node171 
+node121  <-[#595959,plain]-  node171 
+node121  <-[#595959,plain]-  node171 
+node121  <-[#595959,plain]-  node80  
+node121  <-[#595959,plain]-  node87  
+node121  <-[#595959,plain]-  node32  
+node206  <-[#595959,plain]-  node82  
+node206  <-[#595959,plain]-  node138 
+node206  <-[#595959,plain]-  node138 
+node206  <-[#595959,plain]-  node200 
+node206  <-[#595959,plain]-  node41  
+node206  <-[#595959,plain]-  node41  
+node206  <-[#595959,plain]-  node76  
+node206  <-[#595959,plain]-  node76  
+node206  <-[#595959,plain]-  node76  
+node206  <-[#595959,plain]-  node76  
+node206  <-[#595959,plain]-  node156 
+node206  <-[#595959,plain]-  node61  
+node206  <-[#595959,plain]-  node45  
+node206  <-[#595959,plain]-  node149 
+node206  <-[#595959,plain]-  node134 
+node206  <-[#595959,plain]-  node160 
+node206  <-[#595959,plain]-  node25  
+node206  <-[#595959,plain]-  node48  
+node206  <-[#595959,plain]-  node18  
+node206  <-[#595959,plain]-  node163 
+node206  <-[#595959,plain]-  node132 
+node206  <-[#595959,plain]-  node172 
+node158  <-[#595959,plain]-  node143 
+node158  <-[#595959,plain]-  node177 
+node158  <-[#595959,plain]-  node147 
+node158  <-[#595959,plain]-  node183 
+node158  <-[#595959,plain]-  node130 
+node158  <-[#595959,plain]-  node154 
+node158  <-[#595959,plain]-  node210 
+node158  <-[#595959,plain]-  node137 
+node158  <-[#595959,plain]-  node160 
+node158  <-[#595959,plain]-  node22  
+node158  <-[#595959,plain]-  node48  
+node158  <-[#595959,plain]-  node18  
+node158  <-[#595959,plain]-  node163 
+node158  <-[#595959,plain]-  node128 
+node158  <-[#595959,plain]-  node104 
+node158  <-[#595959,plain]-  node159 
+node158  <-[#595959,plain]-  node198 
+node158  <-[#595959,plain]-  node80  
+node75   <-[#595959,plain]-  node79  
+node75   <-[#595959,plain]-  node98  
+node75   <-[#595959,plain]-  node136 
+node75   <-[#595959,plain]-  node181 
+node75   <-[#595959,plain]-  node179 
+node75   <-[#595959,plain]-  node4   
+node75   <-[#595959,plain]-  node122 
+node75   <-[#595959,plain]-  node40  
+node75   <-[#595959,plain]-  node53  
+node75   <-[#595959,plain]-  node64  
+node75   <-[#595959,plain]-  node139 
+node75   <-[#595959,plain]-  node197 
+node75   <-[#595959,plain]-  node1   
+node75   <-[#595959,plain]-  node128 
+node75   <-[#595959,plain]-  node65  
+node75   <-[#595959,plain]-  node151 
+node75   <-[#595959,plain]-  node3   
+node75   <-[#595959,plain]-  node206 
+node75   <-[#595959,plain]-  node158 
+node75   <-[#595959,plain]-  node172 
+node172  <-[#595959,plain]-  node183 
+node172  <-[#595959,plain]-  node154 
+node172  <-[#595959,plain]-  node210 
+node172  <-[#595959,plain]-  node155 
+node172  <-[#595959,plain]-  node133 
+node172  <-[#595959,plain]-  node160 
+node172  <-[#595959,plain]-  node25  
+node172  <-[#595959,plain]-  node25  
+node172  <-[#595959,plain]-  node22  
+node172  <-[#595959,plain]-  node48  
+node172  <-[#595959,plain]-  node18  
+node172  <-[#595959,plain]-  node163 
+node172  <-[#595959,plain]-  node4   
+node172  <-[#595959,plain]-  node40  
+node172  <-[#595959,plain]-  node53  
+node172  <-[#595959,plain]-  node64  
+node172  <-[#595959,plain]-  node128 
+node172  <-[#595959,plain]-  node54  
+node172  <-[#595959,plain]-  node126 
+node172  <-[#595959,plain]-  path    
+node172  <-[#595959,plain]-  node80  
+node172  <-[#595959,plain]-  node87  
+node172  <-[#595959,plain]-  node32  
+@enduml
