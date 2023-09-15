@@ -15,6 +15,7 @@ export function subtractTrust(
     date: Date,
 ): null | RunawayCatDto {
     user.trust = Math.max(user.trust - trust, 0);
+    if (user.trust > 0) return null; // no runaways if trust is not 0
     if (dayMatches(date, user.lastRunawayDate)) return null; // runaways happen at most once a day
 
     let potentialRunaways: CatOwnership[] = [];
